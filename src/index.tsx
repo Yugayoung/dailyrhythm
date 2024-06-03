@@ -18,11 +18,11 @@ const router = createBrowserRouter([
       { index: true, path: '/', element: <Home /> },
       { path: '/myrhythm', element: <AllRhythm /> },
       {
-        path: '/myrhythm/:id ',
+        path: '/myrhythm/:id',
         element: <RhythmDetail />,
       },
       {
-        path: '/rhythmStatistics ',
+        path: '/rhythmStatistics',
         element: <RhythmStatistics />,
       },
     ],

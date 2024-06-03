@@ -26,6 +26,7 @@ export async function login() {
     return {
       name: user.displayName ?? '',
       email: user.email ?? '',
+      photoURL: user.photoURL ?? '',
       uid: user.uid,
     };
   } catch (error) {
