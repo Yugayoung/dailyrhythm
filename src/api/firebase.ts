@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
+  User,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -18,13 +19,13 @@ const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
-export async function login() {
+export async function handleGoogleLogin() {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
     console.log(user);
     return {
-      name: user.displayName ?? '',
+      displayName: user.displayName ?? '',
       email: user.email ?? '',
       photoURL: user.photoURL ?? '',
       uid: user.uid,
@@ -34,7 +35,7 @@ export async function login() {
   }
 }
 
-export async function logout(): Promise<void> {
+export async function handleGoogleLogout(): Promise<void> {
   try {
     await signOut(auth);
     return null;
@@ -43,7 +44,10 @@ export async function logout(): Promise<void> {
   }
 }
 
-export function onAuthStateChange(callback: (user: any) => void) {
+// User객체 또는 null(로그아웃) 으로 타입지정
+export function handleGoogleAuthStateChange(
+  callback: (user: User | null) => void
+) {
   onAuthStateChanged(auth, (user) => {
     callback(user);
   });

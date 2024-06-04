@@ -14,7 +14,7 @@ const User: React.FC<UserProps> = ({ user }) => {
         alt={user.email}
         referrerPolicy='no-referrer'
       />
-      <span>{user.name}</span>
+      <span>{user.displayName}</span>
     </div>
   );
 };

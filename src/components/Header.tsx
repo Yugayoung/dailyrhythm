@@ -1,66 +1,73 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { login, logout, onAuthStateChange } from '../api/firebase';
-import { useStore } from '../store/useUserStore';
+import {
+  handleGoogleLogin,
+  handleGoogleLogout,
+  handleGoogleAuthStateChange,
+} from '../api/firebase';
+import { userStore } from '../store/useUserStore';
 import User from './User';
 import styled from 'styled-components';
 import ButtonComponent from './ui/ButtonComponent';
+import basicLogo from '../images/basicLogo.png';
+import { lightTheme } from '../css/styles.theme';
 
 export default function Header() {
-  const user = useStore((state) => state.user);
-  const setUser = useStore((state) => state.setUser);
-  const clearUser = useStore((state) => state.clearUser);
+  const user = userStore((state) => state.user);
+  const setUser = userStore((state) => state.actions.setUser);
+  const clearUser = userStore((state) => state.actions.clearUser);
 
   useEffect(() => {
-    onAuthStateChange((user) => {
+    handleGoogleAuthStateChange((user) => {
       console.log(user);
       setUser(user);
     });
   }, [setUser, clearUser]);
-  const handleLogin = () => {
-    login().then((userInfo) => {
+
+  async function handleLogin() {
+    try {
+      const userInfo = await handleGoogleLogin();
       setUser(userInfo);
       console.log('로그인 성공:', userInfo);
-    });
-  };
-  const handleLogout = () => {
-    logout().then(() => {
+    } catch (error) {
+      console.error('로그인 실패:', error);
+    }
+  }
+  async function handleLogout() {
+    try {
+      await handleGoogleLogout();
       clearUser();
       console.log('로그아웃 성공');
-    });
-  };
+    } catch {
+      // 질문 : 콘솔로그를 안띄우는 대신에 어떤걸 넣어야하나
+      console.error('로그아웃 실패');
+    }
+  }
 
   return (
-    <HeaderCss>
+    <StyledHeader>
       <Link to='/'>
-        <LogoImg
-          src={`${process.env.PUBLIC_URL}/images/basicLogo.png`}
-          alt='logo'
-        />
+        <LogoImg src={basicLogo} alt='logo' />
       </Link>
       {user ? (
-        <HeaderDiv>
-          <Link to='/myrhythm'>myrhythm</Link>
-          <Link to='/rhythmStatistics'>Rhythm Statistics</Link>
+        <StyledHeaderBox>
+          <Link to='/my-rhythm'>myrhythm</Link>
+          <Link to='/rhythm-statistics'>Rhythm Statistics</Link>
           <User user={user} />
-          <ButtonComponent
-            backgroundColor={'color(--color-bg)'}
-            text={'Logout'}
-            onClick={handleLogout}
-          ></ButtonComponent>
-        </HeaderDiv>
+          <ButtonComponent text={'Logout'} onClick={handleLogout} />
+        </StyledHeaderBox>
       ) : (
         <ButtonComponent
-          backgroundColor={'red'}
-          text={'Login'}
           onClick={handleLogin}
-        ></ButtonComponent>
+          text={'Login'}
+          backgroundColor={lightTheme.accentColor}
+        />
       )}
-    </HeaderCss>
+    </StyledHeader>
   );
 }
 
-const HeaderCss = styled.header`
+const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -68,7 +75,7 @@ const HeaderCss = styled.header`
   padding: 0.5rem 1rem;
 `;
 
-const HeaderDiv = styled.div`
+const StyledHeaderBox = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
