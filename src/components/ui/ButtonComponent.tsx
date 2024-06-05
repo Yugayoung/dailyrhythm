@@ -1,5 +1,5 @@
 import React from 'react';
-import theme, { lightTheme } from '../../css/styles.theme';
+import { lightTheme } from '../../css/styles.theme';
 import styled from 'styled-components';
 
 interface ButtonComponentProps {
@@ -12,7 +12,7 @@ interface ButtonComponentProps {
 export default function ButtonComponent({
   onClick,
   text = '확인',
-  backgroundColor,
+  backgroundColor = lightTheme.accentColor,
   textColor,
 }: ButtonComponentProps) {
   return (

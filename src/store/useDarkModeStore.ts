@@ -20,7 +20,6 @@ export default function createDarkModeStore() {
       toggleDarkMode: () =>
         set((state) => {
           const newDarkMode = !state.darkMode.darkMode;
-          console.log('토글됨:', newDarkMode);
           state.actions.updateDarkMode(newDarkMode);
           return { darkMode: { darkMode: newDarkMode } };
         }),
@@ -28,10 +27,8 @@ export default function createDarkModeStore() {
       updateDarkMode: (darkMode: boolean) => {
         if (darkMode) {
           localStorage.theme = 'dark';
-          console.log('dark');
         } else {
           localStorage.theme = 'light';
-          console.log('light');
         }
         set({ darkMode: { darkMode } });
       },

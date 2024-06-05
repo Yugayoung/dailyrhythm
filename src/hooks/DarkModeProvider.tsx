@@ -19,7 +19,6 @@ export default function DarkModeProvider({
   }, [updateDarkMode]);
 
   const theme = darkMode.darkMode ? darkTheme : lightTheme;
-  console.log(theme);
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }
