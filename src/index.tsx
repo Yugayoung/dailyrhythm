@@ -8,7 +8,6 @@ import Home from './pages/Home';
 import AllRhythm from './pages/AllRhythm';
 import RhythmDetail from './pages/RhythmDetail';
 import RhythmStatistics from './pages/RhythmStatistics';
-import GlobalStyle from './css/GlobalStyles';
 
 const router = createBrowserRouter([
   {
@@ -33,7 +32,6 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GlobalStyle />
     <RouterProvider router={router} />
   </React.StrictMode>
 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { lightTheme } from '../../css/styles.theme';
+import theme, { lightTheme } from '../../css/styles.theme';
 import styled from 'styled-components';
 
 interface ButtonComponentProps {
@@ -12,8 +12,8 @@ interface ButtonComponentProps {
 export default function ButtonComponent({
   onClick,
   text = '확인',
-  backgroundColor = lightTheme.primaryColor,
-  textColor = lightTheme.textColor,
+  backgroundColor,
+  textColor,
 }: ButtonComponentProps) {
   return (
     <StyledButton
@@ -37,7 +37,7 @@ const StyledButton = styled.button<{
   $textColor: string;
 }>`
   --shadow: 0 2px 8px -1px ${(props) => props.$backgroundColor};
-  --shadow-hover: 0 4px 20px -2px ${(props) => props.$backgroundColor};
+  --shadow-hover: 0 4px 20px -2px ${({ theme }: { theme: any }) => theme.backgroundColor};
   --font-shadow: 1rem;
   --y: 0;
   --m: 0;
@@ -54,7 +54,7 @@ const StyledButton = styled.button<{
   font-size: 1rem;
   letter-spacing: 0.5px;
   background-color: ${(props) => props.$backgroundColor};
-  color: ${(props) => props.$textColor};
+  color: ${({ theme }: { theme: any }) => theme.textColor};
   box-shadow: var(--shadow);
   transform: translateY(var(--y)) translateZ(0);
   transition: transform 0.44s ease, box-shadow 0.44s ease;
@@ -62,7 +62,7 @@ const StyledButton = styled.button<{
   div {
     display: flex;
     overflow: hidden;
-    text-shadow: 0 0.9rem 0 ${(props) => props.$textColor};
+    text-shadow: 0 0.9rem 0 ${({ theme }: { theme: any }) => theme.textColor};
     span {
       display: block;
       backface-visibility: hidden;

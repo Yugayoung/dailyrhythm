@@ -17,14 +17,18 @@ export interface UserStore {
   actions: UserActions;
 }
 
-export const userStore = create<UserStore>((set) => ({
-  user: null,
-  actions: {
-    setUser: (user) => {
-      set({ user });
+export default function createUserStore() {
+  return create<UserStore>((set) => ({
+    user: null,
+    actions: {
+      setUser: (user: UserInfo) => {
+        set({ user });
+      },
+      clearUser: () => {
+        set({ user: null });
+      },
     },
-    clearUser: () => {
-      set({ user: null });
-    },
-  },
-}));
+  }));
+}
+
+export const useUserStore = createUserStore();
