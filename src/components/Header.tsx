@@ -1,99 +1,45 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  handleGoogleLogin,
-  handleGoogleLogout,
-  handleGoogleAuthStateChange,
-} from '../api/firebase';
-import { useUserStore } from '../store/useUserStore';
-import User from './User';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import ButtonComponent from './ui/ButtonComponent';
-import basicLogo from '../images/basicLogo.png';
-import { lightTheme } from '../css/styles.theme';
-import { useDarkModeStore } from '../store/useDarkModeStore';
+import Navbar from './Navbar';
 
 export default function Header() {
-  const user = useUserStore((state) => state.user);
-  const setUser = useUserStore((state) => state.actions.setUser);
-  const clearUser = useUserStore((state) => state.actions.clearUser);
-  const darkMode = useDarkModeStore((state) => state.darkMode);
-  const toggleDarkMode = useDarkModeStore(
-    (state) => state.actions.toggleDarkMode
-  );
+  // 1. 브라우저에 맨 위와 맨 아래일때 보여주고 스크롤이 위로할 때는 헤더를 보여주지 않는다.
+  // 2. 화살표 버튼으로 섹션하나씩 스크롤되기
+  const [isVisible, setIsVisible] = useState(true);
+  const beforeScroll = useRef(0);
+
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    const isAtTop = currentScrollY === 0;
+    const isAtBottom =
+      window.innerHeight + currentScrollY >= document.body.offsetHeight;
+    const isScrollingDown = beforeScroll.current < currentScrollY;
+
+    if (isAtTop || isAtBottom) {
+      setIsVisible(true);
+    } else if (isScrollingDown) {
+      setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+
+    beforeScroll.current = currentScrollY;
+  }, []);
 
   useEffect(() => {
-    handleGoogleAuthStateChange((user) => {
-      console.log(user);
-      setUser(user);
-    });
-  }, [setUser, clearUser]);
-
-  async function handleLogin() {
-    try {
-      const userInfo = await handleGoogleLogin();
-      setUser(userInfo);
-      console.log('로그인 성공:', userInfo);
-    } catch (error) {
-      console.error('로그인 실패:', error);
-    }
-  }
-  async function handleLogout() {
-    try {
-      await handleGoogleLogout();
-      clearUser();
-      console.log('로그아웃 성공');
-    } catch {
-      // 질문 : 콘솔로그를 안띄우는 대신에 어떤걸 넣어야하나
-      console.error('로그아웃 실패');
-    }
-  }
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   return (
-    <StyledHeader>
-      <Link to='/'>
-        <LogoImg src={basicLogo} alt='logo' />
-      </Link>
-      <ButtonComponent
-        onClick={toggleDarkMode}
-        text={darkMode.darkMode ? 'Light Mode' : 'Dark Mode'}
-        backgroundColor={lightTheme.accentColor}
-      />
-      {user ? (
-        <StyledHeaderBox>
-          <Link to='/my-rhythm'>My하루</Link>
-          <Link to='/rhythm-statistics'>루틴탐색</Link>
-          <User user={user} />
-          <ButtonComponent text={'Logout'} onClick={handleLogout} />
-        </StyledHeaderBox>
-      ) : (
-        <ButtonComponent
-          onClick={handleLogin}
-          text={'Login'}
-          backgroundColor={lightTheme.accentColor}
-        />
-      )}
+    <StyledHeader isVisible={isVisible}>
+      <Navbar />
     </StyledHeader>
   );
 }
 
-const StyledHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 3px 10px rgb(0, 0, 0, 0.2);
-  padding: 0.5rem 1rem;
-`;
-
-const StyledHeaderBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: red;
-`;
-
-const LogoImg = styled.img`
-  width: 10rem;
+const StyledHeader = styled.header<{ isVisible: boolean }>`
+  display: ${(props) => (props.isVisible ? 'visible' : 'none')};
 `;
