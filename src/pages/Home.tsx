@@ -19,7 +19,7 @@ const StyledTitleWrapper = styled.section`
   position: absolute;
   width: 100%;
   height: 100vh;
-  background-color: ${lightTheme.bgColor};
+  background-color: ${lightTheme.accentColor};
 `;
 
 const StyledTitleBox = styled.div`
@@ -36,6 +36,7 @@ const StyledTitleBox = styled.div`
 `;
 
 const StyledBox = styled.div`
+  margin-top: 100rem;
   height: 30rem;
 `;
 

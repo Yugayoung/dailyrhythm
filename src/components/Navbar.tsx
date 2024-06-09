@@ -53,7 +53,7 @@ export default function Navbar() {
       </Link>
       <ButtonComponent
         onClick={toggleDarkMode}
-        text={darkMode.darkMode ? 'Light Mode' : 'Dark Mode'}
+        text={darkMode.darkMode ? '☀️' : '🌙'}
         backgroundColor={lightTheme.accentColor}
       />
       {user ? (
@@ -76,14 +76,10 @@ export default function Navbar() {
 
 const StyledHeaderWrapper = styled.div`
   display: flex;
-  position: fixed;
-  width: 98%;
-  height: 4rem;
+
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 3px 10px rgb(0, 0, 0, 0.2);
   padding: 0.5rem 1rem;
-  z-index: 1;
 `;
 
 const StyledHeaderBox = styled.div`

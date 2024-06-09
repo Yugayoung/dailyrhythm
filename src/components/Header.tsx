@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import Navbar from './Navbar';
 
 export default function Header() {
-  // 1. 브라우저에 맨 위와 맨 아래일때 보여주고 스크롤이 위로할 때는 헤더를 보여주지 않는다.
-  // 2. 화살표 버튼으로 섹션하나씩 스크롤되기
   const [isVisible, setIsVisible] = useState(true);
   const beforeScroll = useRef(0);
+  const [isTop, setIsTop] = useState(true); // 초기 상태를 맨 위로 설정
 
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
@@ -15,12 +14,18 @@ export default function Header() {
       window.innerHeight + currentScrollY >= document.body.offsetHeight;
     const isScrollingDown = beforeScroll.current < currentScrollY;
 
-    if (isAtTop || isAtBottom) {
+    if (isAtTop) {
       setIsVisible(true);
+      setIsTop(true);
+    } else if (isAtBottom) {
+      setIsVisible(true);
+      setIsTop(false);
     } else if (isScrollingDown) {
       setIsVisible(false);
+      setIsTop(false);
     } else {
       setIsVisible(true);
+      setIsTop(false);
     }
 
     beforeScroll.current = currentScrollY;
@@ -34,12 +39,21 @@ export default function Header() {
   }, [handleScroll]);
 
   return (
-    <StyledHeader isVisible={isVisible}>
+    <StyledHeader $isVisible={isVisible} $isTop={isTop}>
       <Navbar />
     </StyledHeader>
   );
 }
 
-const StyledHeader = styled.header<{ isVisible: boolean }>`
-  display: ${(props) => (props.isVisible ? 'visible' : 'none')};
+const StyledHeader = styled.header<{ $isVisible: boolean; $isTop: boolean }>`
+  position: fixed;
+  width: 100%;
+  height: 5.5rem;
+  z-index: 1;
+  display: ${(props) => (props.$isVisible ? 'block' : 'none')};
+  box-shadow: ${(props) =>
+    props.$isTop ? '' : '0 3px 10px rgba(0, 0, 0, 0.2)'};
+
+  background-color: ${(props) =>
+    props.$isTop ? 'transparent' : props.theme.bgColor};
 `;
