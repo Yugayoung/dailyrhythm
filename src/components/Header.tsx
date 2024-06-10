@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const beforeScroll = useRef(0);
-  const [isTop, setIsTop] = useState(true); // 초기 상태를 맨 위로 설정
+  const [isTop, setIsTop] = useState(true);
 
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
@@ -14,18 +14,15 @@ export default function Header() {
       window.innerHeight + currentScrollY >= document.body.offsetHeight;
     const isScrollingDown = beforeScroll.current < currentScrollY;
 
-    if (isAtTop) {
-      setIsVisible(true);
-      setIsTop(true);
-    } else if (isAtBottom) {
-      setIsVisible(true);
-      setIsTop(false);
-    } else if (isScrollingDown) {
+    if (isScrollingDown) {
       setIsVisible(false);
-      setIsTop(false);
     } else {
-      setIsVisible(true);
       setIsTop(false);
+      if (isAtTop) {
+        setIsTop(true);
+      } else if (isAtBottom) {
+        setIsVisible(true);
+      }
     }
 
     beforeScroll.current = currentScrollY;

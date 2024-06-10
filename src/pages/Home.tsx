@@ -1,75 +1,200 @@
 import React from 'react';
 import styled from 'styled-components';
 import { lightTheme } from '../css/styles.theme';
+import useScrollFadeIn from '../hooks/useScrollFadeIn';
+import homeMiddleImage1 from '../images/homeMiddleImage1.png';
+import homeMiddleImage2 from '../images/homeMiddleImage2.png';
+import homeMiddleImage3 from '../images/homeMiddleImage3.png';
+import homeMiddleImage4 from '../images/homeMiddleImage4.png';
+import homeTopImage from '../images/homeTopImage.png';
+import homeBottomImage from '../images/homeBottomImage.png';
+import useScrollCount from '../hooks/useScrollCount';
+import { motion, useAnimation } from 'framer-motion';
 
 export default function Home() {
+  const animatedHomeMiddleRightImg = useScrollFadeIn('left', 1.2, 0.3);
+  const animatedHomeMiddleRightImgHem = useScrollFadeIn('left', 1.2, 0.6);
+  const animatedHomeMiddleLeftImg = useScrollFadeIn('right', 1.2, 0.5);
+  const animatedHomeMiddleLeftImgHem = useScrollFadeIn('right', 1.2, 0.6);
+  const animatedHomeBottomText = useScrollFadeIn('up', 1.2, 0.1);
+  const { ref: countRef } = useScrollCount(365, 100);
+
+  const controls = useAnimation();
+
+  React.useEffect(() => {
+    controls.start({
+      y: [0, -50, 0],
+      transition: {
+        duration: 3,
+        ease: 'easeInOut',
+        repeat: Infinity,
+        repeatType: 'loop',
+      },
+    });
+  }, [controls]);
+
   return (
-    <>
-      <StyledTitleWrapper>
-        <StyledTitleBox>
-          <StyledTitleText>DAILY RHYTHM</StyledTitleText>
-        </StyledTitleBox>
-      </StyledTitleWrapper>
-      <StyledBox></StyledBox>
-    </>
+    <StyledHomeWrapper>
+      <StyledHomeTopWrapper>
+        <StyledHomeTopBox>
+          <motion.div animate={controls}>
+            <StyledHomeTopImg src={homeTopImage} alt='homeTopImage' />
+          </motion.div>
+        </StyledHomeTopBox>
+      </StyledHomeTopWrapper>
+      <StyledHomeMiddleWrapper>
+        <StyledHomeMiddleTextBox>
+          <p>" </p>
+          <StyledHomeMiddleCount ref={countRef} />
+          <p> 일, 나의 하루를 바꾸는 리듬 "</p>
+        </StyledHomeMiddleTextBox>
+        <StyledHomeMiddleImgBox>
+          <StyledHomeMiddleLeftImgBox>
+            <StyledhomeMiddleImage
+              {...animatedHomeMiddleLeftImg}
+              src={homeMiddleImage2}
+              alt='homeMiddleImage2'
+            />
+            <StyledhomeMiddleImage
+              {...animatedHomeMiddleLeftImgHem}
+              src={homeMiddleImage4}
+              alt='homeMiddleImage4'
+            />
+          </StyledHomeMiddleLeftImgBox>
+          <StyledHomeMiddleRightImgBox>
+            <StyledhomeMiddleImage
+              {...animatedHomeMiddleRightImg}
+              src={homeMiddleImage1}
+              alt='homeMiddleImage1'
+            />
+
+            <StyledhomeMiddleImage
+              {...animatedHomeMiddleRightImgHem}
+              src={homeMiddleImage3}
+              alt='homeMiddleImage3'
+            />
+          </StyledHomeMiddleRightImgBox>
+        </StyledHomeMiddleImgBox>
+      </StyledHomeMiddleWrapper>
+      <StyledHomeBottomWrapper>
+        <StyledHomeBottomBox>
+          <StyledhomeBottomImage src={homeBottomImage} alt='homeBottomImage' />
+          <StyledHomeBottomTextBox {...animatedHomeBottomText}>
+            <StyledHomeBottomTitle>
+              일상도 DailyRhythm과 함께 <br />
+            </StyledHomeBottomTitle>
+            <StyledHomeBottomText>
+              건강한 습관을 시작하셨나요?
+            </StyledHomeBottomText>
+            <StyledHomeBottomText>시작부터 관리까지</StyledHomeBottomText>
+            <StyledHomeBottomText>
+              이제 데일리리듬과 함께 하세요.
+            </StyledHomeBottomText>
+          </StyledHomeBottomTextBox>
+        </StyledHomeBottomBox>
+      </StyledHomeBottomWrapper>
+    </StyledHomeWrapper>
   );
 }
 
-const StyledTitleWrapper = styled.section`
+const StyledHomeWrapper = styled.section`
   position: absolute;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 100vh;
-  background-color: ${lightTheme.accentColor};
 `;
 
-const StyledTitleBox = styled.div`
+const StyledHomeTopWrapper = styled.section`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 60rem;
+  background-color: ${lightTheme.accentColor};
+`;
+
+const StyledHomeTopBox = styled.div`
   margin: auto;
-  top: 0;
-  left: 0;
-  bottom: 10px;
-  right: 0;
-  position: absolute;
-  width: 250px;
+  width: 30rem;
 `;
 
-const StyledBox = styled.div`
-  margin-top: 100rem;
-  height: 30rem;
+const StyledHomeTopImg = styled.img`
+  width: 100%;
+`;
+const StyledHomeMiddleWrapper = styled.section`
+  display: grid;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: auto;
+  background-color: #f1f1f1;
+`;
+const StyledHomeMiddleTextBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.7rem;
+  font-weight: bold;
+  margin: 6rem 0rem;
+`;
+const StyledHomeMiddleCount = styled.div`
+  width: 4.5rem;
+  font-size: 2rem;
+`;
+const StyledHomeMiddleImgBox = styled.div`
+  display: flex;
+  width: 75%;
+  margin: auto;
+`;
+const StyledHomeMiddleLeftImgBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20%;
+  flex: 1;
+`;
+const StyledHomeMiddleRightImgBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+const StyledhomeMiddleImage = styled.img`
+  width: 100%;
+  margin-bottom: 5rem;
 `;
 
-const StyledTitleText = styled.h1`
-  color: #fff;
-  font-size: 80px;
+const StyledHomeBottomWrapper = styled.section`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50rem;
+  background-color: ${lightTheme.accentColor};
+`;
+
+const StyledHomeBottomBox = styled.div`
+  margin: auto;
+  width: 40rem;
+`;
+const StyledHomeBottomTextBox = styled.div`
+  display: grid;
+  justify-content: center;
+  margin-top: 5rem;
+  font-size: 2rem;
   font-weight: bold;
   font-family: 'GmarketSansMedium';
-  transform: rotate(20deg) skew(-20deg);
-  -webkit-transform: rotate(20deg) skew(-20deg);
-  -moz-transform: rotate(20deg) skew(-20deg);
-  -o-transform: rotate(20deg) skew(-20deg);
-  -ms-transform: rotate(20deg) skew(-20deg);
-  text-shadow: 1px 1px 0 #51b3a3, 2px 2px 0 #51b3a3, 3px 4px 0 #51b3a3,
-    4px 5px 0 #51b3a3, 5px 7px 0 #51b3a3, 6px 8px 0 #51b3a3, 7px 10px 0 #51b3a3,
-    8px 11px 0 #51b3a3, 9px 13px 0 #51b3a3, 10px 14px 0 #51b3a3,
-    11px 16px 0 #51b3a3, 12px 17px 0 #51b3a3, 13px 19px 0 #51b3a3,
-    14px 20px 0 #51b3a3, 15px 22px 0 #51b3a3, 16px 23px 0 #51b3a3,
-    17px 25px 0 #51b3a3, 18px 26px 0 #51b3a3, 19px 28px 0 #51b3a3,
-    20px 29px 0 #51b3a3, 21px 30px 0 #389788, 23px 31px 0 #389788,
-    24px 32px 0 #389788, 26px 33px 0 #389788, 27px 34px 0 #389788,
-    29px 35px 0 #389788, 30px 36px 0 #389788, 32px 37px 0 #389788,
-    33px 38px 0 #389788, 35px 39px 0 #389788, 36px 40px 0 #389788,
-    38px 41px 0 #389788, 39px 42px 0 #389788, 41px 43px 0 #389788,
-    42px 44px 0 #389788, 44px 45px 0 #389788, 45px 46px 0 #389788,
-    47px 47px 0 #389788, 48px 49px 0 #7ee5d6, 49px 51px 0 #7ee5d6,
-    50px 53px 0 #7ee5d6, 51px 55px 0 #7ee5d6, 52px 57px 0 #7ee5d6,
-    53px 59px 0 #7ee5d6, 54px 61px 0 #7ee5d6, 55px 63px 0 #7ee5d6,
-    56px 65px 0 #7ee5d6, 57px 67px 0 #7ee5d6, 58px 69px 0 #7ee5d6,
-    59px 71px 0 #7ee5d6, 60px 73px 0 #7ee5d6, 61px 75px 0 #7ee5d6,
-    62px 77px 0 #7ee5d6, 63px 79px 0 #7ee5d6, 65px 80px 0 #51b3a3,
-    68px 81px 0 #51b3a3, 70px 82px 0 #51b3a3, 72px 83px 0 #51b3a3,
-    74px 84px 0 #51b3a3, 76px 85px 0 #51b3a3, 78px 86px 0 #51b3a3,
-    80px 87px 0 #51b3a3, 82px 88px 0 #51b3a3, 84px 89px 0 #51b3a3,
-    86px 90px 0 #51b3a3, 88px 91px 0 #51b3a3, 90px 92px 0 #51b3a3;
+  color: white;
+  gap: 0.5rem;
+`;
+const StyledhomeBottomImage = styled.img`
+  width: 100%;
+`;
+const StyledHomeBottomTitle = styled.h1`
+  margin-bottom: 2rem;
+`;
+const StyledHomeBottomText = styled.h2`
+  font-size: 1.5rem;
+  margin: auto;
 `;
