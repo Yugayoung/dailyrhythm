@@ -18,7 +18,6 @@ export default function Header() {
     if (isScrollingDown) {
       setIsVisible(false);
       if (isAtBottom) {
-        console.log('bottom');
         setIsVisible(true);
       }
     } else {
