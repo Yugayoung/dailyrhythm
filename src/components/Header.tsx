@@ -11,17 +11,20 @@ export default function Header() {
     const currentScrollY = window.scrollY;
     const isAtTop = currentScrollY === 0;
     const isAtBottom =
-      window.innerHeight + currentScrollY >= document.body.offsetHeight;
+      window.innerHeight + currentScrollY >=
+      document.documentElement.scrollHeight;
     const isScrollingDown = beforeScroll.current < currentScrollY;
 
     if (isScrollingDown) {
       setIsVisible(false);
+      if (isAtBottom) {
+        console.log('bottom');
+        setIsVisible(true);
+      }
     } else {
       setIsTop(false);
       if (isAtTop) {
         setIsTop(true);
-      } else if (isAtBottom) {
-        setIsVisible(true);
       }
     }
 
@@ -45,12 +48,10 @@ export default function Header() {
 const StyledHeader = styled.header<{ $isVisible: boolean; $isTop: boolean }>`
   position: fixed;
   width: 100%;
-  height: 5.5rem;
   z-index: 1;
   display: ${(props) => (props.$isVisible ? 'block' : 'none')};
   box-shadow: ${(props) =>
     props.$isTop ? '' : '0 3px 10px rgba(0, 0, 0, 0.2)'};
-
   background-color: ${(props) =>
     props.$isTop ? 'transparent' : props.theme.bgColor};
 `;

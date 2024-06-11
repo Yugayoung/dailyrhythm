@@ -10,8 +10,10 @@ import User from './User';
 import styled from 'styled-components';
 import ButtonComponent from './ui/ButtonComponent';
 import basicLogo from '../images/basicLogo.png';
-import { lightTheme } from '../css/styles.theme';
+import { darkTheme, lightTheme } from '../css/styles.theme';
 import { useDarkModeActions, useGetDarkMode } from '../store/useDarkModeStore';
+import { FaMoon } from 'react-icons/fa';
+import { IoMdSunny } from 'react-icons/io';
 
 export default function Navbar() {
   const user = useGetUser();
@@ -45,18 +47,18 @@ export default function Navbar() {
 
   return (
     <StyledHeaderWrapper>
-      <Link to='/'>
-        <LogoImg src={basicLogo} alt='logo' />
-      </Link>
-      <ButtonComponent
-        onClick={toggleDarkMode}
-        text={isDarkMode ? '☀️' : '🌙'}
-        backgroundColor={lightTheme.accentColor}
-      />
+      <StyledHeaderDarkModeBox>
+        <Link to='/'>
+          <LogoImg src={basicLogo} alt='logo' />
+        </Link>
+        <DarkModeButton onClick={toggleDarkMode} $isDarkMode={isDarkMode}>
+          {isDarkMode ? <FaMoon /> : <IoMdSunny />}
+        </DarkModeButton>
+      </StyledHeaderDarkModeBox>
       {user ? (
         <StyledHeaderBox>
-          <Link to='/my-rhythm'>My하루</Link>
-          <Link to='/rhythm-statistics'>루틴탐색</Link>
+          <StyledLink to='/my-rhythm'>My하루</StyledLink>
+          <StyledLink to='/rhythm-statistics'>루틴탐색</StyledLink>
           <User user={user} />
           <ButtonComponent text={'Logout'} onClick={handleLogout} />
         </StyledHeaderBox>
@@ -73,21 +75,44 @@ export default function Navbar() {
 
 const StyledHeaderWrapper = styled.div`
   display: flex;
-
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
+`;
+
+const StyledHeaderDarkModeBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StyledHeaderBox = styled.div`
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: red;
+  color: ${({ theme }) => theme.textColor};
+`;
+
+const StyledLink = styled(Link)`
+  color: ${({ theme }) => theme.textColor};
+  &:hover {
+    color: ${({ theme }) => theme.primaryColor};
+  }
+`;
+
+const DarkModeButton = styled.button<{ $isDarkMode: boolean }>`
+  width: 4rem;
+  font-size: ${({ $isDarkMode }) => ($isDarkMode ? '1.2rem' : '1.5rem')};
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: ${({ $isDarkMode }) =>
+    $isDarkMode ? darkTheme.primaryColor : '#ff7b00'};
 `;
 
 const LogoImg = styled.img`
-  width: 10rem;
+  width: 8rem;
+  color: #ff7b00;
 `;
