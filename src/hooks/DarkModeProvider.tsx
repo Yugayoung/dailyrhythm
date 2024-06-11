@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect } from 'react';
-import { useDarkModeStore } from '../store/useDarkModeStore';
+import { useDarkModeActions, useGetDarkMode } from '../store/useDarkModeStore';
 import { darkTheme, lightTheme } from '../css/styles.theme';
 import { ThemeProvider } from 'styled-components';
 
@@ -8,17 +8,15 @@ export default function DarkModeProvider({
 }: {
   children: ReactNode;
 }) {
-  const darkMode = useDarkModeStore((state) => state.darkMode);
-  const updateDarkMode = useDarkModeStore(
-    (state) => state.actions.updateDarkMode
-  );
+  const isDarkMode = useGetDarkMode();
+  const { updateDarkMode } = useDarkModeActions();
 
   useEffect(() => {
     const isDark = localStorage.theme === 'dark';
     updateDarkMode(isDark);
   }, [updateDarkMode]);
 
-  const theme = darkMode.darkMode ? darkTheme : lightTheme;
+  const theme = isDarkMode ? darkTheme : lightTheme;
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }

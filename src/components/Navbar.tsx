@@ -5,22 +5,19 @@ import {
   handleGoogleLogout,
   handleGoogleAuthStateChange,
 } from '../api/firebase';
-import { useUserStore } from '../store/useUserStore';
+import { useGetUser, useUserActions } from '../store/useUserStore';
 import User from './User';
 import styled from 'styled-components';
 import ButtonComponent from './ui/ButtonComponent';
 import basicLogo from '../images/basicLogo.png';
 import { lightTheme } from '../css/styles.theme';
-import { useDarkModeStore } from '../store/useDarkModeStore';
+import { useDarkModeActions, useGetDarkMode } from '../store/useDarkModeStore';
 
 export default function Navbar() {
-  const user = useUserStore((state) => state.user);
-  const setUser = useUserStore((state) => state.actions.setUser);
-  const clearUser = useUserStore((state) => state.actions.clearUser);
-  const darkMode = useDarkModeStore((state) => state.darkMode);
-  const toggleDarkMode = useDarkModeStore(
-    (state) => state.actions.toggleDarkMode
-  );
+  const user = useGetUser();
+  const { setUser, clearUser } = useUserActions();
+  const isDarkMode = useGetDarkMode();
+  const { toggleDarkMode } = useDarkModeActions();
 
   useEffect(() => {
     handleGoogleAuthStateChange((user) => {
@@ -53,7 +50,7 @@ export default function Navbar() {
       </Link>
       <ButtonComponent
         onClick={toggleDarkMode}
-        text={darkMode.darkMode ? '☀️' : '🌙'}
+        text={isDarkMode ? '☀️' : '🌙'}
         backgroundColor={lightTheme.accentColor}
       />
       {user ? (

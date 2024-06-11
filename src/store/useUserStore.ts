@@ -32,3 +32,7 @@ export default function createUserStore() {
 }
 
 export const useUserStore = createUserStore();
+
+export const useUserActions = () =>
+  useUserStore((state: UserStore) => state.actions);
+export const useGetUser = () => useUserStore((state: UserStore) => state.user);
