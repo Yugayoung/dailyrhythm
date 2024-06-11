@@ -1,26 +1,33 @@
 import { useRef, useEffect, useCallback } from 'react';
 
-const useScrollCount = (end, start = 300, duration = 2000, delay = 0) => {
-  const element = useRef();
-  const observer = useRef(null);
+const useScrollCount = (
+  end: number,
+  start = 300,
+  duration = 2000,
+  delay = 0
+) => {
+  const element = useRef<HTMLDivElement | null>(null);
+  const observer = useRef<IntersectionObserver | null>(null);
   const stepTime = Math.abs(Math.floor(duration / (end - start)));
 
   const onScroll = useCallback(
-    ([entry]) => {
+    ([entry]: IntersectionObserverEntry[]) => {
       const { current } = element;
-      if (entry.isIntersecting) {
+      if (current && entry.isIntersecting) {
         let currentNumber = start;
         const counter = setInterval(() => {
           currentNumber += 1;
-          current.innerHTML = currentNumber;
+          if (current) {
+            current.innerHTML = currentNumber.toString();
+          }
           if (currentNumber === end) {
             clearInterval(counter);
-            observer.current.disconnect(); // Disconnect directly from the ref
+            observer.current?.disconnect();
           }
         }, stepTime);
       }
     },
-    [end, start, stepTime, element]
+    [end, start, stepTime]
   );
 
   useEffect(() => {
@@ -29,7 +36,6 @@ const useScrollCount = (end, start = 300, duration = 2000, delay = 0) => {
       observer.current.observe(element.current);
     }
 
-    // Use a separate useEffect for cleanup
     return () => {
       if (observer.current) {
         observer.current.disconnect();

@@ -32,16 +32,15 @@ export default function Navbar() {
       const userInfo = await handleGoogleLogin();
       setUser(userInfo);
     } catch (error) {
-      console.error('로그인 실패:', error);
+      alert('로그인 실패: ' + error.message);
     }
   }
   async function handleLogout() {
     try {
       await handleGoogleLogout();
       clearUser();
-    } catch {
-      // 질문 : 콘솔로그를 안띄우는 대신에 어떤걸 넣어야하나
-      console.error('로그아웃 실패');
+    } catch (error) {
+      alert('로그아웃 실패: ' + error.message);
     }
   }
 

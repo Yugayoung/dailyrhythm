@@ -1,5 +1,4 @@
 import React from 'react';
-import { theme } from '../../css/styles.theme';
 import styled from 'styled-components';
 import { useGetCurrentTheme } from '../../store/useDarkModeStore';
 
@@ -16,9 +15,7 @@ export default function ButtonComponent({
   backgroundColor,
   textColor,
 }: ButtonComponentProps) {
-  const currentThemeName = useGetCurrentTheme();
-  const currentTheme =
-    currentThemeName === 'dark' ? theme.darkTheme : theme.lightTheme;
+  const currentTheme = useGetCurrentTheme();
   const defaultBackgroundColor = backgroundColor || currentTheme.secondaryColor;
   const defaultTextColor = textColor || currentTheme.textColor;
 
@@ -41,7 +38,7 @@ const StyledButton = styled.button<{
   font-family: 'GmarketSansMedium';
   font-weight: bold;
   border-radius: 0.7rem;
-  outline: none;
+
   border-color: ${({ $backgroundColor }) => $backgroundColor};
   font-size: 0.8rem;
   background-color: ${({ $backgroundColor }) => $backgroundColor};

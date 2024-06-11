@@ -24,5 +24,5 @@ export const theme = {
   lightTheme,
   darkTheme,
 };
-
+export type ThemeType = typeof lightTheme & typeof darkTheme;
 export default theme;

@@ -1,33 +1,31 @@
 import { create } from 'zustand';
+import { ThemeType, darkTheme, lightTheme } from '../css/styles.theme';
 
-// 1. currentTheme을 할당해서 true, false뿐 아니라 현재 무슨테마인지 알려주기 =>리뷰보고 persist활용
-// 2. 버튼 유연하게 색상지정할 . 수있게 이제 제대로 설정할수있다!!
-// 3. 다른곳도 색상지정할수있지롱
 interface DarkModeActions {
   toggleDarkMode: () => void;
-  updateDarkMode: (isdarkMode: boolean) => void;
+  updateDarkMode: (isDarkMode: boolean) => void;
 }
 
 export interface DarkModeStore {
   isDarkMode: boolean;
-  currentTheme: string;
+  currentTheme: ThemeType;
   actions: DarkModeActions;
 }
 export default function createDarkModeStore() {
   return create<DarkModeStore>((set) => ({
     isDarkMode: false,
-    currentTheme: 'light',
+    currentTheme: lightTheme,
     actions: {
       toggleDarkMode: () =>
         set((state) => {
           const newDarkMode = !state.isDarkMode;
-          const newTheme = newDarkMode ? 'dark' : 'light';
+          const newTheme = newDarkMode ? darkTheme : lightTheme;
           state.actions.updateDarkMode(newDarkMode);
           return { isDarkMode: newDarkMode, currentTheme: newTheme };
         }),
 
       updateDarkMode: (isDarkMode: boolean) => {
-        const newTheme = isDarkMode ? 'dark' : 'light';
+        const newTheme = isDarkMode ? darkTheme : lightTheme;
         localStorage.theme = newTheme;
         set({ isDarkMode, currentTheme: newTheme });
       },

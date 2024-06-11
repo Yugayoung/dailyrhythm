@@ -21,6 +21,7 @@ export default function Header() {
         setIsVisible(true);
       }
     } else {
+      setIsVisible(true);
       setIsTop(false);
       if (isAtTop) {
         setIsTop(true);
