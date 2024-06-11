@@ -5,17 +5,22 @@ import {
   handleGoogleLogout,
   handleGoogleAuthStateChange,
 } from '../api/firebase';
-import { userStore } from '../store/useUserStore';
+import { useUserStore } from '../store/useUserStore';
 import User from './User';
 import styled from 'styled-components';
 import ButtonComponent from './ui/ButtonComponent';
 import basicLogo from '../images/basicLogo.png';
 import { lightTheme } from '../css/styles.theme';
+import { useDarkModeStore } from '../store/useDarkModeStore';
 
 export default function Header() {
-  const user = userStore((state) => state.user);
-  const setUser = userStore((state) => state.actions.setUser);
-  const clearUser = userStore((state) => state.actions.clearUser);
+  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.actions.setUser);
+  const clearUser = useUserStore((state) => state.actions.clearUser);
+  const darkMode = useDarkModeStore((state) => state.darkMode);
+  const toggleDarkMode = useDarkModeStore(
+    (state) => state.actions.toggleDarkMode
+  );
 
   useEffect(() => {
     handleGoogleAuthStateChange((user) => {
@@ -49,10 +54,15 @@ export default function Header() {
       <Link to='/'>
         <LogoImg src={basicLogo} alt='logo' />
       </Link>
+      <ButtonComponent
+        onClick={toggleDarkMode}
+        text={darkMode.darkMode ? 'Light Mode' : 'Dark Mode'}
+        backgroundColor={lightTheme.accentColor}
+      />
       {user ? (
         <StyledHeaderBox>
-          <Link to='/my-rhythm'>myrhythm</Link>
-          <Link to='/rhythm-statistics'>Rhythm Statistics</Link>
+          <Link to='/my-rhythm'>My하루</Link>
+          <Link to='/rhythm-statistics'>루틴탐색</Link>
           <User user={user} />
           <ButtonComponent text={'Logout'} onClick={handleLogout} />
         </StyledHeaderBox>
@@ -78,7 +88,10 @@ const StyledHeader = styled.header`
 const StyledHeaderBox = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.7rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: red;
 `;
 
 const LogoImg = styled.img`
