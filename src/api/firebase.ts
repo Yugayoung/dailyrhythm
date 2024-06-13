@@ -43,7 +43,6 @@ export async function handleGoogleLogout(): Promise<void> {
   }
 }
 
-// User객체 또는 null(로그아웃) 으로 타입지정
 export function handleGoogleAuthStateChange(
   callback: (user: User | null) => void
 ) {

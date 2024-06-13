@@ -17,15 +17,32 @@ export interface UserStore {
   actions: UserActions;
 }
 
+const LOCAL_STORAGE_KEY = 'user';
+
+function saveUserToLocalStorage(user: UserInfo | null) {
+  if (user) {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(user));
+  } else {
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+  }
+}
+
+function loadUserFromLocalStorage(): UserInfo | null {
+  const user = localStorage.getItem(LOCAL_STORAGE_KEY);
+  return user ? JSON.parse(user) : null;
+}
+
 export default function createUserStore() {
   return create<UserStore>((set) => ({
-    user: null,
+    user: loadUserFromLocalStorage(),
     actions: {
       setUser: (user: UserInfo) => {
         set({ user });
+        saveUserToLocalStorage(user);
       },
       clearUser: () => {
         set({ user: null });
+        saveUserToLocalStorage(null);
       },
     },
   }));
