@@ -13,11 +13,11 @@
 }
 
 body {
-  margin: 0;
+  margin: auto;
   font-family: 'GmarketSansLight';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  width: 100vw;
+  width: 960px;
   display: flex;
   justify-content: center;
   align-items: center;

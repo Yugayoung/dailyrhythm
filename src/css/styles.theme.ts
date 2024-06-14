@@ -11,7 +11,7 @@ export const lightTheme = {
 
 export const darkTheme = {
   bgColor: '#001d3d', // 남색
-  textColor: '#f0e6ef', // 베이지색
+  textColor: '#FFFFFF', // 베이지색
   primaryColor: '#ffd60a', // 노랑색
   accentColor: '#003566', // 파랑색
   secondaryColor: '#ffc300', // 진노랑색
@@ -24,5 +24,5 @@ export const theme = {
   lightTheme,
   darkTheme,
 };
-
+export type ThemeType = typeof lightTheme & typeof darkTheme;
 export default theme;

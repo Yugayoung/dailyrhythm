@@ -23,7 +23,6 @@ export async function handleGoogleLogin() {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    console.log(user);
     return {
       displayName: user.displayName ?? '',
       email: user.email ?? '',

@@ -1,99 +1,57 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  handleGoogleLogin,
-  handleGoogleLogout,
-  handleGoogleAuthStateChange,
-} from '../api/firebase';
-import { useUserStore } from '../store/useUserStore';
-import User from './User';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import ButtonComponent from './ui/ButtonComponent';
-import basicLogo from '../images/basicLogo.png';
-import { lightTheme } from '../css/styles.theme';
-import { useDarkModeStore } from '../store/useDarkModeStore';
+import Navbar from './Navbar';
 
 export default function Header() {
-  const user = useUserStore((state) => state.user);
-  const setUser = useUserStore((state) => state.actions.setUser);
-  const clearUser = useUserStore((state) => state.actions.clearUser);
-  const darkMode = useDarkModeStore((state) => state.darkMode);
-  const toggleDarkMode = useDarkModeStore(
-    (state) => state.actions.toggleDarkMode
-  );
+  const [isVisible, setIsVisible] = useState(true);
+  const beforeScroll = useRef(0);
+  const [isTop, setIsTop] = useState(true);
+
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    const isAtTop = currentScrollY === 0;
+    const isAtBottom =
+      window.innerHeight + currentScrollY >=
+      document.documentElement.scrollHeight;
+    const isScrollingDown = beforeScroll.current < currentScrollY;
+
+    if (isScrollingDown) {
+      setIsVisible(false);
+      if (isAtBottom) {
+        setIsVisible(true);
+      }
+    } else {
+      setIsVisible(true);
+      setIsTop(false);
+      if (isAtTop) {
+        setIsTop(true);
+      }
+    }
+
+    beforeScroll.current = currentScrollY;
+  }, []);
 
   useEffect(() => {
-    handleGoogleAuthStateChange((user) => {
-      console.log(user);
-      setUser(user);
-    });
-  }, [setUser, clearUser]);
-
-  async function handleLogin() {
-    try {
-      const userInfo = await handleGoogleLogin();
-      setUser(userInfo);
-      console.log('로그인 성공:', userInfo);
-    } catch (error) {
-      console.error('로그인 실패:', error);
-    }
-  }
-  async function handleLogout() {
-    try {
-      await handleGoogleLogout();
-      clearUser();
-      console.log('로그아웃 성공');
-    } catch {
-      // 질문 : 콘솔로그를 안띄우는 대신에 어떤걸 넣어야하나
-      console.error('로그아웃 실패');
-    }
-  }
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   return (
-    <StyledHeader>
-      <Link to='/'>
-        <LogoImg src={basicLogo} alt='logo' />
-      </Link>
-      <ButtonComponent
-        onClick={toggleDarkMode}
-        text={darkMode.darkMode ? 'Light Mode' : 'Dark Mode'}
-        backgroundColor={lightTheme.accentColor}
-      />
-      {user ? (
-        <StyledHeaderBox>
-          <Link to='/my-rhythm'>My하루</Link>
-          <Link to='/rhythm-statistics'>루틴탐색</Link>
-          <User user={user} />
-          <ButtonComponent text={'Logout'} onClick={handleLogout} />
-        </StyledHeaderBox>
-      ) : (
-        <ButtonComponent
-          onClick={handleLogin}
-          text={'Login'}
-          backgroundColor={lightTheme.accentColor}
-        />
-      )}
+    <StyledHeader $isVisible={isVisible} $isTop={isTop}>
+      <Navbar />
     </StyledHeader>
   );
 }
 
-const StyledHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 3px 10px rgb(0, 0, 0, 0.2);
-  padding: 0.5rem 1rem;
-`;
-
-const StyledHeaderBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: red;
-`;
-
-const LogoImg = styled.img`
-  width: 10rem;
+const StyledHeader = styled.header<{ $isVisible: boolean; $isTop: boolean }>`
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  display: ${(props) => (props.$isVisible ? 'block' : 'none')};
+  box-shadow: ${(props) =>
+    props.$isTop ? '' : '0 3px 10px rgba(0, 0, 0, 0.2)'};
+  background-color: ${(props) =>
+    props.$isTop ? 'transparent' : props.theme.bgColor};
 `;

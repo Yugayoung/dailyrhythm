@@ -18,23 +18,12 @@ export const GlobalStyle = createGlobalStyle`
   font-style: normal;
 }
 
-:root {
-  
-  
-  /* --color-bg: #f5ebe0;
-  --color-text: #393122;
-  --color-accent: #d6ccc2;
-  --color-white: #edede9;
-  --color-scrollbar: #e3d5ca;
-  --color-darkBeige: #d5bdaf; */
-}
-
 body {
   margin: 0;
   font-family: 'GmarketSansLight';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  width: 100vw;
+  width: 960px;
   display: flex;
   justify-content: center;
   align-items: center;

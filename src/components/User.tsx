@@ -28,17 +28,18 @@ const StyledUserBox = styled.div`
 `;
 
 const UserImg = styled.img`
-  width: 4rem;
+  width: 3rem;
   border-radius: 100%;
+  margin-right: 0.3rem;
 `;
 
 const StyledUserNameWapper = styled.span`
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
 `;
 const StyledUserName = styled.span`
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: bold;
 `;
 
 export default User;
