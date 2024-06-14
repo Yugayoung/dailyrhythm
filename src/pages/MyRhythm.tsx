@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import Weather from '../components/Weather';
+import Calendar from '../components/Calendar';
 
 export default function MyRhythm() {
   return (
     <StyledHomeWrapper>
       <StyledHomeBox>
         <Weather />
+        <Calendar />
       </StyledHomeBox>
     </StyledHomeWrapper>
   );
