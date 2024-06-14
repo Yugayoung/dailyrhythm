@@ -42,6 +42,7 @@ export async function fetchWeatherData({
     };
 
     console.log(weatherData);
+    console.log(response.data);
     return weatherData;
   } catch (error) {
     throw new Error('날씨 정보를 가져오는 데 실패했습니다.');
