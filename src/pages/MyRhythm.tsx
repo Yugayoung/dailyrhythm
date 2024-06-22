@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Weather from '../components/Weather';
 
-export default function AllRhythm() {
+export default function MyRhythm() {
   return (
     <StyledHomeWrapper>
       <StyledHomeBox>
