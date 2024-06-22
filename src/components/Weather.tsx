@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { WeatherData, fetchWeatherData } from '../api/weather';
-import { BeatLoader } from 'react-spinners';
 import styled from 'styled-components';
 import { useGetCurrentTheme } from '../store/useDarkModeStore';
+import Loading from './ui/Loading';
 
 export default function Weather() {
   const [latitude, setLatitude] = useState<number | null>(null);
@@ -45,7 +45,7 @@ export default function Weather() {
   return (
     <StyledWeatherBox>
       {isLoading ? (
-        <BeatLoader color={currentTheme.placeholderColor} size={6} />
+        <Loading />
       ) : (
         weather && (
           <div>
