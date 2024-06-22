@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { WeatherData, fetchWeatherData } from '../api/weather';
 import styled from 'styled-components';
-import { useGetCurrentTheme } from '../store/useDarkModeStore';
 import Loading from './ui/Loading';
 
 export default function Weather() {
@@ -9,7 +8,6 @@ export default function Weather() {
   const [longitude, setLongitude] = useState<number | null>(null);
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const currentTheme = useGetCurrentTheme();
 
   useEffect(() => {
     if (navigator.geolocation) {

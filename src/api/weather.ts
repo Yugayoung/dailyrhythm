@@ -22,10 +22,16 @@ export async function fetchWeatherData({
   latitude,
   longitude,
 }: currentPositionProps) {
+  const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
   try {
-    const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
-    );
+    const response = await axios.get(BASE_URL, {
+      params: {
+        lat: latitude,
+        lon: longitude,
+        appid: API_KEY,
+        units: 'metric',
+      },
+    });
 
     const weatherIcon = response.data.weather[0].icon;
     const weatherIconAdrs = `https://openweathermap.org/img/w/${weatherIcon}.png`;
