@@ -10,34 +10,36 @@ export default function Weather() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLatitude(position.coords.latitude);
-          setLongitude(position.coords.longitude);
-        },
-        (err) => {
+    const fetchData = async () => {
+      setIsLoading(true);
+
+      try {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              setLatitude(position.coords.latitude);
+              setLongitude(position.coords.longitude);
+            },
+            (err) => {
+              setIsLoading(false);
+            }
+          );
+        } else {
           setIsLoading(false);
         }
-      );
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
 
-  useEffect(() => {
-    if (latitude !== null && longitude !== null) {
-      const getWeather = async () => {
-        try {
+        if (latitude !== null && longitude !== null) {
           const data = await fetchWeatherData({ latitude, longitude });
           setWeather(data);
-          setIsLoading(false);
-        } catch {
-          setIsLoading(false);
         }
-      };
-      getWeather();
-    }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, [latitude, longitude]);
 
   return (
