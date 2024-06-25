@@ -7,6 +7,9 @@ import {
   onAuthStateChanged,
   User,
 } from 'firebase/auth';
+import { RhythmItem } from '../components/AddRhythm';
+import { getDatabase, ref, set, get, remove } from 'firebase/database';
+import { v4 as uuid } from 'uuid';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -18,6 +21,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 const auth = getAuth();
+const database = getDatabase(app);
 
 export async function handleGoogleLogin() {
   try {
@@ -48,5 +52,14 @@ export function handleGoogleAuthStateChange(
 ) {
   onAuthStateChanged(auth, (user) => {
     callback(user);
+  });
+}
+
+export async function addNewRhythm(uid: string, rhythm: RhythmItem) {
+  const id = uuid();
+  set(ref(database, `rhythm/${uid}/${id}`), {
+    ...rhythm,
+    id: id,
+    status: 'active',
   });
 }

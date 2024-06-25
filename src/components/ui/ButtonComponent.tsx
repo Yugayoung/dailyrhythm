@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { useGetCurrentTheme } from '../../store/useDarkModeStore';
 
 interface ButtonComponentProps {
-  onClick: () => void;
-  text?: string;
+  onClick?: () => void;
+  text?: string | React.ReactNode;
   backgroundColor?: string;
   textColor?: string;
 }
