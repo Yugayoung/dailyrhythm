@@ -11,7 +11,7 @@ interface LoadingComponentProps {
 export default function Loading({ color, size }: LoadingComponentProps) {
   const currentTheme = useGetCurrentTheme();
   const defaultColor = color || currentTheme.placeholderColor;
-  const defaultSize = size || '8';
+  const defaultSize = size || '8px';
 
   return (
     <StyledLoadingBox>

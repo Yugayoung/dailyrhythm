@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ButtonComponent from './ui/ButtonComponent';
 import Loading from './ui/Loading';
-import { addNewRhythm } from '../api/firebase';
+import { addOrUpdateNewRhythm } from '../api/firebase';
 import { useGetUser } from '../store/useUserStore';
 
 export interface RhythmItem {
@@ -40,9 +40,10 @@ export default function AddRhythm() {
     setIsLoading(true);
     try {
       if (rhythm.title.trim() === '') {
-        console.log('필수입력');
+        // ui 완성된 후 색 변화로 알려주도록 작성해야함!
+        return;
       }
-      await addNewRhythm(uid, rhythm);
+      await addOrUpdateNewRhythm(uid, rhythm);
       setRhythm(initialRhythm);
     } finally {
       setIsLoading(false);

@@ -55,11 +55,28 @@ export function handleGoogleAuthStateChange(
   });
 }
 
-export async function addNewRhythm(uid: string, rhythm: RhythmItem) {
+export async function addOrUpdateNewRhythm(uid: string, rhythm: RhythmItem) {
   const id = uuid();
-  set(ref(database, `rhythm/${uid}/${id}`), {
+  set(ref(database, `rhythms/${uid}/${id}`), {
     ...rhythm,
     id: id,
     status: 'active',
   });
+}
+
+export async function getRhythm(uid: string): Promise<RhythmItem[]> {
+  try {
+    const snapshot = await get(ref(database, `rhythms/${uid}`));
+    const items = snapshot.val() || {};
+    console.log(items);
+    console.log('ddd');
+
+    return Object.values(items) as RhythmItem[];
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function DeleteRhythm(uid: string, rhythm: RhythmItem) {
+  return remove(ref(database, `rhythms/${uid}/${rhythm.id}`));
 }
