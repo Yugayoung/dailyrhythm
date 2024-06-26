@@ -10,7 +10,7 @@ import User from './User';
 import styled from 'styled-components';
 import ButtonComponent from './ui/ButtonComponent';
 import basicLogo from '../images/basicLogo.png';
-import { darkTheme } from '../css/styles.theme';
+import { ThemeType, darkTheme } from '../css/styles.theme';
 import {
   useDarkModeActions,
   useGetCurrentTheme,
@@ -60,9 +60,13 @@ export default function Navbar() {
         </DarkModeButton>
       </StyledHeaderDarkModeBox>
       {user ? (
-        <StyledHeaderBox>
-          <StyledLink to='/my-rhythm'>My하루</StyledLink>
-          <StyledLink to='/rhythm-statistics'>루틴탐색</StyledLink>
+        <StyledHeaderBox $currentTheme={currentTheme}>
+          <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
+            My하루
+          </StyledLink>
+          <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
+            루틴탐색
+          </StyledLink>
           <User user={user} />
           <ButtonComponent text={'Logout'} onClick={handleLogout} />
         </StyledHeaderBox>
@@ -90,19 +94,19 @@ const StyledHeaderDarkModeBox = styled.div`
   align-items: center;
 `;
 
-const StyledHeaderBox = styled.div`
+const StyledHeaderBox = styled.div<{ $currentTheme: ThemeType }>`
   display: flex;
   align-items: center;
   gap: 0.7rem;
   font-size: 1rem;
   font-weight: 600;
-  color: ${({ theme }) => theme.textColor};
+  color: ${({ $currentTheme }) => $currentTheme.textColor};
 `;
 
-const StyledLink = styled(Link)`
-  color: ${({ theme }) => theme.textColor};
+const StyledLink = styled(Link)<{ $currentTheme: ThemeType }>`
+  color: ${({ $currentTheme }) => $currentTheme.textColor};
   &:hover {
-    color: ${({ theme }) => theme.primaryColor};
+    color: ${({ $currentTheme }) => $currentTheme.primaryColor};
   }
 `;
 
