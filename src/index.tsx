@@ -5,9 +5,9 @@ import './index.css';
 import App from './App';
 import NotFound from './pages/NotFound';
 import Home from './pages/Home';
-import AllRhythm from './pages/AllRhythm';
 import RhythmDetail from './pages/RhythmDetail';
 import RhythmStatistics from './pages/RhythmStatistics';
+import MyRhythm from './pages/MyRhythm';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, path: '/', element: <Home /> },
-      { path: '/my-rhythm', element: <AllRhythm /> },
+      { path: '/my-rhythm', element: <MyRhythm /> },
       {
         path: '/my-rhythm/:id',
         element: <RhythmDetail />,

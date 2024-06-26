@@ -10,8 +10,12 @@ import User from './User';
 import styled from 'styled-components';
 import ButtonComponent from './ui/ButtonComponent';
 import basicLogo from '../images/basicLogo.png';
-import { darkTheme, lightTheme } from '../css/styles.theme';
-import { useDarkModeActions, useGetDarkMode } from '../store/useDarkModeStore';
+import { darkTheme } from '../css/styles.theme';
+import {
+  useDarkModeActions,
+  useGetCurrentTheme,
+  useGetDarkMode,
+} from '../store/useDarkModeStore';
 import { FaMoon } from 'react-icons/fa';
 import { IoMdSunny } from 'react-icons/io';
 
@@ -20,6 +24,7 @@ export default function Navbar() {
   const { setUser, clearUser } = useUserActions();
   const isDarkMode = useGetDarkMode();
   const { toggleDarkMode } = useDarkModeActions();
+  const currentTheme = useGetCurrentTheme();
 
   useEffect(() => {
     handleGoogleAuthStateChange((user) => {
@@ -65,7 +70,7 @@ export default function Navbar() {
         <ButtonComponent
           onClick={handleLogin}
           text={'Login'}
-          backgroundColor={lightTheme.accentColor}
+          backgroundColor={currentTheme.secondaryColor}
         />
       )}
     </StyledHeaderWrapper>

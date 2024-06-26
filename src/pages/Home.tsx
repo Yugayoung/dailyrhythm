@@ -18,7 +18,6 @@ export default function Home() {
   const animatedHomeMiddleLeftImgHem = useScrollFadeIn('right', 1.2, 0.6);
   const animatedHomeBottomText = useScrollFadeIn('up', 1.2, 0.1);
   const { ref: countRef } = useScrollCount(365, 100);
-
   const controls = useAnimation();
 
   React.useEffect(() => {
@@ -99,8 +98,6 @@ export default function Home() {
 
 const StyledHomeWrapper = styled.section`
   position: absolute;
-  align-items: center;
-  justify-content: center;
   width: 100%;
 `;
 

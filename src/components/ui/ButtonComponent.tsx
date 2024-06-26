@@ -38,7 +38,6 @@ const StyledButton = styled.button<{
   font-family: 'GmarketSansMedium';
   font-weight: bold;
   border-radius: 0.7rem;
-
   border-color: ${({ $backgroundColor }) => $backgroundColor};
   font-size: 0.8rem;
   background-color: ${({ $backgroundColor }) => $backgroundColor};
