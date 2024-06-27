@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ButtonComponent from './ui/ButtonComponent';
 import Loading from './ui/Loading';
 import { addOrUpdateNewRhythm } from '../api/firebase';
@@ -24,7 +24,7 @@ const initialRhythm: RhythmItem = {
   startDate: '',
   endDate: '',
   backgroundColor: '',
-  icon: '',
+  icon: '✅',
   status: '',
 };
 
@@ -35,6 +35,9 @@ interface ModalProps {
 export default function AddRhythm({ onClick }: ModalProps) {
   const [rhythm, setRhythm] = useState<RhythmItem>(initialRhythm);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedIcon, setSelectedIcon] = useState<string>('✅');
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const iconOptions = ['✅', '💊', '💪', '📖', '🔥'];
   const user = useGetUser();
   const uid = user.uid;
   const queryClient = useQueryClient();
@@ -61,6 +64,7 @@ export default function AddRhythm({ onClick }: ModalProps) {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsLoading(true);
+    setSelectedIcon('✅');
     try {
       if (rhythm.title.trim() === '') {
         // ui 완성된 후 색 변화로 알려주도록 작성해야함!
@@ -80,6 +84,16 @@ export default function AddRhythm({ onClick }: ModalProps) {
     }
   }
 
+  const handleButtonClick = () => {
+    setIsVisible(!isVisible);
+  };
+
+  const handleIconSelect = (icon: string) => {
+    setSelectedIcon(icon);
+    setRhythm({ ...rhythm, icon });
+    setIsVisible(false);
+  };
+
   return (
     <section>
       <StyledAddRhythmHead>
@@ -92,6 +106,29 @@ export default function AddRhythm({ onClick }: ModalProps) {
         />
       </StyledAddRhythmHead>
       <StyledAddRhythmForm onSubmit={handleSubmit}>
+        {/* // 진짜 너무어렵네ㅔㅔㅔㅔㅔ
+            버튼 클릭하면 아이콘 선택창 조그맣게 만들고
+            버튼을 만들어서 대표아이콘 처럼 보익 해보자       
+        */}
+        <StyledSelectIconBox>
+          <StyledSelectIconButton type='button' onClick={handleButtonClick}>
+            {selectedIcon}
+          </StyledSelectIconButton>
+          <StyledIconOptionBox $isVisible={isVisible}>
+            <StyledIconOptionWrapper>
+              {iconOptions.map((icon) => (
+                <StyledIconOption
+                  key={icon}
+                  onClick={() => handleIconSelect(icon)}
+                  $isSelected={icon === selectedIcon}
+                >
+                  {icon}
+                </StyledIconOption>
+              ))}
+            </StyledIconOptionWrapper>
+          </StyledIconOptionBox>
+        </StyledSelectIconBox>
+
         <StyledAddRhythmTextInput
           type='text'
           name='title'
@@ -132,13 +169,7 @@ export default function AddRhythm({ onClick }: ModalProps) {
           placeholder='리듬색'
           onChange={handleChange}
         />
-        <input
-          type='text'
-          name='icon'
-          value={rhythm.icon ?? ''}
-          placeholder='아이콘'
-          onChange={handleChange}
-        />
+
         <ButtonComponent text={isLoading ? <Loading /> : 'rhythm 추가'} />
       </StyledAddRhythmForm>
     </section>
@@ -157,7 +188,6 @@ const StyledAddRhythmForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
   gap: 1rem;
 `;
 
@@ -167,4 +197,54 @@ const StyledAddRhythmTextInput = styled.input`
   border: none;
   background-color: ${color.gray};
   font-size: 1.1rem;
+`;
+
+const StyledSelectIconBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const StyledIconOptionWrapper = styled.div`
+  display: flex;
+  position: relative;
+  background: ${color.lightGray};
+  border-radius: 0.4em;
+  font-size: 1.3rem;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-right-color: ${color.lightGray};
+    border-left: 0;
+    margin-top: -10px;
+    margin-left: -10px;
+  }
+`;
+const StyledIconOptionBox = styled.div<{ $isVisible: boolean }>`
+  visibility: ${({ $isVisible }) => ($isVisible ? 'visible' : 'hidden')};
+`;
+
+const StyledIconOption = styled.div<{ $isSelected: boolean }>`
+  padding: 0.5rem;
+  cursor: pointer;
+  background-color: ${({ $isSelected }) =>
+    $isSelected ? lightTheme.accentColor : 'transparent'};
+  &:hover {
+    background-color: ${lightTheme.accentColor};
+  }
+`;
+
+const StyledSelectIconButton = styled.button`
+  border-radius: 100%;
+  border: none;
+  font-size: 2.5rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin-right: 1rem;
+  background-color: transparent;
+  border: 3px solid ${darkTheme.primaryColor};
 `;

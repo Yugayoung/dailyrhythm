@@ -22,6 +22,7 @@ export const darkTheme = {
 
 export const color = {
   gray: '#F3F3F3',
+  lightGray: '#e1e0e0',
 };
 
 export const theme = {
