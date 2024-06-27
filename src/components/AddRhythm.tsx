@@ -4,6 +4,8 @@ import Loading from './ui/Loading';
 import { addOrUpdateNewRhythm } from '../api/firebase';
 import { useGetUser } from '../store/useUserStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import styled from 'styled-components';
+import { color, darkTheme, lightTheme } from '../css/styles.theme';
 export interface RhythmItem {
   id: string;
   time: string;
@@ -26,7 +28,11 @@ const initialRhythm: RhythmItem = {
   status: '',
 };
 
-export default function AddRhythm() {
+interface ModalProps {
+  onClick: () => void;
+}
+
+export default function AddRhythm({ onClick }: ModalProps) {
   const [rhythm, setRhythm] = useState<RhythmItem>(initialRhythm);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const user = useGetUser();
@@ -65,6 +71,7 @@ export default function AddRhythm() {
         {
           onSuccess: () => {
             setRhythm(initialRhythm);
+            onClick();
           },
         }
       );
@@ -75,28 +82,38 @@ export default function AddRhythm() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit}>
-        <input
-          type='text'
-          name='time'
-          value={rhythm.time ?? ''}
-          placeholder='시간'
-          required
-          onChange={handleChange}
+      <StyledAddRhythmHead>
+        <h2>루틴 추가하기</h2>
+        <ButtonComponent
+          onClick={onClick}
+          text={'❌'}
+          backgroundColor={'transparent'}
+          width={'1.5rem'}
         />
-        <input
+      </StyledAddRhythmHead>
+      <StyledAddRhythmForm onSubmit={handleSubmit}>
+        <StyledAddRhythmTextInput
           type='text'
           name='title'
           value={rhythm.title ?? ''}
-          placeholder='내용'
+          placeholder='Title'
           required
           onChange={handleChange}
         />
+        <StyledAddRhythmTextInput
+          type='text'
+          name='time'
+          value={rhythm.time ?? ''}
+          placeholder='Time'
+          required
+          onChange={handleChange}
+        />
+
         <input
           type='date'
           name='startDate'
           value={rhythm.startDate ?? ''}
-          placeholder='시작 일자'
+          placeholder='Start Date'
           required
           onChange={handleChange}
         />
@@ -104,7 +121,7 @@ export default function AddRhythm() {
           type='date'
           name='endDate'
           value={rhythm.endDate ?? ''}
-          placeholder='종료 일자'
+          placeholder='End Date'
           required
           onChange={handleChange}
         />
@@ -123,7 +140,31 @@ export default function AddRhythm() {
           onChange={handleChange}
         />
         <ButtonComponent text={isLoading ? <Loading /> : 'rhythm 추가'} />
-      </form>
+      </StyledAddRhythmForm>
     </section>
   );
 }
+
+const StyledAddRhythmHead = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'GmarketSansMedium';
+  margin-bottom: 1rem;
+`;
+
+const StyledAddRhythmForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+`;
+
+const StyledAddRhythmTextInput = styled.input`
+  width: 97%;
+  padding: 0.5rem;
+  border: none;
+  background-color: ${color.gray};
+  font-size: 1.1rem;
+`;

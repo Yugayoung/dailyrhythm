@@ -9,7 +9,8 @@ import { useGetUser, useUserActions } from '../store/useUserStore';
 import User from './User';
 import styled from 'styled-components';
 import ButtonComponent from './ui/ButtonComponent';
-import basicLogo from '../images/basicLogo.png';
+import basicLogoLight from '../images/basicLogoLight.png';
+import basicLogoDark from '../images/basicLogoDark.png';
 import { ThemeType, darkTheme } from '../css/styles.theme';
 import {
   useDarkModeActions,
@@ -53,7 +54,11 @@ export default function Navbar() {
     <StyledHeaderWrapper>
       <StyledHeaderDarkModeBox>
         <Link to='/'>
-          <LogoImg src={basicLogo} alt='logo' />
+          {isDarkMode ? (
+            <LogoImg src={basicLogoDark} alt='logo' />
+          ) : (
+            <LogoImg src={basicLogoLight} alt='logo' />
+          )}
         </Link>
         <DarkModeButton onClick={toggleDarkMode} $isDarkMode={isDarkMode}>
           {isDarkMode ? <FaMoon /> : <IoMdSunny />}

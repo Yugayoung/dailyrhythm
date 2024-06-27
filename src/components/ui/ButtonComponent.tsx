@@ -7,6 +7,7 @@ interface ButtonComponentProps {
   text?: string | React.ReactNode;
   backgroundColor?: string;
   textColor?: string;
+  width?: string;
 }
 
 export default function ButtonComponent({
@@ -14,6 +15,7 @@ export default function ButtonComponent({
   text = '확인',
   backgroundColor,
   textColor,
+  width = 'auto',
 }: ButtonComponentProps) {
   const currentTheme = useGetCurrentTheme();
   const defaultBackgroundColor = backgroundColor || currentTheme.secondaryColor;
@@ -24,6 +26,7 @@ export default function ButtonComponent({
       onClick={onClick}
       $backgroundColor={defaultBackgroundColor}
       $textColor={defaultTextColor}
+      $width={width}
     >
       {text}
     </StyledButton>
@@ -33,6 +36,7 @@ export default function ButtonComponent({
 const StyledButton = styled.button<{
   $backgroundColor: string;
   $textColor: string;
+  $width: string;
 }>`
   padding: 0.7rem 1rem;
   font-family: 'GmarketSansMedium';
@@ -42,6 +46,7 @@ const StyledButton = styled.button<{
   font-size: 0.8rem;
   background-color: ${({ $backgroundColor }) => $backgroundColor};
   color: ${({ $textColor }) => $textColor};
+  width: ${({ $width }) => $width};
 
   &:hover {
     opacity: 0.8;
