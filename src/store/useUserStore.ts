@@ -17,15 +17,17 @@ export interface UserStore {
   actions: UserActions;
 }
 
-export default function createUserStore() {
+function createUserStore() {
   return create<UserStore>((set) => ({
-    user: null,
+    user: JSON.parse(localStorage.getItem('user') || 'null'),
     actions: {
       setUser: (user: UserInfo) => {
         set({ user });
+        localStorage.setItem('user', JSON.stringify(user));
       },
       clearUser: () => {
         set({ user: null });
+        localStorage.removeItem('user');
       },
     },
   }));

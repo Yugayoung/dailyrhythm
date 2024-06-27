@@ -68,8 +68,6 @@ export async function getRhythm(uid: string): Promise<RhythmItem[]> {
   try {
     const snapshot = await get(ref(database, `rhythms/${uid}`));
     const items = snapshot.val() || {};
-    console.log(items);
-    console.log('ddd');
 
     return Object.values(items) as RhythmItem[];
   } catch (error) {

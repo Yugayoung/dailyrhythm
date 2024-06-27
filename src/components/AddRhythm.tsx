@@ -3,19 +3,21 @@ import ButtonComponent from './ui/ButtonComponent';
 import Loading from './ui/Loading';
 import { addOrUpdateNewRhythm } from '../api/firebase';
 import { useGetUser } from '../store/useUserStore';
-
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 export interface RhythmItem {
   id: string;
+  time: string;
   title: string;
-  startDate: string;
-  endDate: string;
-  backgroundColor: string;
-  icon: string;
+  startDate?: string;
+  endDate?: string;
+  backgroundColor?: string;
+  icon?: string;
   status: string;
 }
 
 const initialRhythm: RhythmItem = {
   id: '',
+  time: '',
   title: '',
   startDate: '',
   endDate: '',
@@ -29,6 +31,21 @@ export default function AddRhythm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const user = useGetUser();
   const uid = user.uid;
+  const queryClient = useQueryClient();
+
+  const addRhythm = useMutation<
+    void,
+    Error,
+    { uid: string; rhythm: RhythmItem }
+  >({
+    mutationFn: ({ uid, rhythm }) => addOrUpdateNewRhythm(uid, rhythm),
+    onError: (error) => {
+      console.error(error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['rhythms', uid] });
+    },
+  });
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -43,8 +60,14 @@ export default function AddRhythm() {
         // ui 완성된 후 색 변화로 알려주도록 작성해야함!
         return;
       }
-      await addOrUpdateNewRhythm(uid, rhythm);
-      setRhythm(initialRhythm);
+      addRhythm.mutate(
+        { rhythm, uid },
+        {
+          onSuccess: () => {
+            setRhythm(initialRhythm);
+          },
+        }
+      );
     } finally {
       setIsLoading(false);
     }
@@ -53,6 +76,14 @@ export default function AddRhythm() {
   return (
     <section>
       <form onSubmit={handleSubmit}>
+        <input
+          type='text'
+          name='time'
+          value={rhythm.time ?? ''}
+          placeholder='시간'
+          required
+          onChange={handleChange}
+        />
         <input
           type='text'
           name='title'
