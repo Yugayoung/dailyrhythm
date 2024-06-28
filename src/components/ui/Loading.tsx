@@ -13,6 +13,7 @@ export default function Loading({ color, size }: LoadingComponentProps) {
   const defaultColor = color || currentTheme.placeholderColor;
   const defaultSize = size || '8px';
 
+
   return (
     <StyledLoadingBox>
       <BeatLoader color={defaultColor} size={defaultSize} />

@@ -9,6 +9,7 @@ export default function Weather() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -29,6 +30,7 @@ export default function Weather() {
           console.error('브라우저가 geolocation을 지원하지 않음');
           setIsLoading(false);
         }
+
         if (latitude !== null && longitude !== null) {
           const data = await fetchWeatherData({ latitude, longitude });
           setWeather(data);

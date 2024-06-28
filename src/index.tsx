@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import RhythmDetail from './pages/RhythmDetail';
 import RhythmStatistics from './pages/RhythmStatistics';
 import ProtectedRoute from './components/ProtectedRoute';
+
 import MyRhythm from './pages/MyRhythm';
 
 const router = createBrowserRouter([
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+
       {
         path: '/my-rhythm/:id',
         element: (

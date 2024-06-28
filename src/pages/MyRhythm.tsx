@@ -15,12 +15,14 @@ export default function MyRhythm() {
         <Weather />
         <Calendar />
         <RhythmList />
+
       </StyledHomeBox>
     </StyledHomeWrapper>
   );
 }
 
 const StyledHomeWrapper = styled.section<{ $currentTheme: ThemeType }>`
+
   position: absolute;
   align-items: center;
   justify-content: center;
@@ -28,6 +30,7 @@ const StyledHomeWrapper = styled.section<{ $currentTheme: ThemeType }>`
   width: 100%;
   height: 100vh;
   background-color: ${({ $currentTheme }) => $currentTheme.bgColor};
+
 `;
 const StyledHomeBox = styled.div`
   position: relative;
