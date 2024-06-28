@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import ButtonComponent from './ui/ButtonComponent';
 import Loading from './ui/Loading';
 import { addOrUpdateNewRhythm } from '../api/firebase';
@@ -6,6 +6,8 @@ import { useGetUser } from '../store/useUserStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { color, darkTheme, lightTheme } from '../css/styles.theme';
+import { DatePicker, Space, TimePicker } from 'antd';
+import dayjs from 'dayjs';
 export interface RhythmItem {
   id: string;
   time: string;
@@ -21,8 +23,8 @@ const initialRhythm: RhythmItem = {
   id: '',
   time: '',
   title: '',
-  startDate: '',
-  endDate: '',
+  startDate: dayjs().format('YYYY-MM-DD'),
+  endDate: dayjs().format('YYYY-MM-DD'),
   backgroundColor: '',
   icon: '✅',
   status: '',
@@ -41,6 +43,8 @@ export default function AddRhythm({ onClick }: ModalProps) {
   const user = useGetUser();
   const uid = user.uid;
   const queryClient = useQueryClient();
+  const { RangePicker } = DatePicker;
+  const format = 'HH:mm';
 
   const addRhythm = useMutation<
     void,
@@ -84,7 +88,7 @@ export default function AddRhythm({ onClick }: ModalProps) {
     }
   }
 
-  const handleButtonClick = () => {
+  const handleVisibleClick = () => {
     setIsVisible(!isVisible);
   };
 
@@ -93,6 +97,21 @@ export default function AddRhythm({ onClick }: ModalProps) {
     setRhythm({ ...rhythm, icon });
     setIsVisible(false);
   };
+
+  function handleTimeChange(time: dayjs.Dayjs | null, timeString: string) {
+    setRhythm((rhythm) => ({ ...rhythm, time: timeString }));
+  }
+
+  function handleRangeChange(
+    dates: [dayjs.Dayjs, dayjs.Dayjs],
+    dateStrings: [string, string]
+  ) {
+    setRhythm((rhythm) => ({
+      ...rhythm,
+      startDate: dateStrings[0],
+      endDate: dateStrings[1],
+    }));
+  }
 
   return (
     <section>
@@ -111,7 +130,7 @@ export default function AddRhythm({ onClick }: ModalProps) {
             버튼을 만들어서 대표아이콘 처럼 보익 해보자       
         */}
         <StyledSelectIconBox>
-          <StyledSelectIconButton type='button' onClick={handleButtonClick}>
+          <StyledSelectIconButton type='button' onClick={handleVisibleClick}>
             {selectedIcon}
           </StyledSelectIconButton>
           <StyledIconOptionBox $isVisible={isVisible}>
@@ -137,31 +156,29 @@ export default function AddRhythm({ onClick }: ModalProps) {
           required
           onChange={handleChange}
         />
-        <StyledAddRhythmTextInput
-          type='text'
-          name='time'
-          value={rhythm.time ?? ''}
-          placeholder='Time'
-          required
-          onChange={handleChange}
-        />
+        <StyledAddRhythmTimeAndPeriodBox>
+          <div>
+            <StyledAddRhythmTitle>📆 Period</StyledAddRhythmTitle>
+            <Space direction='vertical' size={12}>
+              <RangePicker
+                value={[
+                  rhythm.startDate ? dayjs(rhythm.startDate) : null,
+                  rhythm.endDate ? dayjs(rhythm.endDate) : null,
+                ]}
+                onChange={handleRangeChange}
+              />
+            </Space>
+          </div>
+          <div>
+            <StyledAddRhythmTitle>⏰ Time</StyledAddRhythmTitle>
+            <TimePicker
+              value={rhythm.time ? dayjs(rhythm.time, format) : null}
+              format={format}
+              onChange={handleTimeChange}
+            />
+          </div>
+        </StyledAddRhythmTimeAndPeriodBox>
 
-        <input
-          type='date'
-          name='startDate'
-          value={rhythm.startDate ?? ''}
-          placeholder='Start Date'
-          required
-          onChange={handleChange}
-        />
-        <input
-          type='date'
-          name='endDate'
-          value={rhythm.endDate ?? ''}
-          placeholder='End Date'
-          required
-          onChange={handleChange}
-        />
         <input
           type='text'
           name='backgroundColor'
@@ -199,6 +216,8 @@ const StyledAddRhythmTextInput = styled.input`
   font-size: 1.1rem;
 `;
 
+// Icon
+
 const StyledSelectIconBox = styled.div`
   display: flex;
   align-items: center;
@@ -207,7 +226,7 @@ const StyledIconOptionWrapper = styled.div`
   display: flex;
   position: relative;
   background: ${color.lightGray};
-  border-radius: 0.4em;
+  border-radius: 1rem;
   font-size: 1.3rem;
 
   &:after {
@@ -217,10 +236,10 @@ const StyledIconOptionWrapper = styled.div`
     top: 50%;
     width: 0;
     height: 0;
-    border: 10px solid transparent;
+    border: 11px solid transparent;
     border-right-color: ${color.lightGray};
     border-left: 0;
-    margin-top: -10px;
+    margin-top: -11px;
     margin-left: -10px;
   }
 `;
@@ -229,22 +248,46 @@ const StyledIconOptionBox = styled.div<{ $isVisible: boolean }>`
 `;
 
 const StyledIconOption = styled.div<{ $isSelected: boolean }>`
-  padding: 0.5rem;
+  padding: 0.7rem;
   cursor: pointer;
   background-color: ${({ $isSelected }) =>
     $isSelected ? lightTheme.accentColor : 'transparent'};
   &:hover {
     background-color: ${lightTheme.accentColor};
   }
+  &:first-child {
+    border-radius: 1rem 0rem 0rem 1rem;
+    &:hover {
+      background-color: ${lightTheme.accentColor};
+    }
+  }
+
+  &:last-child {
+    border-radius: 0rem 1rem 1rem 0rem;
+    &:hover {
+      background-color: ${lightTheme.accentColor};
+    }
+  }
 `;
 
 const StyledSelectIconButton = styled.button`
   border-radius: 100%;
   border: none;
-  font-size: 2.5rem;
+  font-size: 2rem;
   width: 4.5rem;
   height: 4.5rem;
   margin-right: 1rem;
   background-color: transparent;
   border: 3px solid ${darkTheme.primaryColor};
+`;
+
+// time & period
+
+const StyledAddRhythmTimeAndPeriodBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const StyledAddRhythmTitle = styled.h2`
+  margin: 1rem 0rem;
+  font-size: 1.1rem;
 `;

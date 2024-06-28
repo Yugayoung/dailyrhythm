@@ -77,8 +77,7 @@ const StyledModalContent = styled.div`
   padding: 0.8rem 2rem;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 80%;
-  max-width: 30rem;
+  max-width: 27rem;
 
   @media (min-width: 768px) {
     width: 50%;
