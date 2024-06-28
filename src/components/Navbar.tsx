@@ -116,7 +116,9 @@ const StyledLink = styled(Link)<{ $currentTheme: ThemeType }>`
 `;
 
 const DarkModeButton = styled.button<{ $isDarkMode: boolean }>`
-  width: 4rem;
+  display: flex;
+  justify-content: center;
+  width: 3rem;
   font-size: ${({ $isDarkMode }) => ($isDarkMode ? '1.2rem' : '1.5rem')};
   background-color: transparent;
   border: none;

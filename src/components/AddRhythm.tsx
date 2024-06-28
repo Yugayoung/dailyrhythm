@@ -8,6 +8,10 @@ import styled from 'styled-components';
 import { color, darkTheme, lightTheme } from '../css/styles.theme';
 import { DatePicker, Space, TimePicker } from 'antd';
 import dayjs from 'dayjs';
+import { FcCalendar, FcAlarmClock } from 'react-icons/fc';
+import { PiPencilCircleFill } from 'react-icons/pi';
+import { FaCheck } from 'react-icons/fa';
+import { highlighter } from '../css/styles.highlighter';
 export interface RhythmItem {
   id: string;
   time: string;
@@ -100,8 +104,13 @@ export default function AddRhythm({ onClick }: ModalProps) {
     setIsVisible(false);
   };
   const handleColorSelect = (backgroundColor: string) => {
-    setSelectedBackgroundColor(backgroundColor);
-    setRhythm({ ...rhythm, backgroundColor });
+    if (selectedBackgroundColor === backgroundColor) {
+      setSelectedBackgroundColor('');
+      setRhythm({ ...rhythm, backgroundColor: '' });
+    } else {
+      setSelectedBackgroundColor(backgroundColor);
+      setRhythm({ ...rhythm, backgroundColor });
+    }
   };
 
   function handleTimeChange(time: dayjs.Dayjs | null, timeString: string) {
@@ -164,8 +173,13 @@ export default function AddRhythm({ onClick }: ModalProps) {
         />
         <StyledAddRhythmTimeAndPeriodBox>
           <div>
-            <StyledAddRhythmTitle>📆 Period</StyledAddRhythmTitle>
-            <Space direction='vertical' size={12}>
+            <StyledAddRhythmTitle>
+              <StyledAddRhythmIcon $fontSize={'1.3rem'}>
+                <FcCalendar />
+              </StyledAddRhythmIcon>
+              Period
+            </StyledAddRhythmTitle>
+            <Space direction='vertical'>
               <RangePicker
                 value={[
                   rhythm.startDate ? dayjs(rhythm.startDate) : null,
@@ -176,7 +190,12 @@ export default function AddRhythm({ onClick }: ModalProps) {
             </Space>
           </div>
           <div>
-            <StyledAddRhythmTitle>⏰ Time</StyledAddRhythmTitle>
+            <StyledAddRhythmTitle>
+              <StyledAddRhythmIcon $fontSize={'1.2rem'}>
+                <FcAlarmClock />
+              </StyledAddRhythmIcon>
+              Time
+            </StyledAddRhythmTitle>
             <TimePicker
               value={rhythm.time ? dayjs(rhythm.time, format) : null}
               format={format}
@@ -184,21 +203,34 @@ export default function AddRhythm({ onClick }: ModalProps) {
             />
           </div>
         </StyledAddRhythmTimeAndPeriodBox>
-
-        <StyledRadioWrapper colorKey={selectedBackgroundColor}>
-          {Object.keys(lightTheme).map((colorKey: keyof typeof lightTheme) => (
-            <label key={colorKey}>
-              <input
-                type='radio'
-                name='backgroundColor'
-                value={lightTheme[colorKey]}
-                checked={selectedBackgroundColor === lightTheme[colorKey]}
-                onChange={() => handleColorSelect(lightTheme[colorKey])}
-              />
-              {colorKey}
-            </label>
-          ))}
-        </StyledRadioWrapper>
+        <div>
+          <StyledAddRhythmTitle>
+            <StyledAddRhythmIcon $fontSize={'1.4rem'}>
+              <PiPencilCircleFill />
+            </StyledAddRhythmIcon>
+            Highlighter
+          </StyledAddRhythmTitle>
+          <StyledAddRhythmColorWrapper>
+            {Object.keys(highlighter).map(
+              (colorKey: keyof typeof highlighter) => (
+                <StyledAddRhythmColor
+                  key={colorKey}
+                  onClick={() => handleColorSelect(highlighter[colorKey])}
+                  $color={highlighter[colorKey]}
+                  $isSelected={
+                    selectedBackgroundColor === highlighter[colorKey]
+                  }
+                >
+                  {selectedBackgroundColor === highlighter[colorKey] ? (
+                    <FaCheck />
+                  ) : (
+                    ''
+                  )}
+                </StyledAddRhythmColor>
+              )
+            )}
+          </StyledAddRhythmColorWrapper>
+        </div>
 
         <ButtonComponent text={isLoading ? <Loading /> : 'rhythm 추가'} />
       </StyledAddRhythmForm>
@@ -300,23 +332,40 @@ const StyledAddRhythmTimeAndPeriodBox = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+const StyledAddRhythmIcon = styled.div<{ $fontSize: string }>`
+  font-size: ${({ $fontSize }) => $fontSize};
+  display: flex;
+  align-items: center;
+  margin-right: 0.2rem;
+`;
 const StyledAddRhythmTitle = styled.h2`
-  margin: 1rem 0rem;
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0rem 0.7rem 0rem;
   font-size: 1.1rem;
 `;
 
 // backgroundColor
-const StyledRadioWrapper = styled.div<{ colorKey: string }>`
-  label {
-    display: block;
-    margin-bottom: 8px;
-    cursor: pointer;
-    background-color: ${({ colorKey }) => colorKey};
-  }
+const StyledAddRhythmColorWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+`;
 
-  input[type='radio'] {
-    margin-right: 8px;
-    cursor: pointer;
-    background-color: ${({ colorKey }) => colorKey};
-  }
+const StyledAddRhythmColor = styled.div<{
+  $color: string;
+  $isSelected: boolean;
+}>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ $color }) => $color};
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 100%;
+  border: 2px solid;
+  color: ${darkTheme.errorColor};
+  opacity: ${({ $isSelected }) => ($isSelected ? '0.8' : '1')};
+  border-color: ${({ $isSelected }) =>
+    $isSelected ? darkTheme.secondaryColor : lightTheme.placeholderColor};
 `;

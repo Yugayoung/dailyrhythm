@@ -34,8 +34,13 @@ const UserImg = styled.img`
 `;
 
 const StyledUserNameWapper = styled.span`
+  display: none;
+
   font-size: 1rem;
   font-weight: 500;
+  @media (min-width: 768px) {
+    display: block;
+  }
 `;
 const StyledUserName = styled.span`
   font-size: 1rem;
