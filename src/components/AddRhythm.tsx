@@ -39,6 +39,8 @@ export default function AddRhythm({ onClick }: ModalProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedIcon, setSelectedIcon] = useState<string>('✅');
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [selectedBackgroundColor, setSelectedBackgroundColor] =
+    useState<string>('');
   const iconOptions = ['✅', '💊', '💪', '📖', '🔥'];
   const user = useGetUser();
   const uid = user.uid;
@@ -96,6 +98,10 @@ export default function AddRhythm({ onClick }: ModalProps) {
     setSelectedIcon(icon);
     setRhythm({ ...rhythm, icon });
     setIsVisible(false);
+  };
+  const handleColorSelect = (backgroundColor: string) => {
+    setSelectedBackgroundColor(backgroundColor);
+    setRhythm({ ...rhythm, backgroundColor });
   };
 
   function handleTimeChange(time: dayjs.Dayjs | null, timeString: string) {
@@ -179,13 +185,20 @@ export default function AddRhythm({ onClick }: ModalProps) {
           </div>
         </StyledAddRhythmTimeAndPeriodBox>
 
-        <input
-          type='text'
-          name='backgroundColor'
-          value={rhythm.backgroundColor ?? ''}
-          placeholder='리듬색'
-          onChange={handleChange}
-        />
+        <StyledRadioWrapper colorKey={selectedBackgroundColor}>
+          {Object.keys(lightTheme).map((colorKey: keyof typeof lightTheme) => (
+            <label key={colorKey}>
+              <input
+                type='radio'
+                name='backgroundColor'
+                value={lightTheme[colorKey]}
+                checked={selectedBackgroundColor === lightTheme[colorKey]}
+                onChange={() => handleColorSelect(lightTheme[colorKey])}
+              />
+              {colorKey}
+            </label>
+          ))}
+        </StyledRadioWrapper>
 
         <ButtonComponent text={isLoading ? <Loading /> : 'rhythm 추가'} />
       </StyledAddRhythmForm>
@@ -290,4 +303,20 @@ const StyledAddRhythmTimeAndPeriodBox = styled.div`
 const StyledAddRhythmTitle = styled.h2`
   margin: 1rem 0rem;
   font-size: 1.1rem;
+`;
+
+// backgroundColor
+const StyledRadioWrapper = styled.div<{ colorKey: string }>`
+  label {
+    display: block;
+    margin-bottom: 8px;
+    cursor: pointer;
+    background-color: ${({ colorKey }) => colorKey};
+  }
+
+  input[type='radio'] {
+    margin-right: 8px;
+    cursor: pointer;
+    background-color: ${({ colorKey }) => colorKey};
+  }
 `;
