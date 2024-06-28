@@ -13,8 +13,8 @@ export interface DarkModeStore {
 }
 export default function createDarkModeStore() {
   return create<DarkModeStore>((set) => ({
-    isDarkMode: false,
-    currentTheme: lightTheme,
+    isDarkMode: localStorage.theme === 'darkTheme' ? true : false,
+    currentTheme: localStorage.theme === 'darkTheme' ? darkTheme : lightTheme,
     actions: {
       toggleDarkMode: () =>
         set((state) => {
@@ -26,7 +26,7 @@ export default function createDarkModeStore() {
 
       updateDarkMode: (isDarkMode: boolean) => {
         const newTheme = isDarkMode ? darkTheme : lightTheme;
-        localStorage.theme = newTheme;
+        localStorage.theme = isDarkMode ? 'darkTheme' : 'lightTheme';
         set({ isDarkMode, currentTheme: newTheme });
       },
     },

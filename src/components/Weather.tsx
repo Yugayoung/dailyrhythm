@@ -7,7 +7,8 @@ export default function Weather() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,10 +22,12 @@ export default function Weather() {
               setLongitude(position.coords.longitude);
             },
             (err) => {
+              console.error('위치 정보 오류');
               setIsLoading(false);
             }
           );
         } else {
+          console.error('브라우저가 geolocation을 지원하지 않음');
           setIsLoading(false);
         }
 
