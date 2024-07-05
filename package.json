@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/lodash": "^4.17.6",
     "@types/uuid": "^10.0.0"
   }
 }

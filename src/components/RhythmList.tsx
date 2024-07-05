@@ -10,6 +10,7 @@ import { FaPlus } from 'react-icons/fa';
 import { useGetCurrentTheme } from '../store/useDarkModeStore';
 import { lightTheme } from '../css/styles.theme';
 import Weather from './Weather';
+import Modal from './ui/Modal';
 
 export default function RhythmList() {
   const currentTheme = useGetCurrentTheme();
@@ -41,11 +42,9 @@ export default function RhythmList() {
             textSize={'1.8rem'}
             textColor={currentTheme.primaryColor}
           />
-          <StyledModalOverlay $isModalOpen={isModalOpen}>
-            <StyledModalContent>
-              <AddRhythm onClick={handleCloseModal} />
-            </StyledModalContent>
-          </StyledModalOverlay>
+          <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+            <AddRhythm onClick={handleCloseModal} />
+          </Modal>
         </div>
       </StyledRhythmListHead>
       <StyledRhythmTableBox>
@@ -76,33 +75,6 @@ export default function RhythmList() {
   );
 }
 
-const StyledModalOverlay = styled.div<{ $isModalOpen: boolean }>`
-  display: ${({ $isModalOpen }) => ($isModalOpen ? 'block' : 'none')};
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-`;
-
-const StyledModalContent = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 0.8rem 2rem;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 80%;
-  max-width: 27rem;
-
-  @media (min-width: 768px) {
-    width: 50%;
-  }
-`;
 const StyledRhythmList = styled.section`
   width: 25rem;
   background-color: white;
