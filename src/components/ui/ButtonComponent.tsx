@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import { useGetCurrentTheme } from '../../store/useDarkModeStore';
 
 interface ButtonComponentProps {
-  onClick: () => void;
-  text?: string;
+  onClick?: () => void;
+  text?: React.ReactNode;
   backgroundColor?: string;
   textColor?: string;
+  textSize?: string;
+  width?: string;
 }
 
 export default function ButtonComponent({
@@ -14,6 +16,8 @@ export default function ButtonComponent({
   text = '확인',
   backgroundColor,
   textColor,
+  textSize = '0.9rem',
+  width = 'auto',
 }: ButtonComponentProps) {
   const currentTheme = useGetCurrentTheme();
   const defaultBackgroundColor = backgroundColor || currentTheme.secondaryColor;
@@ -24,6 +28,8 @@ export default function ButtonComponent({
       onClick={onClick}
       $backgroundColor={defaultBackgroundColor}
       $textColor={defaultTextColor}
+      $textSize={textSize}
+      $width={width}
     >
       {text}
     </StyledButton>
@@ -33,15 +39,18 @@ export default function ButtonComponent({
 const StyledButton = styled.button<{
   $backgroundColor: string;
   $textColor: string;
+  $textSize: string;
+  $width: string;
 }>`
   padding: 0.7rem 1rem;
   font-family: 'GmarketSansMedium';
   font-weight: bold;
   border-radius: 0.7rem;
   border-color: ${({ $backgroundColor }) => $backgroundColor};
-  font-size: 0.8rem;
+  font-size: ${({ $textSize }) => $textSize};
   background-color: ${({ $backgroundColor }) => $backgroundColor};
   color: ${({ $textColor }) => $textColor};
+  width: ${({ $width }) => $width};
 
   &:hover {
     opacity: 0.8;

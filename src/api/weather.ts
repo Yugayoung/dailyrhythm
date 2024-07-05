@@ -12,7 +12,7 @@ export interface WeatherData {
   temp_max: number;
   name: string;
 }
-
+//test
 interface currentPositionProps {
   latitude: number;
   longitude: number;

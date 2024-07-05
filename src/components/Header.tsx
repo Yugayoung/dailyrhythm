@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Navbar from './Navbar';
+import { ThemeType } from '../css/styles.theme';
+import { useGetCurrentTheme } from '../store/useDarkModeStore';
 
 export default function Header() {
+  const currentTheme = useGetCurrentTheme();
   const [isVisible, setIsVisible] = useState(true);
   const beforeScroll = useRef(0);
   const [isTop, setIsTop] = useState(true);
@@ -39,13 +42,21 @@ export default function Header() {
   }, [handleScroll]);
 
   return (
-    <StyledHeader $isVisible={isVisible} $isTop={isTop}>
+    <StyledHeader
+      $isVisible={isVisible}
+      $isTop={isTop}
+      $currentTheme={currentTheme}
+    >
       <Navbar />
     </StyledHeader>
   );
 }
 
-const StyledHeader = styled.header<{ $isVisible: boolean; $isTop: boolean }>`
+const StyledHeader = styled.header<{
+  $isVisible: boolean;
+  $isTop: boolean;
+  $currentTheme: ThemeType;
+}>`
   position: fixed;
   width: 100%;
   z-index: 1;
@@ -53,5 +64,5 @@ const StyledHeader = styled.header<{ $isVisible: boolean; $isTop: boolean }>`
   box-shadow: ${(props) =>
     props.$isTop ? '' : '0 3px 10px rgba(0, 0, 0, 0.2)'};
   background-color: ${(props) =>
-    props.$isTop ? 'transparent' : props.theme.bgColor};
+    props.$isTop ? 'transparent' : props.$currentTheme.bgColor};
 `;

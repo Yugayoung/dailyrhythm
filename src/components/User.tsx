@@ -6,7 +6,7 @@ interface UserProps {
   user: UserInfo;
 }
 
-const User: React.FC<UserProps> = ({ user }) => {
+export default function User({ user }: UserProps) {
   return (
     <StyledUserBox>
       <UserImg
@@ -19,7 +19,7 @@ const User: React.FC<UserProps> = ({ user }) => {
       </StyledUserNameWapper>
     </StyledUserBox>
   );
-};
+}
 
 const StyledUserBox = styled.div`
   display: flex;
@@ -28,18 +28,21 @@ const StyledUserBox = styled.div`
 `;
 
 const UserImg = styled.img`
-  width: 3rem;
+  width: 2.5rem;
   border-radius: 100%;
   margin-right: 0.3rem;
 `;
 
 const StyledUserNameWapper = styled.span`
+  display: none;
+
   font-size: 1rem;
   font-weight: 500;
+  @media (min-width: 768px) {
+    display: block;
+  }
 `;
 const StyledUserName = styled.span`
   font-size: 1rem;
   font-weight: bold;
 `;
-
-export default User;

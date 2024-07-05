@@ -7,6 +7,8 @@ import NotFound from './pages/NotFound';
 import Home from './pages/Home';
 import RhythmDetail from './pages/RhythmDetail';
 import RhythmStatistics from './pages/RhythmStatistics';
+import ProtectedRoute from './components/ProtectedRoute';
+
 import MyRhythm from './pages/MyRhythm';
 
 const router = createBrowserRouter([
@@ -16,14 +18,30 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, path: '/', element: <Home /> },
-      { path: '/my-rhythm', element: <MyRhythm /> },
+      {
+        path: '/my-rhythm',
+        element: (
+          <ProtectedRoute>
+            <MyRhythm />
+          </ProtectedRoute>
+        ),
+      },
+
       {
         path: '/my-rhythm/:id',
-        element: <RhythmDetail />,
+        element: (
+          <ProtectedRoute>
+            <RhythmDetail />
+          </ProtectedRoute>
+        ),
       },
       {
         path: '/rhythm-statistics',
-        element: <RhythmStatistics />,
+        element: (
+          <ProtectedRoute>
+            <RhythmStatistics />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

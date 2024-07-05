@@ -9,8 +9,9 @@ import { useGetUser, useUserActions } from '../store/useUserStore';
 import User from './User';
 import styled from 'styled-components';
 import ButtonComponent from './ui/ButtonComponent';
-import basicLogo from '../images/basicLogo.png';
-import { darkTheme } from '../css/styles.theme';
+import basicLogoLight from '../images/basicLogoLight.png';
+import basicLogoDark from '../images/basicLogoDark.png';
+import { ThemeType, darkTheme } from '../css/styles.theme';
 import {
   useDarkModeActions,
   useGetCurrentTheme,
@@ -25,6 +26,7 @@ export default function Navbar() {
   const isDarkMode = useGetDarkMode();
   const { toggleDarkMode } = useDarkModeActions();
   const currentTheme = useGetCurrentTheme();
+  const currentLogo = isDarkMode ? basicLogoDark : basicLogoLight;
 
   useEffect(() => {
     handleGoogleAuthStateChange((user) => {
@@ -53,16 +55,20 @@ export default function Navbar() {
     <StyledHeaderWrapper>
       <StyledHeaderDarkModeBox>
         <Link to='/'>
-          <LogoImg src={basicLogo} alt='logo' />
+          <LogoImg src={currentLogo} />
         </Link>
         <DarkModeButton onClick={toggleDarkMode} $isDarkMode={isDarkMode}>
           {isDarkMode ? <FaMoon /> : <IoMdSunny />}
         </DarkModeButton>
       </StyledHeaderDarkModeBox>
       {user ? (
-        <StyledHeaderBox>
-          <StyledLink to='/my-rhythm'>My하루</StyledLink>
-          <StyledLink to='/rhythm-statistics'>루틴탐색</StyledLink>
+        <StyledHeaderBox $currentTheme={currentTheme}>
+          <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
+            My하루
+          </StyledLink>
+          <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
+            루틴탐색
+          </StyledLink>
           <User user={user} />
           <ButtonComponent text={'Logout'} onClick={handleLogout} />
         </StyledHeaderBox>
@@ -90,24 +96,26 @@ const StyledHeaderDarkModeBox = styled.div`
   align-items: center;
 `;
 
-const StyledHeaderBox = styled.div`
+const StyledHeaderBox = styled.div<{ $currentTheme: ThemeType }>`
   display: flex;
   align-items: center;
   gap: 0.7rem;
   font-size: 1rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.textColor};
+  font-weight: bold;
+  color: ${({ $currentTheme }) => $currentTheme.textColor};
 `;
 
-const StyledLink = styled(Link)`
-  color: ${({ theme }) => theme.textColor};
+const StyledLink = styled(Link)<{ $currentTheme: ThemeType }>`
+  color: ${({ $currentTheme }) => $currentTheme.textColor};
   &:hover {
-    color: ${({ theme }) => theme.primaryColor};
+    color: ${({ $currentTheme }) => $currentTheme.primaryColor};
   }
 `;
 
 const DarkModeButton = styled.button<{ $isDarkMode: boolean }>`
-  width: 4rem;
+  display: flex;
+  justify-content: center;
+  width: 3rem;
   font-size: ${({ $isDarkMode }) => ($isDarkMode ? '1.2rem' : '1.5rem')};
   background-color: transparent;
   border: none;
@@ -119,4 +127,7 @@ const DarkModeButton = styled.button<{ $isDarkMode: boolean }>`
 const LogoImg = styled.img`
   width: 8rem;
   color: #ff7b00;
+  @media (max-width: 768px) {
+    width: 7rem;
+  }
 `;
