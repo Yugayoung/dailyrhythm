@@ -34,23 +34,23 @@ const initialRhythm: RhythmItem = {
   status: '',
 };
 
-interface ModalProps {
+interface CloseModalProps {
   onClick: () => void;
 }
 
-export default function AddRhythm({ onClick }: ModalProps) {
-  const [rhythm, setRhythm] = useState<RhythmItem>(initialRhythm);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [selectedIcon, setSelectedIcon] = useState<string>('✅');
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [selectedBackgroundColor, setSelectedBackgroundColor] =
-    useState<string>('');
-  const iconOptions = ['✅', '💊', '💪', '📖', '🔥'];
+const ICON_OPTIONS = ['✅', '💊', '💪', '📖', '🔥'];
+const FORMAT = 'HH:mm';
+
+export default function AddRhythm({ onClick }: CloseModalProps) {
+  const [rhythm, setRhythm] = useState(initialRhythm);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedIcon, setSelectedIcon] = useState('✅');
+  const [isVisible, setIsVisible] = useState(false);
+  const [selectedBackgroundColor, setSelectedBackgroundColor] = useState('');
   const user = useGetUser();
   const uid = user.uid;
   const queryClient = useQueryClient();
   const { RangePicker } = DatePicker;
-  const format = 'HH:mm';
 
   const addRhythm = useMutation<
     void,
@@ -148,19 +148,21 @@ export default function AddRhythm({ onClick }: ModalProps) {
           <StyledSelectIconButton type='button' onClick={handleVisibleClick}>
             {selectedIcon}
           </StyledSelectIconButton>
-          <StyledIconOptionBox $isVisible={isVisible}>
-            <StyledIconOptionWrapper>
-              {iconOptions.map((icon) => (
-                <StyledIconOption
-                  key={icon}
-                  onClick={() => handleIconSelect(icon)}
-                  $isSelected={icon === selectedIcon}
-                >
-                  {icon}
-                </StyledIconOption>
-              ))}
-            </StyledIconOptionWrapper>
-          </StyledIconOptionBox>
+          {isVisible && (
+            <div>
+              <StyledIconOptionWrapper>
+                {ICON_OPTIONS.map((icon) => (
+                  <StyledIconOption
+                    key={icon}
+                    onClick={() => handleIconSelect(icon)}
+                    $isSelected={icon === selectedIcon}
+                  >
+                    {icon}
+                  </StyledIconOption>
+                ))}
+              </StyledIconOptionWrapper>
+            </div>
+          )}
         </StyledSelectIconBox>
 
         <StyledAddRhythmTextInput
@@ -197,8 +199,8 @@ export default function AddRhythm({ onClick }: ModalProps) {
               Time
             </StyledAddRhythmTitle>
             <TimePicker
-              value={rhythm.time ? dayjs(rhythm.time, format) : null}
-              format={format}
+              value={rhythm.time ? dayjs(rhythm.time, FORMAT) : null}
+              format={FORMAT}
               onChange={handleTimeChange}
             />
           </div>
@@ -287,9 +289,6 @@ const StyledIconOptionWrapper = styled.div`
     margin-top: -11px;
     margin-left: -10px;
   }
-`;
-const StyledIconOptionBox = styled.div<{ $isVisible: boolean }>`
-  visibility: ${({ $isVisible }) => ($isVisible ? 'visible' : 'hidden')};
 `;
 
 const StyledIconOption = styled.div<{ $isSelected: boolean }>`

@@ -26,6 +26,7 @@ export default function Navbar() {
   const isDarkMode = useGetDarkMode();
   const { toggleDarkMode } = useDarkModeActions();
   const currentTheme = useGetCurrentTheme();
+  const currentLogo = isDarkMode ? basicLogoDark : basicLogoLight;
 
   useEffect(() => {
     handleGoogleAuthStateChange((user) => {
@@ -54,11 +55,7 @@ export default function Navbar() {
     <StyledHeaderWrapper>
       <StyledHeaderDarkModeBox>
         <Link to='/'>
-          {isDarkMode ? (
-            <LogoImg src={basicLogoDark} alt='logo' />
-          ) : (
-            <LogoImg src={basicLogoLight} alt='logo' />
-          )}
+          <LogoImg src={currentLogo} />
         </Link>
         <DarkModeButton onClick={toggleDarkMode} $isDarkMode={isDarkMode}>
           {isDarkMode ? <FaMoon /> : <IoMdSunny />}
@@ -104,7 +101,7 @@ const StyledHeaderBox = styled.div<{ $currentTheme: ThemeType }>`
   align-items: center;
   gap: 0.7rem;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: bold;
   color: ${({ $currentTheme }) => $currentTheme.textColor};
 `;
 
@@ -130,4 +127,7 @@ const DarkModeButton = styled.button<{ $isDarkMode: boolean }>`
 const LogoImg = styled.img`
   width: 8rem;
   color: #ff7b00;
+  @media (max-width: 768px) {
+    width: 7rem;
+  }
 `;

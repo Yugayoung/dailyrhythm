@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function Calendar() {
+export default function CalendarComponent() {
   return <div></div>;
 }

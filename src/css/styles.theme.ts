@@ -1,5 +1,5 @@
 export const lightTheme = {
-  bgColor: '#f0e6ef', // 베이지색
+  bgColor: '#FCF6FC', // 베이지색
   textColor: '#001d3d', // 남색
   primaryColor: '#9c89b8', // 보라색
   accentColor: '#efc3e6', // 분홍색

@@ -64,6 +64,10 @@ export async function addOrUpdateNewRhythm(uid: string, rhythm: RhythmItem) {
   });
 }
 
+const handleError = (error: any) => {
+  console.error('Permission denied error:', error);
+  // 추가적인 오류 처리 로직
+};
 export async function getRhythm(uid: string): Promise<RhythmItem[]> {
   try {
     const snapshot = await get(ref(database, `rhythms/${uid}`));
@@ -71,7 +75,8 @@ export async function getRhythm(uid: string): Promise<RhythmItem[]> {
 
     return Object.values(items) as RhythmItem[];
   } catch (error) {
-    console.error(error);
+    handleError(error);
+    throw error; // Rethrow the error to be handled by the caller
   }
 }
 
