@@ -1,5 +1,5 @@
 export const lightTheme = {
-  bgColor: '#FCF6FC', // 연분홍색
+  bgColor: '#FFFCFF', // 연분홍색
   bodyBgColor: '#F0EFE9', // 베이지색
   textColor: '#001d3d', // 남색
   primaryColor: '#9c89b8', // 보라색
@@ -26,10 +26,12 @@ export const color = {
   gray: '#F3F3F3',
   lightGray: '#e1e0e0',
   lightGray2: '#EEEEEE',
+  lightGray3: '#F6F5F5',
   green: '#568A35',
   lightGreen: '#E4F0D5',
   lightPink: '#FFE7F9',
   pink: '#FF00BF',
+  borderColor: '#D8D8D8',
 };
 
 export const theme = {

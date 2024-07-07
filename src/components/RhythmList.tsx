@@ -7,7 +7,7 @@ import Loading from './ui/Loading';
 import styled from 'styled-components';
 import ButtonComponent from './ui/ButtonComponent';
 import { FaPlus } from 'react-icons/fa';
-import { lightTheme } from '../css/styles.theme';
+import { color, lightTheme } from '../css/styles.theme';
 import Weather from './Weather';
 import Modal from './ui/Modal';
 import dayjs from 'dayjs';
@@ -118,13 +118,19 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
 
 const StyledRhythmList = styled.section`
   width: 25rem;
-  background-color: white;
-  padding: 1.5rem 1rem;
+  background-color: ${color.lightGray3};
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.2);
+
+  padding: 1.5rem 1rem;
   font-weight: bold;
   position: relative;
   @media (min-width: 768px) {
     width: 28rem;
+    border-left: 2px solid ${color.borderColor};
+  }
+  @media (max-width: 768px) {
+    margin-bottom: 5rem;
+    border-top: 2px solid ${color.borderColor};
   }
 `;
 const StyledRhythmTable = styled.table`

@@ -29,9 +29,20 @@ const StyledHomeWrapper = styled.section<{ $currentTheme: ThemeType }>`
   justify-content: center;
   display: flex;
   width: 100%;
+  height: auto;
   background-color: ${({ $currentTheme }) => $currentTheme.bodyBgColor};
+  @media (min-width: 768px) {
+    height: 100vh;
+  }
 `;
 const StyledHomeBox = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: flex;
   position: relative;
-  margin-top: 9rem;
+  margin-top: 0rem;
+  @media (max-width: 768px) {
+    display: grid;
+    margin-top: 8rem;
+  }
 `;

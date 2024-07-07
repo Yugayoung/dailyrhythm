@@ -94,10 +94,13 @@ export default function CalendarComponent({
 }
 
 const StyledDotWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 0.5rem;
-  height: 0.5rem;
+  height: 0.8rem;
   margin: 0 auto;
-  margin-top: 0.5rem;
+  margin-top: 0.8rem;
 `;
 const StyledDot = styled.div`
   width: 0.5rem;
@@ -114,11 +117,12 @@ const StyledTodayButtonWrapper = styled.div`
 const StyledCalendarContainer = styled.div`
   position: relative;
   width: 27rem;
+  box-shadow: 0 3px 10px rgb(0, 0, 0, 0.2);
+
   .react-calendar {
     width: 100%;
     padding: 1rem;
     background: white;
-    border-radius: 8px;
     border: none;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     font-family: 'MoveSansLight';
@@ -162,7 +166,7 @@ const StyledCalendarContainer = styled.div`
     flex: 0 0 calc(33.3333% - 10px) !important;
     margin-inline-start: 5px !important;
     margin-inline-end: 5px !important;
-    margin-block-end: 10px;
+    margin-block-end: 1.8rem;
     padding: 20px 6.6667px;
     font-size: 1rem;
     color: ${lightTheme.textColor};
