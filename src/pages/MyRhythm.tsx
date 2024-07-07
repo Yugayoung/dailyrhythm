@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import RhythmList from '../components/RhythmList';
 import { useGetCurrentTheme } from '../store/useDarkModeStore';
@@ -7,12 +7,17 @@ import CalendarComponent from '../components/CalendarComponent';
 
 export default function MyRhythm() {
   const currentTheme = useGetCurrentTheme();
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+  };
 
   return (
     <StyledHomeWrapper $currentTheme={currentTheme}>
       <StyledHomeBox>
-        <CalendarComponent />
-        <RhythmList />
+        <CalendarComponent onDateChange={handleDateChange} />
+        <RhythmList selectedDate={selectedDate} />
       </StyledHomeBox>
     </StyledHomeWrapper>
   );
