@@ -9,7 +9,6 @@ export default function Weather() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -68,7 +67,7 @@ const StyledWeatherBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   width: 7rem;
   color: ${(props) => props.theme.placeholderColor};
   font-weight: bold;
@@ -82,10 +81,10 @@ const StyledTempTopBox = styled.div`
 
 const StyledWeatherText = styled.p`
   font-family: 'GmarketSansMedium';
-  font-size: 1.1rem;
+  font-size: 0.8rem;
 `;
 
 const StyledWeatherImg = styled.img`
-  width: 2.8rem;
+  width: 2.5rem;
   opacity: 0.8;
 `;

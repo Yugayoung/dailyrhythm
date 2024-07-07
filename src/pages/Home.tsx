@@ -126,7 +126,7 @@ const StyledHomeMiddleWrapper = styled.section`
   justify-content: center;
   width: 100%;
   margin: auto;
-  background-color: #f1f1f1;
+  background-color: white;
 `;
 const StyledHomeMiddleTextBox = styled.div`
   display: flex;

@@ -42,7 +42,10 @@ const StyledButton = styled.button<{
   $textSize: string;
   $width: string;
 }>`
-  padding: 0.7rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 0.8rem;
   font-family: 'GmarketSansMedium';
   font-weight: bold;
   border-radius: 0.7rem;

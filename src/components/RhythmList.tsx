@@ -7,7 +7,6 @@ import Loading from './ui/Loading';
 import styled from 'styled-components';
 import ButtonComponent from './ui/ButtonComponent';
 import { FaPlus } from 'react-icons/fa';
-import { useGetCurrentTheme } from '../store/useDarkModeStore';
 import { lightTheme } from '../css/styles.theme';
 import Weather from './Weather';
 import Modal from './ui/Modal';
@@ -19,12 +18,13 @@ interface RhythmListProps {
 }
 
 export default function RhythmList({ selectedDate }: RhythmListProps) {
-  const currentTheme = useGetCurrentTheme();
   const user = useGetUser();
   const uid = user.uid;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
-  const formattedDateTitle = dayjs(selectedDate).format('YYYY년 MM월 DD일');
+  const year = dayjs(selectedDate).format('YYYY');
+  const month = dayjs(selectedDate).format('MMM');
+  const day = dayjs(selectedDate).format('DD');
 
   function handleOpenModal() {
     setIsModalOpen(true);
@@ -48,34 +48,20 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
   return (
     <StyledRhythmList>
       <StyledRhythmListHead>
+        <StyledRhythmListDateWrapper>
+          <StyledRhythmListDay>{day}</StyledRhythmListDay>
+          <StyledRhythmListYearMonthWrapper>
+            <StyledRhythmListMonth>{month.toUpperCase()}</StyledRhythmListMonth>
+            <StyledRhythmListYear>{year}</StyledRhythmListYear>
+          </StyledRhythmListYearMonthWrapper>
+        </StyledRhythmListDateWrapper>
         <Weather />
-        <div>
-          <ButtonComponent
-            onClick={handleOpenModal}
-            text={<FaPlus />}
-            backgroundColor={'transparent'}
-            textSize={'1.8rem'}
-            textColor={currentTheme.primaryColor}
-          />
-          <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-            <AddRhythm onClick={handleCloseModal} />
-          </Modal>
-        </div>
       </StyledRhythmListHead>
       <StyledRhythmTableBox>
         {isLoading ? (
           <Loading />
         ) : (
           <StyledRhythmTable>
-            <thead>
-              <tr>
-                <td colSpan={3}>
-                  <StyledRhythmListTitle>
-                    {formattedDateTitle}의 리듬
-                  </StyledRhythmListTitle>
-                </td>
-              </tr>
-            </thead>
             {filteredRhythms && filteredRhythms.length > 0 ? (
               <tbody>
                 {filteredRhythms.map((item) => (
@@ -110,6 +96,22 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
           </StyledRhythmTable>
         )}
       </StyledRhythmTableBox>
+      <div>
+        <StyledRhythmListAddRhythmButtonWrapper>
+          <ButtonComponent
+            onClick={handleOpenModal}
+            text={
+              <>
+                <FaPlus /> &nbsp; New Rhythm
+              </>
+            }
+            textSize={'0.8rem'}
+          />
+        </StyledRhythmListAddRhythmButtonWrapper>
+        <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+          <AddRhythm onClick={handleCloseModal} />
+        </Modal>
+      </div>
     </StyledRhythmList>
   );
 }
@@ -118,9 +120,9 @@ const StyledRhythmList = styled.section`
   width: 25rem;
   background-color: white;
   padding: 1.5rem 1rem;
-  border-radius: 1.5rem;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.2);
   font-weight: bold;
+  position: relative;
   @media (min-width: 768px) {
     width: 30rem;
   }
@@ -134,8 +136,8 @@ const StyledRhythmTable = styled.table`
 const StyledRhythmTableBox = styled.div`
   height: 300px;
   overflow-y: scroll;
+  margin: 1rem 0rem;
 `;
-
 const StyledRhythmTableTr = styled.tr<{ $background: string }>`
   background-color: ${({ $background }) =>
     $background ? $background : 'white'};
@@ -154,14 +156,8 @@ const StyledRhythmListHead = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-
 const StyledRhythmImg = styled.img`
   width: 100%;
-`;
-const StyledRhythmListTitle = styled.p`
-  margin: 1.3rem 0rem 1rem 0rem;
-  text-align: left;
-  font-size: 1.1rem;
 `;
 const StyledRhythmListMessage = styled.p`
   color: ${lightTheme.errorColor};
@@ -170,4 +166,33 @@ const StyledRhythmListMessageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+const StyledRhythmListDateWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+`;
+const StyledRhythmListYearMonthWrapper = styled.div`
+  margin-left: 0.3rem;
+  display: grid;
+  justify-content: space-between;
+`;
+const StyledRhythmListDay = styled.p`
+  font-size: 1.9rem;
+`;
+const StyledRhythmListYear = styled.p`
+  font-size: 0.8rem;
+  opacity: 0.2;
+`;
+const StyledRhythmListMonth = styled.p`
+  font-size: 0.8rem;
+  opacity: 0.6;
+`;
+
+const StyledRhythmListAddRhythmButtonWrapper = styled.div`
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
 `;

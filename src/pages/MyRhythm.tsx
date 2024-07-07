@@ -30,7 +30,7 @@ const StyledHomeWrapper = styled.section<{ $currentTheme: ThemeType }>`
   display: flex;
   width: 100%;
   height: 100vh;
-  background-color: ${({ $currentTheme }) => $currentTheme.bgColor};
+  background-color: ${({ $currentTheme }) => $currentTheme.bodyBgColor};
 `;
 const StyledHomeBox = styled.div`
   position: relative;
