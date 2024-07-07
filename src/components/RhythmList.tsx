@@ -124,14 +124,13 @@ const StyledRhythmList = styled.section`
   font-weight: bold;
   position: relative;
   @media (min-width: 768px) {
-    width: 30rem;
+    width: 28rem;
   }
 `;
 const StyledRhythmTable = styled.table`
   text-align: center;
   width: 100%;
   font-size: 1rem;
-  border-top: 1px solid ${lightTheme.secondaryColor};
 `;
 const StyledRhythmTableBox = styled.div`
   height: 300px;

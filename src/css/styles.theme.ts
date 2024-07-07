@@ -25,6 +25,11 @@ export const darkTheme = {
 export const color = {
   gray: '#F3F3F3',
   lightGray: '#e1e0e0',
+  lightGray2: '#EEEEEE',
+  green: '#568A35',
+  lightGreen: '#E4F0D5',
+  lightPink: '#FFE7F9',
+  pink: '#FF00BF',
 };
 
 export const theme = {

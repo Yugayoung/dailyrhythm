@@ -5,6 +5,18 @@ export const GlobalStyle = createGlobalStyle`
   ${reset}
 
   @font-face {
+  font-family: 'HancomSansSemiBold';
+  src: url('./fonts/HancomSans-SemiBold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+  @font-face {
+  font-family: 'MoveSansLight';
+  src: url('./fonts/MoveSansLight.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+  @font-face {
   font-family: 'GmarketSansLight';
   src: url('./fonts/GmarketSansLight.otf') format('opentype');
   font-weight: normal;
@@ -20,7 +32,7 @@ export const GlobalStyle = createGlobalStyle`
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'GmarketSansLight', 'Segoe UI',
+  font-family: -apple-system, BlinkMacSystemFont, 'MoveSansLight', 'GmarketSansLight', 'Segoe UI',
     'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
