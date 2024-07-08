@@ -55,7 +55,7 @@ export function handleGoogleAuthStateChange(
   });
 }
 
-export async function addOrUpdateNewRhythm(uid: string, rhythm: RhythmItem) {
+export async function firebaseAddNewRhythm(uid: string, rhythm: RhythmItem) {
   const id = uuid();
   set(ref(database, `rhythms/${uid}/${id}`), {
     ...rhythm,
@@ -64,22 +64,22 @@ export async function addOrUpdateNewRhythm(uid: string, rhythm: RhythmItem) {
   });
 }
 
-const handleError = (error: any) => {
-  console.error('Permission denied error:', error);
-  // 추가적인 오류 처리 로직
-};
 export async function getRhythm(uid: string): Promise<RhythmItem[]> {
-  try {
-    const snapshot = await get(ref(database, `rhythms/${uid}`));
-    const items = snapshot.val() || {};
+  const snapshot = await get(ref(database, `rhythms/${uid}`));
+  const items = snapshot.val() || {};
 
-    return Object.values(items) as RhythmItem[];
-  } catch (error) {
-    handleError(error);
-    throw error; // Rethrow the error to be handled by the caller
-  }
+  return Object.values(items) as RhythmItem[];
 }
 
-export async function DeleteRhythm(uid: string, rhythm: RhythmItem) {
+export async function firebaseRemoveRhythm(uid: string, rhythm: RhythmItem) {
   return remove(ref(database, `rhythms/${uid}/${rhythm.id}`));
+}
+
+export async function firebaseUpdateRhythm(uid: string, rhythm: RhythmItem) {
+  const rhythmRef = ref(database, `rhythms/${uid}/${rhythm.id}`);
+
+  await set(rhythmRef, {
+    ...rhythm,
+    status: 'active',
+  });
 }

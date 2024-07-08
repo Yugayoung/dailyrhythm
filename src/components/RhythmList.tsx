@@ -5,13 +5,13 @@ import { useGetUser } from '../store/useUserStore';
 import AddRhythm, { RhythmItem } from './AddRhythm';
 import Loading from './ui/Loading';
 import styled from 'styled-components';
-import ButtonComponent from './ui/ButtonComponent';
-import { FaPlus } from 'react-icons/fa';
+
 import { color, lightTheme } from '../css/styles.theme';
 import Weather from './Weather';
 import Modal from './ui/Modal';
 import dayjs from 'dayjs';
 import GuideImage from '../images/GuideImage.png';
+import AddRhythmButton from './AddRhythmButton';
 
 interface RhythmListProps {
   selectedDate: Date;
@@ -20,17 +20,20 @@ interface RhythmListProps {
 export default function RhythmList({ selectedDate }: RhythmListProps) {
   const user = useGetUser();
   const uid = user.uid;
+  const [selectedRhythm, setSelectedRhythm] = useState<RhythmItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
   const year = dayjs(selectedDate).format('YYYY');
   const month = dayjs(selectedDate).format('MMM');
   const day = dayjs(selectedDate).format('DD');
 
-  function handleOpenModal() {
-    setIsModalOpen(true);
-  }
   function handleCloseModal() {
     setIsModalOpen(false);
+    setSelectedRhythm(null);
+  }
+  function handleRhythmItemClick(rhythm: RhythmItem) {
+    setSelectedRhythm(rhythm);
+    setIsModalOpen(true);
   }
 
   const { data: rhythms, isLoading } = useQuery<RhythmItem[]>({
@@ -69,11 +72,25 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
                     key={item.id}
                     $background={item.backgroundColor}
                   >
-                    <StyledRhythmTableTd>{item.time}</StyledRhythmTableTd>
+                    <StyledRhythmListTime>{item.time}</StyledRhythmListTime>
                     <StyledRhythmTableTdTitle>
-                      {item.title}
+                      <StyledRhythmListTitleButton
+                        onClick={() => handleRhythmItemClick(item)}
+                      >
+                        <p>{item.title}</p>
+                      </StyledRhythmListTitleButton>
+                      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+                        <AddRhythm
+                          onClick={handleCloseModal}
+                          rhythm={selectedRhythm}
+                        />
+                      </Modal>
                     </StyledRhythmTableTdTitle>
-                    <StyledRhythmTableTd>{item.icon}</StyledRhythmTableTd>
+                    <StyledRhythmListIcon>
+                      <StyledRhythmListCircleButton>
+                        {item.icon}
+                      </StyledRhythmListCircleButton>
+                    </StyledRhythmListIcon>
                   </StyledRhythmTableTr>
                 ))}
               </tbody>
@@ -96,22 +113,7 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
           </StyledRhythmTable>
         )}
       </StyledRhythmTableBox>
-      <div>
-        <StyledRhythmListAddRhythmButtonWrapper>
-          <ButtonComponent
-            onClick={handleOpenModal}
-            text={
-              <>
-                <FaPlus /> &nbsp; New Rhythm
-              </>
-            }
-            textSize={'0.8rem'}
-          />
-        </StyledRhythmListAddRhythmButtonWrapper>
-        <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-          <AddRhythm onClick={handleCloseModal} />
-        </Modal>
-      </div>
+      <AddRhythmButton />
     </StyledRhythmList>
   );
 }
@@ -146,9 +148,6 @@ const StyledRhythmTableBox = styled.div`
 const StyledRhythmTableTr = styled.tr<{ $background: string }>`
   background-color: ${({ $background }) =>
     $background ? $background : 'white'};
-`;
-const StyledRhythmTableTd = styled.td`
-  padding: 0.8rem;
 `;
 const StyledRhythmTableTdTitle = styled.td`
   width: 70%;
@@ -194,10 +193,29 @@ const StyledRhythmListMonth = styled.p`
   font-size: 0.8rem;
   opacity: 0.6;
 `;
-
-const StyledRhythmListAddRhythmButtonWrapper = styled.div`
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
+const StyledRhythmListTime = styled.td`
+  font-size: 0.8rem;
+  font-family: 'GmarketSansLight';
+  text-align: center;
+  vertical-align: middle;
+`;
+const StyledRhythmListIcon = styled.td`
+  padding-top: 0.3rem;
+`;
+const StyledRhythmListTitleButton = styled.button`
+  width: 100%;
+  font-size: 1rem;
+  font-family: 'GmarketSansLight';
+  border: none;
+  background-color: transparent;
+  text-align: center;
+  vertical-align: middle;
+`;
+const StyledRhythmListCircleButton = styled.button`
+  width: 2.2rem;
+  height: 2.2rem;
+  font-size: 1.2rem;
+  border-radius: 100%;
+  border: none;
+  background-color: ${color.lightGray3};
 `;

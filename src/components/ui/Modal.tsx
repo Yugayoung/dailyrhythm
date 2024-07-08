@@ -24,7 +24,7 @@ const StyledModalOverlay = styled.div<{ $isModalOpen: boolean }>`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(230, 228, 228, 0.092);
   z-index: 1000;
 `;
 
@@ -36,7 +36,7 @@ const StyledModalContent = styled.div`
   background: white;
   padding: 0.8rem 2rem;
   border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(102, 101, 101, 0.3);
   width: 80%;
   max-width: 27rem;
 
