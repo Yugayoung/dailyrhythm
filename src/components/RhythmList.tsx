@@ -61,6 +61,14 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
     );
   });
 
+  const sortedRhythms = filteredRhythms?.sort((a, b) => {
+    if (a.time === '' && b.time !== '') return 1;
+    if (a.time !== '' && b.time === '') return -1;
+    if (a.time < b.time) return -1;
+    if (a.time > b.time) return 1;
+    return 0;
+  });
+
   return (
     <StyledRhythmList>
       <StyledRhythmListHead>
@@ -78,9 +86,9 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
           <Loading />
         ) : (
           <StyledRhythmTable>
-            {filteredRhythms && filteredRhythms.length > 0 ? (
+            {sortedRhythms && sortedRhythms.length > 0 ? (
               <tbody>
-                {filteredRhythms.map((item) => (
+                {sortedRhythms.map((item) => (
                   <StyledRhythmTableTr
                     key={item.id}
                     $background={item.backgroundColor}
@@ -89,7 +97,7 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
                     <StyledRhythmTableTdTitle>
                       <StyledRhythmListTitleButton
                         onClick={() => handleRhythmItemClick(item)}
-                        status={item.status}
+                        $status={item.status}
                       >
                         <p>{item.title}</p>
                       </StyledRhythmListTitleButton>
@@ -222,15 +230,15 @@ const StyledRhythmListIcon = styled.td`
   height: 3rem;
   position: relative;
 `;
-const StyledRhythmListTitleButton = styled.button<{ status: string }>`
+const StyledRhythmListTitleButton = styled.button<{ $status: string }>`
   width: 100%;
   font-size: 1.1rem;
   font-family: 'GmarketSansLight';
   border: none;
   background-color: transparent;
   text-align: center;
-  text-decoration: ${({ status }) =>
-    status === 'done' ? 'line-through' : 'none'};
+  text-decoration: ${({ $status }) =>
+    $status === 'done' ? 'line-through' : 'none'};
 `;
 const StyledRhythmListCircleButton = styled.button`
   width: 2.2rem;
