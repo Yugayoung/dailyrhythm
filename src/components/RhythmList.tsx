@@ -101,12 +101,6 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
                       >
                         <p>{item.title}</p>
                       </StyledRhythmListTitleButton>
-                      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-                        <AddRhythm
-                          onClick={handleCloseModal}
-                          rhythm={selectedRhythm}
-                        />
-                      </Modal>
                     </StyledRhythmTableTdTitle>
                     <StyledRhythmListIcon>
                       <StyledRhythmListCircleButton
@@ -138,6 +132,9 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
         )}
       </StyledRhythmTableBox>
       <AddRhythmButton />
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <AddRhythm onClick={handleCloseModal} rhythm={selectedRhythm} />
+      </Modal>
     </StyledRhythmList>
   );
 }
