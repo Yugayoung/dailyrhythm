@@ -78,8 +78,5 @@ export async function firebaseRemoveRhythm(uid: string, rhythm: RhythmItem) {
 export async function firebaseUpdateRhythm(uid: string, rhythm: RhythmItem) {
   const rhythmRef = ref(database, `rhythms/${uid}/${rhythm.id}`);
 
-  await set(rhythmRef, {
-    ...rhythm,
-    status: 'active',
-  });
+  await set(rhythmRef, rhythm);
 }

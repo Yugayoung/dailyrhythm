@@ -14,7 +14,6 @@ export default function SelectIcon({
   onSelect,
 }: SelectIconProps) {
   const [isVisible, setIsVisible] = useState(false);
-  console.log(selectedIcon);
 
   const handleVisibleClick = () => {
     setIsVisible(!isVisible);

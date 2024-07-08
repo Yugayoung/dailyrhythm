@@ -28,7 +28,7 @@ const initialRhythm: RhythmItem = {
   endDate: dayjs().format('YYYY-MM-DD'),
   backgroundColor: '',
   icon: '✅',
-  status: '',
+  status: 'active',
 };
 
 interface RhythmListProps {

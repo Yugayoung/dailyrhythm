@@ -12,6 +12,7 @@ import Modal from './ui/Modal';
 import dayjs from 'dayjs';
 import GuideImage from '../images/GuideImage.png';
 import AddRhythmButton from './AddRhythmButton';
+import { useRhythm } from '../hooks/useRhythm';
 
 interface RhythmListProps {
   selectedDate: Date;
@@ -21,6 +22,7 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
   const user = useGetUser();
   const uid = user.uid;
   const [selectedRhythm, setSelectedRhythm] = useState<RhythmItem | null>(null);
+  const { updateRhythm } = useRhythm(uid);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
   const year = dayjs(selectedDate).format('YYYY');
@@ -40,6 +42,17 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
     queryKey: ['rhythms', uid],
     queryFn: () => getRhythm(uid),
   });
+
+  function handleUpdateRhythmStatus(rhythm: RhythmItem) {
+    const newStatus = rhythm.status === 'active' ? 'done' : 'active';
+    updateRhythm.mutate({
+      uid,
+      rhythm: {
+        ...rhythm,
+        status: newStatus,
+      },
+    });
+  }
 
   const filteredRhythms = rhythms?.filter((rhythm) => {
     return (
@@ -76,6 +89,7 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
                     <StyledRhythmTableTdTitle>
                       <StyledRhythmListTitleButton
                         onClick={() => handleRhythmItemClick(item)}
+                        status={item.status}
                       >
                         <p>{item.title}</p>
                       </StyledRhythmListTitleButton>
@@ -87,8 +101,10 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
                       </Modal>
                     </StyledRhythmTableTdTitle>
                     <StyledRhythmListIcon>
-                      <StyledRhythmListCircleButton>
-                        {item.icon}
+                      <StyledRhythmListCircleButton
+                        onClick={() => handleUpdateRhythmStatus(item)}
+                      >
+                        <p>{item.status === 'active' ? '' : item.icon}</p>
                       </StyledRhythmListCircleButton>
                     </StyledRhythmListIcon>
                   </StyledRhythmTableTr>
@@ -148,6 +164,7 @@ const StyledRhythmTableBox = styled.div`
 const StyledRhythmTableTr = styled.tr<{ $background: string }>`
   background-color: ${({ $background }) =>
     $background ? $background : 'white'};
+  height: 3rem;
 `;
 const StyledRhythmTableTdTitle = styled.td`
   width: 70%;
@@ -194,28 +211,37 @@ const StyledRhythmListMonth = styled.p`
   opacity: 0.6;
 `;
 const StyledRhythmListTime = styled.td`
+  width: 15%;
   font-size: 0.8rem;
   font-family: 'GmarketSansLight';
   text-align: center;
   vertical-align: middle;
 `;
 const StyledRhythmListIcon = styled.td`
-  padding-top: 0.3rem;
+  width: 15%;
+  height: 3rem;
+  position: relative;
 `;
-const StyledRhythmListTitleButton = styled.button`
+const StyledRhythmListTitleButton = styled.button<{ status: string }>`
   width: 100%;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-family: 'GmarketSansLight';
   border: none;
   background-color: transparent;
   text-align: center;
-  vertical-align: middle;
+  text-decoration: ${({ status }) =>
+    status === 'done' ? 'line-through' : 'none'};
 `;
 const StyledRhythmListCircleButton = styled.button`
   width: 2.2rem;
   height: 2.2rem;
   font-size: 1.2rem;
   border-radius: 100%;
+  text-align: center;
   border: none;
   background-color: ${color.lightGray3};
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
