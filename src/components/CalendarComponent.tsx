@@ -115,8 +115,12 @@ const StyledTodayButtonWrapper = styled.div`
 `;
 
 const StyledCalendarContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   width: 27rem;
+  height: 27.2rem;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.2);
 
   .react-calendar {

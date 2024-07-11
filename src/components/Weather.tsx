@@ -61,14 +61,12 @@ export default function Weather() {
         </div>
       ) : (
         <StyledWeatherGuideBox>
-          <p>
-            날씨 정보를 확인하려면 <br />
-            <StyledWeatherGuideTextBox>
-              <StyledWeatherGuideText>위치 정보 제공</StyledWeatherGuideText>
-              에&nbsp;
-              <StyledWeatherGuideText>동의</StyledWeatherGuideText>하세요
-            </StyledWeatherGuideTextBox>
-          </p>
+          날씨 정보를 확인하려면 <br />
+          <StyledWeatherGuideTextBox>
+            <StyledWeatherGuideText>위치 정보 제공</StyledWeatherGuideText>
+            에&nbsp;
+            <StyledWeatherGuideText>동의</StyledWeatherGuideText>하세요
+          </StyledWeatherGuideTextBox>
         </StyledWeatherGuideBox>
       )}
     </StyledWeatherBox>
