@@ -43,14 +43,19 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
     queryFn: () => getRhythm(uid),
   });
 
-  function handleUpdateRhythmStatus(rhythm: RhythmItem) {
-    const newStatus = rhythm.status === 'active' ? 'done' : 'active';
+  function handleUpdateRhythmStatus(rhythm: RhythmItem, date: string) {
+    const newStatus = rhythm.status[date] === 'active' ? 'done' : 'active';
+    const updatedRhythm = {
+      ...rhythm,
+      status: {
+        ...rhythm.status,
+        [date]: newStatus,
+      },
+    };
+
     updateRhythm.mutate({
       uid,
-      rhythm: {
-        ...rhythm,
-        status: newStatus,
-      },
+      rhythm: updatedRhythm,
     });
   }
 
@@ -97,16 +102,22 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
                     <StyledRhythmTableTdTitle>
                       <StyledRhythmListTitleButton
                         onClick={() => handleRhythmItemClick(item)}
-                        $status={item.status}
+                        $status={item.status[formattedDate]}
                       >
                         <p>{item.title}</p>
                       </StyledRhythmListTitleButton>
                     </StyledRhythmTableTdTitle>
                     <StyledRhythmListIcon>
                       <StyledRhythmListCircleButton
-                        onClick={() => handleUpdateRhythmStatus(item)}
+                        onClick={() =>
+                          handleUpdateRhythmStatus(item, formattedDate)
+                        }
                       >
-                        <p>{item.status === 'active' ? '' : item.icon}</p>
+                        <p>
+                          {item.status[formattedDate] === 'active'
+                            ? ''
+                            : item.icon}
+                        </p>
                       </StyledRhythmListCircleButton>
                     </StyledRhythmListIcon>
                   </StyledRhythmTableTr>

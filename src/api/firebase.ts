@@ -10,6 +10,7 @@ import {
 import { RhythmItem } from '../components/AddRhythm';
 import { getDatabase, ref, set, get, remove } from 'firebase/database';
 import { v4 as uuid } from 'uuid';
+import dayjs from 'dayjs';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -57,11 +58,25 @@ export function handleGoogleAuthStateChange(
 
 export async function firebaseAddNewRhythm(uid: string, rhythm: RhythmItem) {
   const id = uuid();
-  set(ref(database, `rhythms/${uid}/${id}`), {
+  const startDate = dayjs(rhythm.startDate);
+  const endDate = dayjs(rhythm.endDate);
+  const status: { [date: string]: string } = {};
+
+  for (
+    let date = startDate;
+    date.isBefore(endDate) || date.isSame(endDate);
+    date = date.add(1, 'day')
+  ) {
+    status[date.format('YYYY-MM-DD')] = 'active';
+  }
+
+  const newRhythm = {
     ...rhythm,
     id: id,
-    status: 'active',
-  });
+    status,
+  };
+
+  set(ref(database, `rhythms/${uid}/${id}`), newRhythm);
 }
 
 export async function getRhythm(uid: string): Promise<RhythmItem[]> {
