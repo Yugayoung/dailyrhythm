@@ -32,7 +32,6 @@ const StyledHomeBox = styled.div`
   justify-content: center;
   display: flex;
   position: relative;
-  margin-top: 0rem;
   @media (max-width: 768px) {
     display: grid;
     margin: 1rem 0rem;

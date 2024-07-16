@@ -98,20 +98,16 @@ export function useRhythmStatistics(): RhythmStatistics {
   // 각 리듬
   const rhythmDetails = rhythms
     ? rhythms.map((rhythm) => {
-        const totalDates = new Set(
-          dailyRhythmCounts
-            .filter((count) => rhythm.status[count.date])
-            .map((count) => count.date)
-        );
-
-        const doneCount = dailyRhythmCounts
-          .filter((count) => rhythm.status[count.date] === 'done')
-          .reduce((total, count) => total + count.doneCount, 0);
+        const doneCount = Object.keys(rhythm.status).filter(
+          (date) => rhythm.status[date] === 'done'
+        ).length;
 
         return {
           title: rhythm.title,
           icon: rhythm.icon,
-          totalCount: totalDates.size,
+          totalCount: dailyRhythmCounts.filter(
+            (count) => rhythm.status[count.date]
+          ).length,
           doneCount: doneCount,
         };
       })

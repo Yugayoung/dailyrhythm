@@ -17,10 +17,10 @@ export default function RhythmStatisticsDetail() {
         $isMargin={true}
       >
         <StyledRhythmStatisticsDetailHeadBox $currentTheme={currentTheme}>
-          <StyledRhythmStatisticsDetailHeadTitle $padding={'7rem'}>
+          <StyledRhythmStatisticsDetailHeadTitle $padding={'6rem'}>
             Title
           </StyledRhythmStatisticsDetailHeadTitle>
-          <StyledRhythmStatisticsDetailHeadTitle $padding={'4rem'}>
+          <StyledRhythmStatisticsDetailHeadTitle $padding={'3rem'}>
             Done
           </StyledRhythmStatisticsDetailHeadTitle>
           <p>Total</p>
@@ -31,10 +31,10 @@ export default function RhythmStatisticsDetail() {
               <StyledRhythmStatisticsDetailText>
                 {rhythm.icon}
               </StyledRhythmStatisticsDetailText>
-              <StyledRhythmStatisticsDetailText $width={'60%'}>
+              <StyledRhythmStatisticsDetailText $width={'50%'}>
                 {rhythm.title}
               </StyledRhythmStatisticsDetailText>
-              <StyledRhythmStatisticsDetailText $width={'15%'}>
+              <StyledRhythmStatisticsDetailText $width={'25%'}>
                 {rhythm.doneCount}
               </StyledRhythmStatisticsDetailText>
               <StyledRhythmStatisticsDetailText $width={'15%'}>
