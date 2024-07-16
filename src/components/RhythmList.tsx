@@ -84,7 +84,9 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
             <StyledRhythmListYear>{year}</StyledRhythmListYear>
           </StyledRhythmListYearMonthWrapper>
         </StyledRhythmListDateWrapper>
-        <Weather />
+        <StyledWeatherBox>
+          <Weather />
+        </StyledWeatherBox>
       </StyledRhythmListHead>
       <StyledRhythmTableBox>
         {isLoading ? (
@@ -260,4 +262,7 @@ const StyledRhythmListCircleButton = styled.button`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+const StyledWeatherBox = styled.div`
+  height: 3.5rem;
 `;

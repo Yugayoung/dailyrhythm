@@ -7,7 +7,7 @@ interface SelectIconProps {
   onSelect: (icon: string) => void;
 }
 
-const ICON_OPTIONS = ['✅', '💊', '💪', '📖', '🔥'];
+const ICON_OPTIONS = ['✅', '💊', '💪', '📖', '⭐️', '👍🏻', '😋'];
 
 export default function SelectIcon({
   selectedIcon,

@@ -67,7 +67,7 @@ export default function Navbar() {
             My하루
           </StyledLink>
           <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
-            루틴탐색
+            리듬탐색
           </StyledLink>
           <User user={user} />
           <ButtonComponent text={'Logout'} onClick={handleLogout} />

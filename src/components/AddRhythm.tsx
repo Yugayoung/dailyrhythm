@@ -65,7 +65,6 @@ export default function AddRhythm({
     setIsLoading(true);
     try {
       if (rhythm.title.trim() === '') {
-        // ui 완성된 후 색 변화로 알려주도록 작성해야함!
         return;
       }
       addNewRhythm.mutate(
