@@ -1,5 +1,6 @@
 export const lightTheme = {
-  bgColor: '#FCF6FC', // 베이지색
+  bgColor: '#FFFCFF', // 연분홍색
+  bodyBgColor: '#F0EFE9', // 베이지색
   textColor: '#001d3d', // 남색
   primaryColor: '#9c89b8', // 보라색
   accentColor: '#efc3e6', // 분홍색
@@ -11,6 +12,7 @@ export const lightTheme = {
 
 export const darkTheme = {
   bgColor: '#001d3d', // 남색
+  bodyBgColor: '#001d3d', // 남색
   textColor: '#FFFFFF', // 베이지색
   primaryColor: '#ffd60a', // 노랑색
   accentColor: '#003566', // 파랑색
@@ -23,6 +25,13 @@ export const darkTheme = {
 export const color = {
   gray: '#F3F3F3',
   lightGray: '#e1e0e0',
+  lightGray2: '#EEEEEE',
+  lightGray3: '#F6F5F5',
+  green: '#568A35',
+  lightGreen: '#E4F0D5',
+  lightPink: '#FFE7F9',
+  pink: '#FF00BF',
+  borderColor: '#D8D8D8',
 };
 
 export const theme = {

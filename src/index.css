@@ -17,12 +17,19 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'HancomSansSemiBold';
+  src: url('./fonts/HancomSans-SemiBold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 body {
   margin: auto;
-  font-family: -apple-system, BlinkMacSystemFont, 'GmarketSansLight',
-    'MoveSansLight', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
-    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'HancomSansSemiBold',
+    'GmarketSansLight', 'MoveSansLight', 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: 960px;

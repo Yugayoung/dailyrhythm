@@ -5,7 +5,6 @@ import './index.css';
 import App from './App';
 import NotFound from './pages/NotFound';
 import Home from './pages/Home';
-import RhythmDetail from './pages/RhythmDetail';
 import RhythmStatistics from './pages/RhythmStatistics';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -23,15 +22,6 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <MyRhythm />
-          </ProtectedRoute>
-        ),
-      },
-
-      {
-        path: '/my-rhythm/:id',
-        element: (
-          <ProtectedRoute>
-            <RhythmDetail />
           </ProtectedRoute>
         ),
       },
