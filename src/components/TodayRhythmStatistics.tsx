@@ -11,6 +11,7 @@ export default function TodayRhythmStatistics() {
   const { todayRhythmCount, todayDoneCount } = useRhythmStatistics();
   const formattedToday = dayjs().format('MM.DD');
   const currentTheme = useGetCurrentTheme();
+
   return (
     <>
       <StyledRhythmStatisticsLeftBox $currentTheme={currentTheme}>

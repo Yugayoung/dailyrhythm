@@ -47,7 +47,7 @@ export default function RhythmStatisticsBadge() {
           </StyledRhythmStatisticsBadgeTextBox>
         </StyledRhythmStatisticsBadgeWrapper>
         <StyledRhythmStatisticsBadgeImgBox>
-          {totalDoneCount === 10 ? (
+          {totalDoneCount >= 10 ? (
             <StyledRhythmStatisticsBadgeImg src={badge10} alt='badge10' />
           ) : (
             <StyledRhythmStatisticsBadgeImgOpacity
@@ -55,7 +55,7 @@ export default function RhythmStatisticsBadge() {
               alt='badge10'
             />
           )}
-          {totalDoneCount === 50 ? (
+          {totalDoneCount >= 50 ? (
             <StyledRhythmStatisticsBadgeImg src={badge50} alt='badge50' />
           ) : (
             <StyledRhythmStatisticsBadgeImgOpacity
@@ -63,7 +63,7 @@ export default function RhythmStatisticsBadge() {
               alt='badge50'
             />
           )}
-          {totalDoneCount === 100 ? (
+          {totalDoneCount >= 100 ? (
             <StyledRhythmStatisticsBadgeImg src={badge100} alt='badge100' />
           ) : (
             <StyledRhythmStatisticsBadgeImgOpacity
@@ -71,7 +71,7 @@ export default function RhythmStatisticsBadge() {
               alt='badge100'
             />
           )}
-          {totalDoneCount === 300 ? (
+          {totalDoneCount >= 300 ? (
             <StyledRhythmStatisticsBadgeImg src={badge300} alt='badge300' />
           ) : (
             <StyledRhythmStatisticsBadgeImgOpacity
@@ -79,7 +79,7 @@ export default function RhythmStatisticsBadge() {
               alt='badge300'
             />
           )}
-          {totalDoneCount === 500 ? (
+          {totalDoneCount >= 500 ? (
             <StyledRhythmStatisticsBadgeImg src={badge500} alt='badge500' />
           ) : (
             <StyledRhythmStatisticsBadgeImgOpacity

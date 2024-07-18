@@ -87,13 +87,21 @@ export function useRhythmStatistics(): RhythmStatistics {
       ?.doneCount ?? 0;
 
   // 총 리듬
-  const totalRhythmCount = dailyRhythmCounts
-    .filter((count) => dayjs(count.date).isBefore(today))
-    .reduce((total, count) => total + count.count, 0);
-
-  const totalDoneCount = dailyRhythmCounts
-    .filter((count) => dayjs(count.date).isBefore(today))
-    .reduce((total, count) => total + count.doneCount, 0);
+  const totalRhythmCount = rhythms
+    ? rhythms.reduce((total, rhythm) => {
+        return total + (rhythm.status ? Object.keys(rhythm.status).length : 0);
+      }, 0)
+    : 0;
+  const totalDoneCount = rhythms
+    ? rhythms.reduce((total, rhythm) => {
+        return (
+          total +
+          Object.keys(rhythm.status).filter(
+            (date) => rhythm.status[date] === 'done'
+          ).length
+        );
+      }, 0)
+    : 0;
 
   // 각 리듬
   const rhythmDetails = rhythms

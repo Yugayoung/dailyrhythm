@@ -28,6 +28,7 @@ const StyledHomeWrapper = styled.section<{ $currentTheme: ThemeType }>`
   align-items: center;
   justify-content: center;
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: auto;
   background-color: ${({ $currentTheme }) => $currentTheme.bodyBgColor};
