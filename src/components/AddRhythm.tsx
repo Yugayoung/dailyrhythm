@@ -124,36 +124,6 @@ export default function AddRhythm({
     onClick();
   }
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setRhythm((rhythm) => ({ ...rhythm, [name]: value }));
-  }
-
-  const handleColorSelect = (backgroundColor: string) => {
-    if (selectedBackgroundColor === backgroundColor) {
-      setSelectedBackgroundColor('');
-      setRhythm({ ...rhythm, backgroundColor: '' });
-    } else {
-      setSelectedBackgroundColor(backgroundColor);
-      setRhythm({ ...rhythm, backgroundColor });
-    }
-  };
-
-  function handleTimeChange(time: dayjs.Dayjs | null, timeString: string) {
-    setRhythm((rhythm) => ({ ...rhythm, time: timeString }));
-  }
-
-  function handleRangeChange(
-    dates: [dayjs.Dayjs, dayjs.Dayjs],
-    dateStrings: [string, string]
-  ) {
-    setRhythm((rhythm) => ({
-      ...rhythm,
-      startDate: dateStrings[0],
-      endDate: dateStrings[1],
-    }));
-  }
-
   return (
     <section>
       <StyledAddRhythmHead>
@@ -173,17 +143,17 @@ export default function AddRhythm({
             setRhythm({ ...rhythm, icon });
           }}
         />
-        <RhythmTitleInput title={rhythm.title} onChange={handleChange} />
+        <RhythmTitleInput title={rhythm.title} setRhythm={setRhythm} />
         <TimeAndPeriod
           time={rhythm.time}
           startDate={rhythm.startDate}
           endDate={rhythm.endDate}
-          onTimeChange={handleTimeChange}
-          onRangeChange={handleRangeChange}
+          setRhythm={setRhythm}
         />
         <SelectHighlighter
           selectedBackgroundColor={selectedBackgroundColor}
-          onColorSelect={handleColorSelect}
+          setSelectedBackgroundColor={setSelectedBackgroundColor}
+          setRhythm={setRhythm}
         />
         {!selectedRhythm && (
           <StyledRhythmAddButtonWrapper>

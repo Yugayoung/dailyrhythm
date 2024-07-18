@@ -3,16 +3,13 @@ import styled from 'styled-components';
 import { FcCalendar, FcAlarmClock } from 'react-icons/fc';
 import { DatePicker, Space, TimePicker } from 'antd';
 import dayjs from 'dayjs';
+import { RhythmItem } from './AddRhythm';
 
 interface TimeAndPeriodProps {
   time: string;
   startDate?: string;
   endDate?: string;
-  onTimeChange: (time: dayjs.Dayjs | null, timeString: string) => void;
-  onRangeChange: (
-    dates: [dayjs.Dayjs, dayjs.Dayjs],
-    dateStrings: [string, string]
-  ) => void;
+  setRhythm: (rhythm: (prevRhythm: RhythmItem) => RhythmItem) => void;
 }
 
 const FORMAT = 'HH:mm';
@@ -22,9 +19,22 @@ export default function TimeAndPeriod({
   time,
   startDate,
   endDate,
-  onTimeChange,
-  onRangeChange,
+  setRhythm,
 }: TimeAndPeriodProps) {
+  function handleTimeChange(time: dayjs.Dayjs | null, timeString: string) {
+    setRhythm((prevRhythm) => ({ ...prevRhythm, time: timeString }));
+  }
+
+  function handleRangeChange(
+    dates: [dayjs.Dayjs, dayjs.Dayjs],
+    dateStrings: [string, string]
+  ) {
+    setRhythm((rhythm) => ({
+      ...rhythm,
+      startDate: dateStrings[0],
+      endDate: dateStrings[1],
+    }));
+  }
   return (
     <>
       <StyledAddRhythmTimeAndPeriodBox>
@@ -41,7 +51,7 @@ export default function TimeAndPeriod({
                 startDate ? dayjs(startDate) : null,
                 endDate ? dayjs(endDate) : null,
               ]}
-              onChange={onRangeChange}
+              onChange={handleRangeChange}
             />
           </Space>
         </div>
@@ -55,7 +65,7 @@ export default function TimeAndPeriod({
           <TimePicker
             value={time ? dayjs(time, FORMAT) : null}
             format={FORMAT}
-            onChange={onTimeChange}
+            onChange={handleTimeChange}
           />
         </div>
       </StyledAddRhythmTimeAndPeriodBox>

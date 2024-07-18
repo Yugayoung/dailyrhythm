@@ -1,13 +1,23 @@
 import React from 'react';
 import { color } from '../css/styles.theme';
 import styled from 'styled-components';
+import { RhythmItem } from './AddRhythm';
 
 interface TitleInputProps {
   title: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setRhythm: (rhythm: (prevRhythm: RhythmItem) => RhythmItem) => void;
 }
 
-export default function RhythmTitleInput({ title, onChange }: TitleInputProps) {
+export default function RhythmTitleInput({
+  title,
+  setRhythm,
+}: TitleInputProps) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setRhythm((prevRhythm) => ({ ...prevRhythm, [name]: value }));
+    console.log(`입력된 이름: ${value}`);
+  }
+
   return (
     <>
       <StyledAddRhythmTextInput
@@ -15,8 +25,8 @@ export default function RhythmTitleInput({ title, onChange }: TitleInputProps) {
         name='title'
         value={title}
         placeholder='Title'
+        onChange={handleChange}
         required
-        onChange={onChange}
       />
     </>
   );

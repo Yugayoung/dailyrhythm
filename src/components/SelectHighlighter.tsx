@@ -4,16 +4,29 @@ import { darkTheme, lightTheme } from '../css/styles.theme';
 import { PiPencilCircleFill } from 'react-icons/pi';
 import { FaCheck } from 'react-icons/fa';
 import { highlighter } from '../css/styles.highlighter';
+import { RhythmItem } from './AddRhythm';
 
 interface SelectHighlighterProps {
   selectedBackgroundColor: string;
-  onColorSelect: (backgroundColor: string) => void;
+  setSelectedBackgroundColor: (color: string) => void;
+  setRhythm: (rhythm: (prevRhythm: RhythmItem) => RhythmItem) => void;
 }
 
 export default function SelectHighlighter({
   selectedBackgroundColor,
-  onColorSelect,
+  setSelectedBackgroundColor,
+  setRhythm,
 }: SelectHighlighterProps) {
+  const handleColorSelect = (backgroundColor: string) => {
+    if (selectedBackgroundColor === backgroundColor) {
+      setSelectedBackgroundColor('');
+      setRhythm((prevRhythm) => ({ ...prevRhythm, backgroundColor: '' }));
+    } else {
+      setSelectedBackgroundColor(backgroundColor);
+      setRhythm((prevRhythm) => ({ ...prevRhythm, backgroundColor }));
+    }
+  };
+
   return (
     <>
       <StyledAddRhythmTitle>
@@ -26,7 +39,7 @@ export default function SelectHighlighter({
         {Object.keys(highlighter).map((colorKey: keyof typeof highlighter) => (
           <StyledAddRhythmColor
             key={colorKey}
-            onClick={() => onColorSelect(highlighter[colorKey])}
+            onClick={() => handleColorSelect(highlighter[colorKey])}
             $color={highlighter[colorKey]}
             $isSelected={selectedBackgroundColor === highlighter[colorKey]}
           >
