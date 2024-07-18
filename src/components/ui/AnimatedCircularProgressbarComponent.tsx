@@ -19,7 +19,8 @@ export default function AnimatedCircularProgressbarComponent({
   const [progress, setProgress] = useState(0);
   let duration = 2000;
 
-  const targetValue = (doneCountValue / totalValue) * 100;
+  const targetValue =
+    totalValue === 0 ? 0 : (doneCountValue / totalValue) * 100;
 
   useEffect(() => {
     let start = 0;
