@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { color } from '../css/styles.theme';
 import styled from 'styled-components';
 import { RhythmItem } from './AddRhythm';
@@ -12,18 +12,34 @@ export default function RhythmTitleInput({
   title,
   setRhythm,
 }: TitleInputProps) {
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setRhythm((prevRhythm) => ({ ...prevRhythm, [name]: value }));
-    console.log(`입력된 이름: ${value}`);
-  }
+  const [inputValue, setInputValue] = useState(title);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+
+      setInputValue(value);
+
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      const newTimeoutId = setTimeout(() => {
+        setRhythm((prevRhythm) => ({ ...prevRhythm, title: value }));
+      }, 500);
+
+      setTimeoutId(newTimeoutId);
+    },
+    [setRhythm, timeoutId]
+  );
 
   return (
     <>
       <StyledAddRhythmTextInput
         type='text'
         name='title'
-        value={title}
+        value={inputValue}
         placeholder='Title'
         onChange={handleChange}
         required
