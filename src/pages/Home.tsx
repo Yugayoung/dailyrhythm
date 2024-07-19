@@ -92,6 +92,7 @@ export default function Home() {
           </StyledHomeBottomTextBox>
         </StyledHomeBottomBox>
       </StyledHomeBottomWrapper>
+      <StyledOrigin>출처 Freepik</StyledOrigin>
     </StyledHomeWrapper>
   );
 }
@@ -99,6 +100,13 @@ export default function Home() {
 const StyledHomeWrapper = styled.section`
   position: absolute;
   width: 100%;
+`;
+const StyledOrigin = styled.p`
+  text-align: end;
+  background-color: ${lightTheme.accentColor};
+  padding-bottom: 0.3rem;
+  color: white;
+  font-size: 0.7rem;
 `;
 
 const StyledHomeTopWrapper = styled.section`

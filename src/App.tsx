@@ -12,6 +12,7 @@ function App() {
       <GlobalStyle />
       <Header />
       <Outlet />
+      <p>출처 Freepik</p>
     </QueryClientProvider>
   );
 }
