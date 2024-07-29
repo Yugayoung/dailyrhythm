@@ -7,7 +7,8 @@ import NotFound from './pages/NotFound';
 import Home from './pages/Home';
 import RhythmStatistics from './pages/RhythmStatistics';
 import ProtectedRoute from './components/ProtectedRoute';
-
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import MyRhythm from './pages/MyRhythm';
 
 const router = createBrowserRouter([
@@ -41,5 +42,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
+    <Analytics />
+    <SpeedInsights />
   </React.StrictMode>
 );
