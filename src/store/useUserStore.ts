@@ -19,7 +19,18 @@ export interface UserStore {
 
 function createUserStore() {
   return create<UserStore>((set) => ({
-    user: JSON.parse(localStorage.getItem('user') || 'null'),
+    user: (() => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        try {
+          return JSON.parse(storedUser);
+        } catch (error) {
+          console.error('Error parsing stored user data:', error);
+          return null;
+        }
+      }
+      return null;
+    })(),
     actions: {
       setUser: (user: UserInfo) => {
         set({ user });
