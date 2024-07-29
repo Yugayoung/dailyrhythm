@@ -18,6 +18,7 @@ interface RhythmStatistics {
   totalDoneCount: number;
   dailyRhythmCounts: DateRhythmCount[];
   rhythmDetails: {
+    id: string;
     title: string;
     icon: string;
     totalCount: number;
@@ -111,6 +112,7 @@ export function useRhythmStatistics(): RhythmStatistics {
         ).length;
 
         return {
+          id: rhythm.id,
           title: rhythm.title,
           icon: rhythm.icon,
           totalCount: dailyRhythmCounts.filter(

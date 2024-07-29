@@ -1,52 +1,28 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { color } from '../css/styles.theme';
 import styled from 'styled-components';
-import { RhythmItem } from './AddRhythm';
 
 interface TitleInputProps {
   title: string;
-  setRhythm: (rhythm: (prevRhythm: RhythmItem) => RhythmItem) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function RhythmTitleInput({
-  title,
-  setRhythm,
-}: TitleInputProps) {
-  const [inputValue, setInputValue] = useState(title);
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-
-  const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = e.target;
-
-      setInputValue(value);
-
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-
-      const newTimeoutId = setTimeout(() => {
-        setRhythm((prevRhythm) => ({ ...prevRhythm, title: value }));
-      }, 500);
-
-      setTimeoutId(newTimeoutId);
-    },
-    [setRhythm, timeoutId]
-  );
-
+function RhythmTitleInput({ title, onChange }: TitleInputProps) {
   return (
     <>
       <StyledAddRhythmTextInput
         type='text'
         name='title'
-        value={inputValue}
+        value={title}
         placeholder='Title'
-        onChange={handleChange}
+        onChange={onChange}
         required
       />
     </>
   );
 }
+
+export default React.memo(RhythmTitleInput);
 
 const StyledAddRhythmTextInput = styled.input`
   width: 97%;

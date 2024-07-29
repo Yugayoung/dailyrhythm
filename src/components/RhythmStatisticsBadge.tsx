@@ -4,12 +4,20 @@ import AnimatedCircularProgressbarComponent from './ui/AnimatedCircularProgressb
 import { useRhythmStatistics } from '../hooks/useDateRhythmCalculate';
 import { useGetCurrentTheme } from '../store/useDarkModeStore';
 import { ThemeType } from '../css/styles.theme';
+import { StyledBaseBox } from './Navbar';
 import badge10 from '../images/badge10.png';
 import badge50 from '../images/badge50.png';
 import badge100 from '../images/badge100.png';
 import badge300 from '../images/badge300.png';
 import badge500 from '../images/badge500.png';
 
+const badges = [
+  { count: 10, src: badge10, alt: 'badge10' },
+  { count: 50, src: badge50, alt: 'badge50' },
+  { count: 100, src: badge100, alt: 'badge100' },
+  { count: 300, src: badge300, alt: 'badge300' },
+  { count: 500, src: badge500, alt: 'badge500' },
+];
 export default function RhythmStatisticsBadge() {
   const { totalRhythmCount, totalDoneCount } = useRhythmStatistics();
   const currentTheme = useGetCurrentTheme();
@@ -47,45 +55,20 @@ export default function RhythmStatisticsBadge() {
           </StyledRhythmStatisticsBadgeTextBox>
         </StyledRhythmStatisticsBadgeWrapper>
         <StyledRhythmStatisticsBadgeImgBox>
-          {totalDoneCount >= 10 ? (
-            <StyledRhythmStatisticsBadgeImg src={badge10} alt='badge10' />
-          ) : (
-            <StyledRhythmStatisticsBadgeImgOpacity
-              src={badge10}
-              alt='badge10'
-            />
-          )}
-          {totalDoneCount >= 50 ? (
-            <StyledRhythmStatisticsBadgeImg src={badge50} alt='badge50' />
-          ) : (
-            <StyledRhythmStatisticsBadgeImgOpacity
-              src={badge50}
-              alt='badge50'
-            />
-          )}
-          {totalDoneCount >= 100 ? (
-            <StyledRhythmStatisticsBadgeImg src={badge100} alt='badge100' />
-          ) : (
-            <StyledRhythmStatisticsBadgeImgOpacity
-              src={badge100}
-              alt='badge100'
-            />
-          )}
-          {totalDoneCount >= 300 ? (
-            <StyledRhythmStatisticsBadgeImg src={badge300} alt='badge300' />
-          ) : (
-            <StyledRhythmStatisticsBadgeImgOpacity
-              src={badge300}
-              alt='badge300'
-            />
-          )}
-          {totalDoneCount >= 500 ? (
-            <StyledRhythmStatisticsBadgeImg src={badge500} alt='badge500' />
-          ) : (
-            <StyledRhythmStatisticsBadgeImgOpacity
-              src={badge500}
-              alt='badge500'
-            />
+          {badges.map((badge, index) =>
+            totalDoneCount >= badge.count ? (
+              <StyledRhythmStatisticsBadgeImg
+                key={index}
+                src={badge.src}
+                alt={badge.alt}
+              />
+            ) : (
+              <StyledRhythmStatisticsBadgeImgOpacity
+                key={index}
+                src={badge.src}
+                alt={badge.alt}
+              />
+            )
           )}
         </StyledRhythmStatisticsBadgeImgBox>
       </StyledRhythmStatisticsRightBadgeBox>
@@ -114,30 +97,20 @@ const StyledRhythmStatisticsBadgeTitle = styled.h2`
   margin: 0rem 0rem 1.1rem 1.2rem;
 `;
 
-const StyledRhythmStatisticsBadgeWrapper = styled.div<{
+const StyledRhythmStatisticsBadgeWrapper = styled(StyledBaseBox)<{
   $currentTheme: ThemeType;
 }>`
   background-color: ${({ $currentTheme }) => $currentTheme.badgeBgColor};
   font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
-const StyledRhythmStatisticsBadgeBox = styled.div<{
+const StyledRhythmStatisticsBadgeBox = styled(StyledBaseBox)<{
   $padding?: string;
 }>`
   font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding-right: ${({ $padding }) => ($padding ? $padding : '0rem')};
 `;
-const StyledRhythmStatisticsBadgeTextBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+const StyledRhythmStatisticsBadgeTextBox = styled(StyledBaseBox)``;
 const StyledRhythmStatisticsBadgeText = styled.p`
   font-weight: bold;
 `;

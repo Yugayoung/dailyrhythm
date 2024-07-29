@@ -10,6 +10,8 @@ import { RhythmItem } from './AddRhythm';
 import { color, darkTheme, lightTheme } from '../css/styles.theme';
 import Loading from './ui/Loading';
 import ButtonComponent from './ui/ButtonComponent';
+import { StyledBaseBox } from './Navbar';
+import { BREAKPOINTS } from '../css/styles.width';
 
 interface CalendarComponentProps {
   onDateChange: (date: Date) => void;
@@ -93,10 +95,7 @@ export default function CalendarComponent({
   );
 }
 
-const StyledDotWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const StyledDotWrapper = styled(StyledBaseBox)`
   width: 0.5rem;
   height: 0.8rem;
   margin: 0 auto;
@@ -114,10 +113,7 @@ const StyledTodayButtonWrapper = styled.div`
   right: 25px;
 `;
 
-const StyledCalendarContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const StyledCalendarContainer = styled(StyledBaseBox)`
   position: relative;
   width: 27rem;
   height: 27.2rem;
@@ -186,7 +182,7 @@ const StyledCalendarContainer = styled.div`
     font-weight: bold;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: ${BREAKPOINTS.smallDesktop}) {
     width: 30rem;
   }
 `;

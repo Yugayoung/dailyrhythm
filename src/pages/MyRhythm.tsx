@@ -4,6 +4,8 @@ import RhythmList from '../components/RhythmList';
 import { useGetCurrentTheme } from '../store/useDarkModeStore';
 import { ThemeType } from '../css/styles.theme';
 import CalendarComponent from '../components/CalendarComponent';
+import { StyledBaseBox } from '../components/Navbar';
+import { BREAKPOINTS } from '../css/styles.width';
 
 export default function MyRhythm() {
   const currentTheme = useGetCurrentTheme();
@@ -32,17 +34,14 @@ const StyledHomeWrapper = styled.section<{ $currentTheme: ThemeType }>`
   width: 100%;
   height: auto;
   background-color: ${({ $currentTheme }) => $currentTheme.bodyBgColor};
-  @media (min-width: 768px) {
+  @media (min-width: ${BREAKPOINTS.smallDesktop}) {
     height: 100vh;
   }
 `;
-const StyledHomeBox = styled.div`
-  align-items: center;
-  justify-content: center;
-  display: flex;
+const StyledHomeBox = styled(StyledBaseBox)`
   position: relative;
   margin-top: 0rem;
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
     display: grid;
     margin-top: 8rem;
   }

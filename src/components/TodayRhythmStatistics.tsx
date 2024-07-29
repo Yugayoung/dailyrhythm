@@ -6,6 +6,8 @@ import dayjs from 'dayjs';
 import { useGetCurrentTheme } from '../store/useDarkModeStore';
 import { ThemeType, lightTheme } from '../css/styles.theme';
 import goalImg from '../images/goalImg.png';
+import { StyledBaseBox } from './Navbar';
+import { BREAKPOINTS } from '../css/styles.width';
 
 export default function TodayRhythmStatistics() {
   const { todayRhythmCount, todayDoneCount } = useRhythmStatistics();
@@ -24,13 +26,13 @@ export default function TodayRhythmStatistics() {
         />
         <StyledRhythmStatisticsGoalImg src={goalImg} alt='goalImg' />
         <StyledRhythmStatisticsLeftTodayCountBox $currentTheme={currentTheme}>
-          <StyledRhythmStatisticsLeftTodayTotalCountBox $isBorder={true}>
+          <StyledRhythmStatisticsLeftTodayTotalCountBox className='with-border'>
             <StyledRhythmStatisticsLeftTotalCountTitle>
               Total
             </StyledRhythmStatisticsLeftTotalCountTitle>
             <p>{todayRhythmCount} 개</p>
           </StyledRhythmStatisticsLeftTodayTotalCountBox>
-          <StyledRhythmStatisticsLeftTodayTotalCountBox $isBorder={false}>
+          <StyledRhythmStatisticsLeftTodayTotalCountBox className='without-border'>
             <StyledRhythmStatisticsLeftTotalCountTitle>
               Complete
             </StyledRhythmStatisticsLeftTotalCountTitle>
@@ -57,7 +59,7 @@ const StyledRhythmStatisticsLeftBox = styled.div<{
   border-radius: 1rem;
   background-color: ${({ $currentTheme }) => $currentTheme.statisbgColor};
   box-shadow: ${lightTheme.placeholderColor} 0px 3px 8px;
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -75,28 +77,30 @@ const StyledRhythmStatisticsLeftTitle = styled.h2`
   font-size: 1.3rem;
   font-weight: bold;
 `;
-const StyledRhythmStatisticsLeftTodayCountBox = styled.div<{
-  $currentTheme: ThemeType;
-}>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  border-top: 2px solid ${lightTheme.placeholderColor};
-`;
-const StyledRhythmStatisticsLeftTodayTotalCountBox = styled.div<{
-  $isBorder: boolean;
-}>`
+const StyledRhythmStatisticsLeftTodayTotalCountBox = styled.div`
   flex: 1;
   padding: 0.7rem 0rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-right: ${({ $isBorder }) =>
-    $isBorder ? `2px solid ${lightTheme.placeholderColor}` : 'none'};
+
+  &.with-border {
+    border-right: 2px solid ${lightTheme.placeholderColor};
+  }
+
+  &.without-border {
+    border-right: none;
+  }
 `;
 const StyledRhythmStatisticsLeftTotalCountTitle = styled.p`
   font-weight: bold;
   margin-bottom: 0.5rem;
+`;
+
+const StyledRhythmStatisticsLeftTodayCountBox = styled(StyledBaseBox)<{
+  $currentTheme: ThemeType;
+}>`
+  width: 100%;
+  border-top: 2px solid ${lightTheme.placeholderColor};
 `;

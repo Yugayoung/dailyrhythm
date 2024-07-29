@@ -3,6 +3,8 @@ import { useGetCurrentTheme } from '../store/useDarkModeStore';
 import RhythmStatisticsComponent from '../components/RhythmStatisticsComponent';
 import styled from 'styled-components';
 import { ThemeType } from '../css/styles.theme';
+import { StyledBaseBox } from '../components/Navbar';
+import { BREAKPOINTS } from '../css/styles.width';
 
 export default function RhythmStatistics() {
   const currentTheme = useGetCurrentTheme();
@@ -23,16 +25,13 @@ const StyledHomeWrapper = styled.section<{ $currentTheme: ThemeType }>`
   width: 100%;
   height: 100vh;
   background-color: ${({ $currentTheme }) => $currentTheme.bodyBgColor};
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
     height: auto;
   }
 `;
-const StyledHomeBox = styled.div`
-  align-items: center;
-  justify-content: center;
-  display: flex;
+const StyledHomeBox = styled(StyledBaseBox)`
   position: relative;
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
     display: grid;
     margin: 1rem 0rem;
   }

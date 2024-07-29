@@ -2,6 +2,7 @@ import React from 'react';
 import { BeatLoader } from 'react-spinners';
 import { useGetCurrentTheme } from '../../store/useDarkModeStore';
 import styled from 'styled-components';
+import { StyledBaseBox } from '../Navbar';
 
 interface LoadingComponentProps {
   color?: string;
@@ -13,7 +14,6 @@ export default function Loading({ color, size }: LoadingComponentProps) {
   const defaultColor = color || currentTheme.placeholderColor;
   const defaultSize = size || '8px';
 
-
   return (
     <StyledLoadingBox>
       <BeatLoader color={defaultColor} size={defaultSize} />
@@ -22,7 +22,7 @@ export default function Loading({ color, size }: LoadingComponentProps) {
   );
 }
 
-const StyledLoadingBox = styled.div`
+const StyledLoadingBox = styled(StyledBaseBox)`
   display: flex;
   flex-direction: column;
   align-items: center;

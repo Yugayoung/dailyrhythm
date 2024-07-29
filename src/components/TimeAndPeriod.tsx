@@ -3,38 +3,28 @@ import styled from 'styled-components';
 import { FcCalendar, FcAlarmClock } from 'react-icons/fc';
 import { DatePicker, Space, TimePicker } from 'antd';
 import dayjs from 'dayjs';
-import { RhythmItem } from './AddRhythm';
 
 interface TimeAndPeriodProps {
   time: string;
   startDate?: string;
   endDate?: string;
-  setRhythm: (rhythm: (prevRhythm: RhythmItem) => RhythmItem) => void;
+  onTimeChange: (time: dayjs.Dayjs | null, timeString: string) => void;
+  onRangeChange: (
+    dates: [dayjs.Dayjs, dayjs.Dayjs],
+    dateStrings: [string, string]
+  ) => void;
 }
 
 const FORMAT = 'HH:mm';
 const { RangePicker } = DatePicker;
 
-export default function TimeAndPeriod({
+function TimeAndPeriod({
   time,
   startDate,
   endDate,
-  setRhythm,
+  onTimeChange,
+  onRangeChange,
 }: TimeAndPeriodProps) {
-  function handleTimeChange(time: dayjs.Dayjs | null, timeString: string) {
-    setRhythm((prevRhythm) => ({ ...prevRhythm, time: timeString }));
-  }
-
-  function handleRangeChange(
-    dates: [dayjs.Dayjs, dayjs.Dayjs],
-    dateStrings: [string, string]
-  ) {
-    setRhythm((rhythm) => ({
-      ...rhythm,
-      startDate: dateStrings[0],
-      endDate: dateStrings[1],
-    }));
-  }
   return (
     <>
       <StyledAddRhythmTimeAndPeriodBox>
@@ -51,7 +41,7 @@ export default function TimeAndPeriod({
                 startDate ? dayjs(startDate) : null,
                 endDate ? dayjs(endDate) : null,
               ]}
-              onChange={handleRangeChange}
+              onChange={onRangeChange}
             />
           </Space>
         </div>
@@ -65,13 +55,15 @@ export default function TimeAndPeriod({
           <TimePicker
             value={time ? dayjs(time, FORMAT) : null}
             format={FORMAT}
-            onChange={handleTimeChange}
+            onChange={onTimeChange}
           />
         </div>
       </StyledAddRhythmTimeAndPeriodBox>
     </>
   );
 }
+
+export default React.memo(TimeAndPeriod);
 
 const StyledAddRhythmTimeAndPeriodBox = styled.div`
   display: flex;

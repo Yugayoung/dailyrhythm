@@ -7,6 +7,7 @@ import { ThemeType } from '../css/styles.theme';
 import TodayRhythmStatistics from './TodayRhythmStatistics';
 import RhythmStatisticsDetail from './RhythmStatisticsDetail';
 import RhythmStatisticsBadge from './RhythmStatisticsBadge';
+import { BREAKPOINTS } from '../css/styles.width';
 
 export default function RhythmStatisticsComponent() {
   const { isLoading } = useRhythmStatistics();
@@ -33,7 +34,7 @@ const StyledRhythmStatisticsWrapper = styled.section<{
   $currentTheme?: ThemeType;
 }>`
   color: ${({ $currentTheme }) => $currentTheme.textColor};
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
     display: grid;
     justify-content: center;
     align-items: center;
@@ -46,7 +47,7 @@ const StyledRhythmStatistics = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 5rem;
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
     flex-direction: column;
     justify-content: center;
     align-items: center;

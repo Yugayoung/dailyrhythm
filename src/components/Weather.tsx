@@ -3,6 +3,7 @@ import { WeatherData, fetchWeatherData } from '../api/weather';
 import styled from 'styled-components';
 import Loading from './ui/Loading';
 import { lightTheme } from '../css/styles.theme';
+import { StyledBaseBox } from './Navbar';
 
 export default function Weather() {
   const [latitude, setLatitude] = useState<number | null>(null);
@@ -51,7 +52,7 @@ export default function Weather() {
         <StyledWeatherAndLoadingBox>
           <Loading />
         </StyledWeatherAndLoadingBox>
-      ) : weather ? (
+      ) : !!weather ? (
         <div>
           <p>{weather.name}</p>
           <StyledTempTopBox>
@@ -73,10 +74,7 @@ export default function Weather() {
   );
 }
 
-const StyledWeatherBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const StyledWeatherBox = styled(StyledBaseBox)`
   font-size: 0.8rem;
   color: ${(props) => props.theme.placeholderColor};
   font-weight: bold;

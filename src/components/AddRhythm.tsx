@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ButtonComponent from './ui/ButtonComponent';
 import Loading from './ui/Loading';
 import { useGetUser } from '../store/useUserStore';
@@ -9,6 +9,7 @@ import RhythmTitleInput from './RhythmTitleInput';
 import { useRhythm } from '../hooks/useRhythm';
 import TimeAndPeriod from './TimeAndPeriod';
 import SelectHighlighter from './SelectHighlighter';
+import { StyledBaseBox } from './Navbar';
 export interface RhythmItem {
   id: string;
   time: string;
@@ -51,10 +52,13 @@ export default function AddRhythm({
   const user = useGetUser();
   const uid = user.uid;
   const { addNewRhythm, removeRhythm, updateRhythm } = useRhythm(uid);
+  const [inputValue, setInputValue] = useState(rhythm.title);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (selectedRhythm) {
       setRhythm(selectedRhythm);
+      setInputValue(selectedRhythm.title);
       setSelectedIcon(selectedRhythm.icon);
       setSelectedBackgroundColor(selectedRhythm.backgroundColor);
     }
@@ -119,10 +123,61 @@ export default function AddRhythm({
 
   function handleSuccess() {
     setRhythm(initialRhythm);
+    setInputValue('');
     setSelectedIcon('✅');
     setSelectedBackgroundColor('');
     onClick();
   }
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+
+      setInputValue(value);
+
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      const newTimeoutId = setTimeout(() => {
+        setRhythm((rhythm) => ({ ...rhythm, title: value }));
+      }, 500);
+
+      setTimeoutId(newTimeoutId);
+    },
+    [setRhythm, timeoutId]
+  );
+
+  const handleColorSelect = useCallback(
+    (backgroundColor: string) => {
+      if (selectedBackgroundColor === backgroundColor) {
+        setSelectedBackgroundColor('');
+        setRhythm({ ...rhythm, backgroundColor: '' });
+      } else {
+        setSelectedBackgroundColor(backgroundColor);
+        setRhythm({ ...rhythm, backgroundColor });
+      }
+    },
+    [selectedBackgroundColor, rhythm]
+  );
+
+  const handleTimeChange = useCallback(
+    (time: dayjs.Dayjs | null, timeString: string) => {
+      setRhythm((rhythm) => ({ ...rhythm, time: timeString }));
+    },
+    []
+  );
+
+  const handleRangeChange = useCallback(
+    (dates: [dayjs.Dayjs, dayjs.Dayjs], dateStrings: [string, string]) => {
+      setRhythm((rhythm) => ({
+        ...rhythm,
+        startDate: dateStrings[0],
+        endDate: dateStrings[1],
+      }));
+    },
+    []
+  );
 
   return (
     <section>
@@ -143,17 +198,17 @@ export default function AddRhythm({
             setRhythm({ ...rhythm, icon });
           }}
         />
-        <RhythmTitleInput title={rhythm.title} setRhythm={setRhythm} />
+        <RhythmTitleInput title={inputValue} onChange={handleChange} />
         <TimeAndPeriod
           time={rhythm.time}
           startDate={rhythm.startDate}
           endDate={rhythm.endDate}
-          setRhythm={setRhythm}
+          onTimeChange={handleTimeChange}
+          onRangeChange={handleRangeChange}
         />
         <SelectHighlighter
           selectedBackgroundColor={selectedBackgroundColor}
-          setSelectedBackgroundColor={setSelectedBackgroundColor}
-          setRhythm={setRhythm}
+          onColorSelect={handleColorSelect}
         />
         {!selectedRhythm && (
           <StyledRhythmAddButtonWrapper>
@@ -197,16 +252,10 @@ const StyledAddRhythmForm = styled.form`
   gap: 1rem;
 `;
 
-const StyledRhythmAddButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const StyledRhythmAddButtonWrapper = styled(StyledBaseBox)`
   margin: 1rem 0rem;
 `;
-const StyledRhythmRemoveUpdateButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const StyledRhythmRemoveUpdateButtonWrapper = styled(StyledBaseBox)`
   margin: 1rem 0rem;
   gap: 4rem;
 `;

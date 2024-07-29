@@ -1,6 +1,7 @@
 import React from 'react';
 import { UserInfo } from '../store/useUserStore';
 import styled from 'styled-components';
+import { BREAKPOINTS } from '../css/styles.width';
 
 interface UserProps {
   user: UserInfo;
@@ -35,10 +36,9 @@ const UserImg = styled.img`
 
 const StyledUserNameWapper = styled.span`
   display: none;
-
   font-size: 1rem;
   font-weight: 500;
-  @media (min-width: 768px) {
+  @media (min-width: ${BREAKPOINTS.smallDesktop}) {
     display: block;
   }
 `;

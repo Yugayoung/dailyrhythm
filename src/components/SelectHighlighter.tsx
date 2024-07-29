@@ -4,29 +4,17 @@ import { darkTheme, lightTheme } from '../css/styles.theme';
 import { PiPencilCircleFill } from 'react-icons/pi';
 import { FaCheck } from 'react-icons/fa';
 import { highlighter } from '../css/styles.highlighter';
-import { RhythmItem } from './AddRhythm';
+import { StyledBaseBox } from './Navbar';
 
 interface SelectHighlighterProps {
   selectedBackgroundColor: string;
-  setSelectedBackgroundColor: (color: string) => void;
-  setRhythm: (rhythm: (prevRhythm: RhythmItem) => RhythmItem) => void;
+  onColorSelect: (backgroundColor: string) => void;
 }
 
-export default function SelectHighlighter({
+function SelectHighlighter({
   selectedBackgroundColor,
-  setSelectedBackgroundColor,
-  setRhythm,
+  onColorSelect,
 }: SelectHighlighterProps) {
-  const handleColorSelect = (backgroundColor: string) => {
-    if (selectedBackgroundColor === backgroundColor) {
-      setSelectedBackgroundColor('');
-      setRhythm((prevRhythm) => ({ ...prevRhythm, backgroundColor: '' }));
-    } else {
-      setSelectedBackgroundColor(backgroundColor);
-      setRhythm((prevRhythm) => ({ ...prevRhythm, backgroundColor }));
-    }
-  };
-
   return (
     <>
       <StyledAddRhythmTitle>
@@ -39,7 +27,7 @@ export default function SelectHighlighter({
         {Object.keys(highlighter).map((colorKey: keyof typeof highlighter) => (
           <StyledAddRhythmColor
             key={colorKey}
-            onClick={() => handleColorSelect(highlighter[colorKey])}
+            onClick={() => onColorSelect(highlighter[colorKey])}
             $color={highlighter[colorKey]}
             $isSelected={selectedBackgroundColor === highlighter[colorKey]}
           >
@@ -54,6 +42,7 @@ export default function SelectHighlighter({
     </>
   );
 }
+export default React.memo(SelectHighlighter);
 
 const StyledAddRhythmTitle = styled.h2`
   display: flex;
@@ -68,20 +57,16 @@ const StyledAddRhythmIcon = styled.div<{ $fontSize: string }>`
   margin-right: 0.2rem;
 `;
 
-// backgroundColor
 const StyledAddRhythmColorWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 1rem;
 `;
 
-const StyledAddRhythmColor = styled.div<{
+const StyledAddRhythmColor = styled(StyledBaseBox)<{
   $color: string;
   $isSelected: boolean;
 }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: ${({ $color }) => $color};
   width: 2.4rem;
   height: 2.4rem;

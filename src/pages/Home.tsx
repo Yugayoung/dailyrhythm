@@ -10,6 +10,7 @@ import homeTopImage from '../images/homeTopImage.png';
 import homeBottomImage from '../images/homeBottomImage.png';
 import useScrollCount from '../hooks/useScrollCount';
 import { motion, useAnimation } from 'framer-motion';
+import { StyledBaseBox } from '../components/Navbar';
 
 export default function Home() {
   const animatedHomeMiddleRightImg = useScrollFadeIn('left', 1.2, 0.3);
@@ -136,10 +137,7 @@ const StyledHomeMiddleWrapper = styled.section`
   margin: auto;
   background-color: white;
 `;
-const StyledHomeMiddleTextBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const StyledHomeMiddleTextBox = styled(StyledBaseBox)`
   font-size: 1.7rem;
   font-weight: bold;
   margin: 6rem 0rem;
