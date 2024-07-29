@@ -11,23 +11,28 @@
   font-weight: normal;
   font-style: normal;
 }
-
-:root {
-  --color-bg: #f5ebe0;
-  --color-text: #393122;
-  --color-accent: #d6ccc2;
-  --color-white: #edede9;
-  --color-scrollbar: #e3d5ca;
-  --color-darkBeige: #d5bdaf;
+@font-face {
+  font-family: 'MoveSansLight';
+  src: url('./fonts/MoveSansLight.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'HancomSansSemiBold';
+  src: url('./fonts/HancomSans-SemiBold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
-  margin: 0;
-  font-family: 'GmarketSansLight';
+  margin: auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'HancomSansSemiBold',
+    'GmarketSansLight', 'MoveSansLight', 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  width: 100vw;
-  height: 100vh;
+  width: 960px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,6 +46,5 @@ code {
 
 #root {
   width: 100%;
-  height: 60%;
-  max-width: 35rem;
+  max-width: 960px;
 }
