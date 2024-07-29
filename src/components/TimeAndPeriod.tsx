@@ -18,7 +18,7 @@ interface TimeAndPeriodProps {
 const FORMAT = 'HH:mm';
 const { RangePicker } = DatePicker;
 
-export default function TimeAndPeriod({
+function TimeAndPeriod({
   time,
   startDate,
   endDate,
@@ -62,6 +62,8 @@ export default function TimeAndPeriod({
     </>
   );
 }
+
+export default React.memo(TimeAndPeriod);
 
 const StyledAddRhythmTimeAndPeriodBox = styled.div`
   display: flex;

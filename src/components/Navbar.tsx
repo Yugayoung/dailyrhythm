@@ -19,6 +19,7 @@ import {
 } from '../store/useDarkModeStore';
 import { FaMoon } from 'react-icons/fa';
 import { IoMdSunny } from 'react-icons/io';
+import { BREAKPOINTS } from '../css/styles.width';
 
 export default function Navbar() {
   const user = useGetUser();
@@ -53,21 +54,21 @@ export default function Navbar() {
 
   return (
     <StyledHeaderWrapper>
-      <StyledHeaderDarkModeBox>
+      <StyledBaseBox>
         <Link to='/'>
           <LogoImg src={currentLogo} />
         </Link>
         <DarkModeButton onClick={toggleDarkMode} $isDarkMode={isDarkMode}>
           {isDarkMode ? <FaMoon /> : <IoMdSunny />}
         </DarkModeButton>
-      </StyledHeaderDarkModeBox>
+      </StyledBaseBox>
       {user ? (
         <StyledHeaderBox $currentTheme={currentTheme}>
           <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
             My하루
           </StyledLink>
           <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
-            루틴탐색
+            리듬탐색
           </StyledLink>
           <User user={user} />
           <ButtonComponent text={'Logout'} onClick={handleLogout} />
@@ -90,7 +91,7 @@ const StyledHeaderWrapper = styled.div`
   padding: 0.5rem 1rem;
 `;
 
-const StyledHeaderDarkModeBox = styled.div`
+export const StyledBaseBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -127,7 +128,7 @@ const DarkModeButton = styled.button<{ $isDarkMode: boolean }>`
 const LogoImg = styled.img`
   width: 8rem;
   color: #ff7b00;
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
     width: 7rem;
   }
 `;

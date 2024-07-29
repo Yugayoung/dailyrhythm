@@ -7,10 +7,7 @@ interface TitleInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function RhythmTitleInput({
-  title = '',
-  onChange,
-}: TitleInputProps) {
+function RhythmTitleInput({ title, onChange }: TitleInputProps) {
   return (
     <>
       <StyledAddRhythmTextInput
@@ -18,12 +15,14 @@ export default function RhythmTitleInput({
         name='title'
         value={title}
         placeholder='Title'
-        required
         onChange={onChange}
+        required
       />
     </>
   );
 }
+
+export default React.memo(RhythmTitleInput);
 
 const StyledAddRhythmTextInput = styled.input`
   width: 97%;

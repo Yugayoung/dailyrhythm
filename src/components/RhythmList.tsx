@@ -13,6 +13,8 @@ import dayjs from 'dayjs';
 import GuideImage from '../images/GuideImage.png';
 import AddRhythmButton from './AddRhythmButton';
 import { useRhythm } from '../hooks/useRhythm';
+import { StyledBaseBox } from './Navbar';
+import { BREAKPOINTS } from '../css/styles.width';
 
 interface RhythmListProps {
   selectedDate: Date;
@@ -43,14 +45,19 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
     queryFn: () => getRhythm(uid),
   });
 
-  function handleUpdateRhythmStatus(rhythm: RhythmItem) {
-    const newStatus = rhythm.status === 'active' ? 'done' : 'active';
+  function handleUpdateRhythmStatus(rhythm: RhythmItem, date: string) {
+    const newStatus = rhythm.status[date] === 'active' ? 'done' : 'active';
+    const updatedRhythm = {
+      ...rhythm,
+      status: {
+        ...rhythm.status,
+        [date]: newStatus,
+      },
+    };
+
     updateRhythm.mutate({
       uid,
-      rhythm: {
-        ...rhythm,
-        status: newStatus,
-      },
+      rhythm: updatedRhythm,
     });
   }
 
@@ -97,16 +104,22 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
                     <StyledRhythmTableTdTitle>
                       <StyledRhythmListTitleButton
                         onClick={() => handleRhythmItemClick(item)}
-                        $status={item.status}
+                        $status={item.status[formattedDate]}
                       >
                         <p>{item.title}</p>
                       </StyledRhythmListTitleButton>
                     </StyledRhythmTableTdTitle>
                     <StyledRhythmListIcon>
                       <StyledRhythmListCircleButton
-                        onClick={() => handleUpdateRhythmStatus(item)}
+                        onClick={() =>
+                          handleUpdateRhythmStatus(item, formattedDate)
+                        }
                       >
-                        <p>{item.status === 'active' ? '' : item.icon}</p>
+                        <p>
+                          {item.status[formattedDate] === 'active'
+                            ? ''
+                            : item.icon}
+                        </p>
                       </StyledRhythmListCircleButton>
                     </StyledRhythmListIcon>
                   </StyledRhythmTableTr>
@@ -141,17 +154,17 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
 
 const StyledRhythmList = styled.section`
   width: 25rem;
+  height: 24.2rem;
   background-color: ${color.lightGray3};
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.2);
-
   padding: 1.5rem 1rem;
   font-weight: bold;
   position: relative;
-  @media (min-width: 768px) {
+  @media (min-width: ${BREAKPOINTS.smallDesktop}) {
     width: 28rem;
     border-left: 2px solid ${color.borderColor};
   }
-  @media (max-width: 768px) {
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
     margin-bottom: 5rem;
     border-top: 2px solid ${color.borderColor};
   }
@@ -188,15 +201,8 @@ const StyledRhythmImg = styled.img`
 const StyledRhythmListMessage = styled.p`
   color: ${lightTheme.errorColor};
 `;
-const StyledRhythmListMessageWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const StyledRhythmListDateWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const StyledRhythmListMessageWrapper = styled(StyledBaseBox)``;
+const StyledRhythmListDateWrapper = styled(StyledBaseBox)`
   padding: 0.5rem;
 `;
 const StyledRhythmListYearMonthWrapper = styled.div`

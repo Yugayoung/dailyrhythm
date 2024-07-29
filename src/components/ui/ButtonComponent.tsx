@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useGetCurrentTheme } from '../../store/useDarkModeStore';
+import { lightTheme } from '../../css/styles.theme';
 
 interface ButtonComponentProps {
   onClick?: () => void;
@@ -16,7 +17,7 @@ export default function ButtonComponent({
   text = '확인',
   backgroundColor,
   textColor,
-  textSize = '0.9rem',
+  textSize = '0.8rem',
   width = 'auto',
 }: ButtonComponentProps) {
   const currentTheme = useGetCurrentTheme();
@@ -49,13 +50,17 @@ const StyledButton = styled.button<{
   font-family: 'GmarketSansMedium';
   font-weight: bold;
   border-radius: 0.7rem;
-  border-color: ${({ $backgroundColor }) => $backgroundColor};
+  border: 2px solid ${({ $backgroundColor }) => $backgroundColor};
   font-size: ${({ $textSize }) => $textSize};
   background-color: ${({ $backgroundColor }) => $backgroundColor};
   color: ${({ $textColor }) => $textColor};
   width: ${({ $width }) => $width};
+  transition: 400ms;
 
-  &:hover {
-    opacity: 0.8;
+  &:hover,
+  &:focus {
+    background-color: ${lightTheme.bgColor};
+    color: ${lightTheme.textColor};
+    border: 2px solid ${({ $backgroundColor }) => $backgroundColor};
   }
 `;

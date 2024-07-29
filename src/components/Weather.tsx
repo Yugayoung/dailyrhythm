@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { WeatherData, fetchWeatherData } from '../api/weather';
 import styled from 'styled-components';
 import Loading from './ui/Loading';
+import { lightTheme } from '../css/styles.theme';
+import { StyledBaseBox } from './Navbar';
 
 export default function Weather() {
   const [latitude, setLatitude] = useState<number | null>(null);
@@ -35,7 +37,7 @@ export default function Weather() {
           setWeather(data);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -47,30 +49,47 @@ export default function Weather() {
   return (
     <StyledWeatherBox>
       {isLoading ? (
-        <Loading />
+        <StyledWeatherAndLoadingBox>
+          <Loading />
+        </StyledWeatherAndLoadingBox>
+      ) : !!weather ? (
+        <div>
+          <p>{weather.name}</p>
+          <StyledTempTopBox>
+            <StyledWeatherImg src={weather.icon} alt='weather icon' />
+            <StyledWeatherText>{weather.temp}°</StyledWeatherText>
+          </StyledTempTopBox>
+        </div>
       ) : (
-        weather && (
-          <div>
-            <p>{weather.name}</p>
-            <StyledTempTopBox>
-              <StyledWeatherImg src={weather.icon} alt='weather icon' />
-              <StyledWeatherText>{weather.temp}°</StyledWeatherText>
-            </StyledTempTopBox>
-          </div>
-        )
+        <StyledWeatherGuideBox>
+          날씨 정보를 확인하려면 <br />
+          <StyledWeatherGuideTextBox>
+            <StyledWeatherGuideText>위치 정보 제공</StyledWeatherGuideText>
+            에&nbsp;
+            <StyledWeatherGuideText>동의</StyledWeatherGuideText>하세요
+          </StyledWeatherGuideTextBox>
+        </StyledWeatherGuideBox>
       )}
     </StyledWeatherBox>
   );
 }
 
-const StyledWeatherBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const StyledWeatherBox = styled(StyledBaseBox)`
   font-size: 0.8rem;
-  width: 7rem;
   color: ${(props) => props.theme.placeholderColor};
   font-weight: bold;
+`;
+const StyledWeatherAndLoadingBox = styled.div`
+  width: 7rem;
+`;
+const StyledWeatherGuideBox = styled.div`
+  width: 10rem;
+`;
+const StyledWeatherGuideTextBox = styled.div`
+  display: flex;
+`;
+const StyledWeatherGuideText = styled.p`
+  color: ${lightTheme.errorColor};
 `;
 
 const StyledTempTopBox = styled.div`

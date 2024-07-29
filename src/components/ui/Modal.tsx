@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BREAKPOINTS } from '../../css/styles.width';
 
 interface ModalProps {
   isOpen: boolean;
@@ -40,7 +41,7 @@ const StyledModalContent = styled.div`
   width: 80%;
   max-width: 27rem;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${BREAKPOINTS.smallDesktop}) {
     width: 50%;
   }
 `;
