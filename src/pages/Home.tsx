@@ -46,7 +46,6 @@ export default function Home() {
           </StyledArrowBox>
         </StyledHomeTopBox>
       </StyledHomeTopWrapper>
-
       <StyledHomeMiddleWrapper>
         <StyledHomeMiddleTextBox>
           <p>" </p>
