@@ -21,6 +21,7 @@ export default function CalendarComponent({
   onDateChange,
 }: CalendarComponentProps) {
   const [date, setDate] = useState(new Date());
+  const [activeStartDate, setActiveStartDate] = useState(new Date());
   const user = useGetUser();
   const uid = user.uid;
 
@@ -37,6 +38,7 @@ export default function CalendarComponent({
   function handleTodayChange() {
     const today = new Date();
     setDate(today);
+    setActiveStartDate(today);
     onDateChange(today);
   }
 
@@ -72,6 +74,10 @@ export default function CalendarComponent({
           <Calendar
             onChange={handleChange}
             value={date}
+            activeStartDate={activeStartDate}
+            onActiveStartDateChange={({ activeStartDate }) =>
+              setActiveStartDate(activeStartDate)
+            }
             tileContent={isCalendarItem}
             calendarType='gregory'
             showNeighboringMonth={false}

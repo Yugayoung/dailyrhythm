@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useGetCurrentTheme } from '../../store/useDarkModeStore';
-import { lightTheme } from '../../css/styles.theme';
+import { ThemeType } from '../../css/styles.theme';
 
 interface ButtonComponentProps {
   onClick?: () => void;
@@ -27,6 +27,7 @@ export default function ButtonComponent({
   return (
     <StyledButton
       onClick={onClick}
+      $currentTheme={currentTheme}
       $backgroundColor={defaultBackgroundColor}
       $textColor={defaultTextColor}
       $textSize={textSize}
@@ -42,25 +43,25 @@ const StyledButton = styled.button<{
   $textColor: string;
   $textSize: string;
   $width: string;
+  $currentTheme: ThemeType;
 }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.7rem 0.8rem;
+  padding: 0.5rem 0.7rem;
   font-family: 'GmarketSansMedium';
   font-weight: bold;
   border-radius: 0.7rem;
-  border: 2px solid ${({ $backgroundColor }) => $backgroundColor};
+  border: 3px solid ${({ $backgroundColor }) => $backgroundColor};
   font-size: ${({ $textSize }) => $textSize};
   background-color: ${({ $backgroundColor }) => $backgroundColor};
   color: ${({ $textColor }) => $textColor};
   width: ${({ $width }) => $width};
-  transition: 400ms;
+  transition: 200ms;
 
-  &:hover,
-  &:focus {
-    background-color: ${lightTheme.bgColor};
-    color: ${lightTheme.textColor};
-    border: 2px solid ${({ $backgroundColor }) => $backgroundColor};
+  &:hover {
+    background-color: ${({ $currentTheme }) => $currentTheme.bodyBgColor};
+    color: ${({ $currentTheme }) => $currentTheme.textColor};
+    border: 3px solid ${({ $backgroundColor }) => $backgroundColor};
   }
 `;
