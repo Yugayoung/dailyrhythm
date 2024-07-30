@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { lightTheme } from '../css/styles.theme';
+import { color, lightTheme } from '../css/styles.theme';
 import useScrollFadeIn from '../hooks/useScrollFadeIn';
 import homeMiddleImage1 from '../images/homeMiddleImage1.png';
 import homeMiddleImage2 from '../images/homeMiddleImage2.png';
@@ -11,6 +11,7 @@ import homeBottomImage from '../images/homeBottomImage.png';
 import useScrollCount from '../hooks/useScrollCount';
 import { motion, useAnimation } from 'framer-motion';
 import { StyledBaseBox } from '../components/Navbar';
+import { IoIosArrowDown } from 'react-icons/io';
 
 export default function Home() {
   const animatedHomeMiddleRightImg = useScrollFadeIn('left', 1.2, 0.3);
@@ -40,8 +41,12 @@ export default function Home() {
           <motion.div animate={controls}>
             <StyledHomeTopImg src={homeTopImage} alt='homeTopImage' />
           </motion.div>
+          <StyledArrowBox>
+            <IoIosArrowDown />
+          </StyledArrowBox>
         </StyledHomeTopBox>
       </StyledHomeTopWrapper>
+
       <StyledHomeMiddleWrapper>
         <StyledHomeMiddleTextBox>
           <p>" </p>
@@ -98,6 +103,16 @@ export default function Home() {
   );
 }
 
+const StyledArrowBox = styled(StyledBaseBox)`
+  margin: auto;
+  width: 30rem;
+  position: absolute;
+  bottom: 5%;
+  font-weight: bold;
+  font-size: 2rem;
+  color: ${color.gray};
+`;
+
 const StyledHomeWrapper = styled.section`
   position: absolute;
   width: 100%;
@@ -116,7 +131,7 @@ const StyledHomeTopWrapper = styled.section`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 60rem;
+  height: 100vh;
   background-color: ${lightTheme.accentColor};
 `;
 
