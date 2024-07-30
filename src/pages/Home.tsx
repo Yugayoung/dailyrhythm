@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { color, lightTheme } from '../css/styles.theme';
 import useScrollFadeIn from '../hooks/useScrollFadeIn';
@@ -21,6 +21,7 @@ export default function Home() {
   const animatedHomeBottomText = useScrollFadeIn('up', 1.2, 0.1);
   const { ref: countRef } = useScrollCount(365, 100);
   const controls = useAnimation();
+  const viewPoint = useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     controls.start({
@@ -34,6 +35,10 @@ export default function Home() {
     });
   }, [controls]);
 
+  function onMoveToView() {
+    viewPoint.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   return (
     <StyledHomeWrapper>
       <StyledHomeTopWrapper>
@@ -42,11 +47,13 @@ export default function Home() {
             <StyledHomeTopImg src={homeTopImage} alt='homeTopImage' />
           </motion.div>
           <StyledArrowBox>
-            <IoIosArrowDown />
+            <StyledArrowButton onClick={onMoveToView}>
+              <IoIosArrowDown />
+            </StyledArrowButton>
           </StyledArrowBox>
         </StyledHomeTopBox>
       </StyledHomeTopWrapper>
-      <StyledHomeMiddleWrapper>
+      <StyledHomeMiddleWrapper ref={viewPoint}>
         <StyledHomeMiddleTextBox>
           <p>" </p>
           <StyledHomeMiddleCount ref={countRef} />
@@ -103,15 +110,23 @@ export default function Home() {
 }
 
 const StyledArrowBox = styled(StyledBaseBox)`
-  margin: auto;
-  width: 30rem;
   position: absolute;
   bottom: 5%;
-  font-weight: bold;
-  font-size: 2rem;
-  color: ${color.gray};
+  left: 50%;
+  right: 50%;
 `;
 
+const StyledArrowButton = styled.button`
+  font-weight: bold;
+  font-size: 2.3rem;
+  color: ${color.gray};
+  background-color: transparent;
+  border: none;
+  transition: 1s ease;
+  &:hover {
+    transform: translateY(10px);
+  }
+`;
 const StyledHomeWrapper = styled.section`
   position: absolute;
   width: 100%;
