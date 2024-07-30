@@ -5,8 +5,10 @@ import { FaPlus } from 'react-icons/fa';
 import Modal from './ui/Modal';
 import AddRhythm from './AddRhythm';
 import { RhythmItem } from './AddRhythm';
+import { useGetCurrentTheme } from '../store/useDarkModeStore';
 
 export default function AddRhythmButton() {
+  const currentTheme = useGetCurrentTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRhythm, setSelectedRhythm] = useState<RhythmItem | null>(null);
 
@@ -31,6 +33,7 @@ export default function AddRhythmButton() {
             </>
           }
           textSize={'0.8rem'}
+          hoverBackgroundColor={currentTheme.bodyBgColor}
         />
       </StyledRhythmListAddRhythmButtonWrapper>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>

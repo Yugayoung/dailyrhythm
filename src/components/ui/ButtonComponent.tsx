@@ -7,6 +7,7 @@ interface ButtonComponentProps {
   onClick?: () => void;
   text?: React.ReactNode;
   backgroundColor?: string;
+  hoverBackgroundColor?: string;
   textColor?: string;
   textSize?: string;
   width?: string;
@@ -16,12 +17,14 @@ export default function ButtonComponent({
   onClick,
   text = '확인',
   backgroundColor,
+  hoverBackgroundColor,
   textColor,
   textSize = '0.8rem',
   width = 'auto',
 }: ButtonComponentProps) {
   const currentTheme = useGetCurrentTheme();
   const defaultBackgroundColor = backgroundColor || currentTheme.secondaryColor;
+  const defaultHoverBackgroundColor = hoverBackgroundColor || 'transparent';
   const defaultTextColor = textColor || currentTheme.textColor;
 
   return (
@@ -29,6 +32,7 @@ export default function ButtonComponent({
       onClick={onClick}
       $currentTheme={currentTheme}
       $backgroundColor={defaultBackgroundColor}
+      $hoverBackgroundColor={defaultHoverBackgroundColor}
       $textColor={defaultTextColor}
       $textSize={textSize}
       $width={width}
@@ -40,6 +44,7 @@ export default function ButtonComponent({
 
 const StyledButton = styled.button<{
   $backgroundColor: string;
+  $hoverBackgroundColor: string;
   $textColor: string;
   $textSize: string;
   $width: string;
@@ -60,7 +65,7 @@ const StyledButton = styled.button<{
   transition: 200ms;
 
   &:hover {
-    background-color: ${({ $currentTheme }) => $currentTheme.bodyBgColor};
+    background-color: ${({ $hoverBackgroundColor }) => $hoverBackgroundColor};
     color: ${({ $currentTheme }) => $currentTheme.textColor};
     border: 3px solid ${({ $backgroundColor }) => $backgroundColor};
   }
