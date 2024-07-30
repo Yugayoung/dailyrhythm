@@ -60,7 +60,6 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
       rhythm: updatedRhythm,
     });
   }
-
   const filteredRhythms = rhythms?.filter((rhythm) => {
     return (
       dayjs(rhythm.startDate).format('YYYY-MM-DD') <= formattedDate &&
