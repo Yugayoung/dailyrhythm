@@ -93,6 +93,7 @@ export default function CalendarComponent({
               text={'Today'}
               textColor={lightTheme.errorColor}
               textSize={'0.8rem'}
+              hoverTextColor={lightTheme.textColor}
             />
           </StyledTodayButtonWrapper>
         </>

@@ -5,9 +5,11 @@ import { ThemeType } from '../../css/styles.theme';
 
 interface ButtonComponentProps {
   onClick?: () => void;
+  className?: string;
   text?: React.ReactNode;
   backgroundColor?: string;
   hoverBackgroundColor?: string;
+  hoverTextColor?: string;
   textColor?: string;
   textSize?: string;
   width?: string;
@@ -15,9 +17,11 @@ interface ButtonComponentProps {
 
 export default function ButtonComponent({
   onClick,
+  className,
   text = '확인',
   backgroundColor,
   hoverBackgroundColor,
+  hoverTextColor,
   textColor,
   textSize = '0.8rem',
   width = 'auto',
@@ -25,6 +29,7 @@ export default function ButtonComponent({
   const currentTheme = useGetCurrentTheme();
   const defaultBackgroundColor = backgroundColor || currentTheme.secondaryColor;
   const defaultHoverBackgroundColor = hoverBackgroundColor || 'transparent';
+  const defaultHoverTextColor = hoverTextColor || currentTheme.textColor;
   const defaultTextColor = textColor || currentTheme.textColor;
 
   return (
@@ -33,9 +38,11 @@ export default function ButtonComponent({
       $currentTheme={currentTheme}
       $backgroundColor={defaultBackgroundColor}
       $hoverBackgroundColor={defaultHoverBackgroundColor}
+      $hoverTextColor={defaultHoverTextColor}
       $textColor={defaultTextColor}
       $textSize={textSize}
       $width={width}
+      className={className}
     >
       {text}
     </StyledButton>
@@ -45,6 +52,7 @@ export default function ButtonComponent({
 const StyledButton = styled.button<{
   $backgroundColor: string;
   $hoverBackgroundColor: string;
+  $hoverTextColor: string;
   $textColor: string;
   $textSize: string;
   $width: string;
@@ -64,9 +72,16 @@ const StyledButton = styled.button<{
   width: ${({ $width }) => $width};
   transition: 200ms;
 
+  &.padding-none {
+    padding: 0px;
+  }
+  &.dropdown {
+    font-weight: 100;
+  }
+
   &:hover {
     background-color: ${({ $hoverBackgroundColor }) => $hoverBackgroundColor};
-    color: ${({ $currentTheme }) => $currentTheme.textColor};
+    color: ${({ $hoverTextColor }) => $hoverTextColor};
     border: 3px solid ${({ $backgroundColor }) => $backgroundColor};
   }
 `;

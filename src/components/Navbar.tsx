@@ -20,6 +20,7 @@ import {
 import { FaMoon } from 'react-icons/fa';
 import { IoMdSunny } from 'react-icons/io';
 import { BREAKPOINTS } from '../css/styles.width';
+import DropDown from './DropDown';
 
 export default function Navbar() {
   const user = useGetUser();
@@ -58,20 +59,25 @@ export default function Navbar() {
         <Link to='/'>
           <LogoImg src={currentLogo} />
         </Link>
-        <DarkModeButton onClick={toggleDarkMode} $isDarkMode={isDarkMode}>
-          {isDarkMode ? <FaMoon /> : <IoMdSunny />}
-        </DarkModeButton>
       </StyledBaseBox>
       {user ? (
         <StyledHeaderBox $currentTheme={currentTheme}>
-          <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
-            My하루
-          </StyledLink>
-          <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
-            리듬탐색
-          </StyledLink>
-          <User user={user} />
-          <ButtonComponent text={'Logout'} onClick={handleLogout} />
+          <DarkModeButton onClick={toggleDarkMode} $isDarkMode={isDarkMode}>
+            {isDarkMode ? <FaMoon /> : <IoMdSunny />}
+          </DarkModeButton>
+          <StyledLinkBox>
+            <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
+              My하루
+            </StyledLink>
+            <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
+              리듬탐색
+            </StyledLink>
+          </StyledLinkBox>
+
+          <StyledUserAndDropdownBox>
+            <User user={user} />
+            <DropDown onClick={handleLogout} />
+          </StyledUserAndDropdownBox>
         </StyledHeaderBox>
       ) : (
         <ButtonComponent
@@ -96,6 +102,15 @@ export const StyledBaseBox = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const StyledLinkBox = styled(StyledBaseBox)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
+    display: none;
+  }
+`;
 
 const StyledHeaderBox = styled.div<{ $currentTheme: ThemeType }>`
   display: flex;
@@ -108,15 +123,16 @@ const StyledHeaderBox = styled.div<{ $currentTheme: ThemeType }>`
 
 const StyledLink = styled(Link)<{ $currentTheme: ThemeType }>`
   color: ${({ $currentTheme }) => $currentTheme.textColor};
+  transition: 200ms;
   &:hover {
-    color: ${({ $currentTheme }) => $currentTheme.primaryColor};
+    color: ${({ $currentTheme }) => $currentTheme.textHoverColor};
   }
 `;
 
 const DarkModeButton = styled.button<{ $isDarkMode: boolean }>`
   display: flex;
   justify-content: center;
-  width: 3rem;
+  padding: 0px;
   font-size: ${({ $isDarkMode }) => ($isDarkMode ? '1.2rem' : '1.5rem')};
   background-color: transparent;
   border: none;
@@ -132,3 +148,5 @@ const LogoImg = styled.img`
     width: 7rem;
   }
 `;
+
+const StyledUserAndDropdownBox = styled(StyledBaseBox)``;

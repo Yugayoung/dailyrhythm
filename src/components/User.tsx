@@ -25,7 +25,6 @@ export default function User({ user }: UserProps) {
 const StyledUserBox = styled.div`
   display: flex;
   align-items: center;
-  margin: 0rem 0.7rem;
 `;
 
 const UserImg = styled.img`
@@ -38,6 +37,7 @@ const StyledUserNameWapper = styled.span`
   display: none;
   font-size: 1rem;
   font-weight: 500;
+  margin-right: 0.2rem;
   @media (min-width: ${BREAKPOINTS.smallDesktop}) {
     display: block;
   }

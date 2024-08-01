@@ -12,7 +12,7 @@ export default function Header() {
 
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
-    const isAtTop = currentScrollY === 0;
+    const isAtTop = currentScrollY <= 0;
     const isAtBottom =
       window.innerHeight + currentScrollY >=
       document.documentElement.scrollHeight;

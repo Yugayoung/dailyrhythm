@@ -27,7 +27,7 @@ export default function RhythmStatisticsDetail() {
         </StyledRhythmStatisticsDetailHeadBox>
         <StyledRhythmStatisticsDetailUl>
           {rhythmDetails.map((rhythm) => (
-            <StyledRhythmStatisticsDetailLi key={rhythm.id}>
+            <StyledRhythmStatisticsDetailLi key={rhythm.title}>
               <StyledRhythmStatisticsDetailText>
                 {rhythm.icon}
               </StyledRhythmStatisticsDetailText>
