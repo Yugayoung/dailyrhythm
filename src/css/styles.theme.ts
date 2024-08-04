@@ -38,6 +38,7 @@ export const color = {
   lightPink: '#FFE7F9',
   pink: '#FF00BF',
   borderColor: '#D8D8D8',
+  lightYellow: '#f8e944',
 };
 
 export const theme = {

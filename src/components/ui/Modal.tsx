@@ -4,14 +4,17 @@ import { BREAKPOINTS } from '../../css/styles.width';
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () => void;
   children: React.ReactNode;
 }
 
-export default function Modal({ isOpen, onClose, children }: ModalProps) {
+export default function Modal({ isOpen, children }: ModalProps) {
+  const handleContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
+
   return (
-    <StyledModalOverlay $isModalOpen={isOpen} onClick={onClose}>
-      <StyledModalContent onClick={(e) => e.stopPropagation()}>
+    <StyledModalOverlay $isModalOpen={isOpen}>
+      <StyledModalContent onClick={handleContentClick}>
         {children}
       </StyledModalContent>
     </StyledModalOverlay>

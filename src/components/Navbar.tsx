@@ -102,6 +102,7 @@ export const StyledBaseBox = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const StyledLinkBox = styled(StyledBaseBox)`
   display: flex;
   justify-content: center;

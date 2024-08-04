@@ -10,6 +10,9 @@ import { useRhythm } from '../hooks/useRhythm';
 import TimeAndPeriod from './TimeAndPeriod';
 import SelectHighlighter from './SelectHighlighter';
 import { StyledBaseBox } from './Navbar';
+import Modal from './ui/Modal';
+import { useModal } from '../hooks/useModal';
+import ConfirmModal from './ui/ConfirmModal';
 export interface RhythmItem {
   id: string;
   time: string;
@@ -39,11 +42,13 @@ const initialRhythm: RhythmItem = {
 interface RhythmListProps {
   onClick: () => void;
   rhythm?: RhythmItem;
+  selectedDate?: Date;
 }
 
 export default function AddRhythm({
   onClick,
   rhythm: selectedRhythm,
+  selectedDate,
 }: RhythmListProps) {
   const [rhythm, setRhythm] = useState(initialRhythm);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,15 +59,41 @@ export default function AddRhythm({
   const { addNewRhythm, removeRhythm, updateRhythm } = useRhythm(uid);
   const [inputValue, setInputValue] = useState(rhythm.title);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const {
+    isOpen: isUpdateModalOpen,
+    openModal: openUpdateModal,
+    closeModal: closeUpdateModal,
+  } = useModal();
+  const {
+    isOpen: isDeleteModalOpen,
+    openModal: openDeleteModal,
+    closeModal: closeDeleteModal,
+  } = useModal();
+  const {
+    isOpen: isCloseModalOpen,
+    openModal: openCloseModal,
+    closeModal: closeCloseModal,
+  } = useModal();
 
   useEffect(() => {
     if (selectedRhythm) {
-      setRhythm(selectedRhythm);
+      setRhythm({
+        ...selectedRhythm,
+        startDate: dayjs(selectedRhythm.startDate).format('YYYY-MM-DD'),
+        endDate: dayjs(selectedRhythm.endDate).format('YYYY-MM-DD'),
+      });
       setInputValue(selectedRhythm.title);
       setSelectedIcon(selectedRhythm.icon);
       setSelectedBackgroundColor(selectedRhythm.backgroundColor);
+    } else if (selectedDate) {
+      const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
+      setRhythm({
+        ...initialRhythm,
+        startDate: formattedDate,
+        endDate: formattedDate,
+      });
     }
-  }, [selectedRhythm]);
+  }, [selectedRhythm, selectedDate]);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -178,13 +209,17 @@ export default function AddRhythm({
     },
     []
   );
+  function handleCloseConfirm() {
+    closeCloseModal();
+    onClick();
+  }
 
   return (
     <section>
       <StyledAddRhythmHead>
         <h2>루틴 추가하기</h2>
         <ButtonComponent
-          onClick={onClick}
+          onClick={openCloseModal}
           text={'❌'}
           backgroundColor={'transparent'}
           width={'1.5rem'}
@@ -222,17 +257,47 @@ export default function AddRhythm({
       {selectedRhythm && (
         <StyledRhythmRemoveUpdateButtonWrapper>
           <ButtonComponent
+            onClick={openUpdateModal}
             text={isLoading ? <Loading /> : '수정'}
-            onClick={handleUpdateRhythm}
             width={'100%'}
           />
+          <Modal isOpen={isUpdateModalOpen}>
+            <ConfirmModal
+              onClick={handleUpdateRhythm}
+              onClose={closeUpdateModal}
+              message={'수정하시겠습니까?'}
+            />
+          </Modal>
           <ButtonComponent
             text={isLoading ? <Loading /> : '삭제'}
-            onClick={handleDeleteRhythm}
+            onClick={openDeleteModal}
             width={'100%'}
           />
+          <Modal isOpen={isDeleteModalOpen}>
+            <ConfirmModal
+              onClick={handleDeleteRhythm}
+              onClose={closeDeleteModal}
+              message={
+                <>
+                  "{rhythm.title}" <br /> 루틴을 삭제하시겠습니까?
+                </>
+              }
+            />
+          </Modal>
         </StyledRhythmRemoveUpdateButtonWrapper>
       )}
+      <Modal isOpen={isCloseModalOpen}>
+        <ConfirmModal
+          onClick={handleCloseConfirm}
+          onClose={closeCloseModal}
+          message={
+            <>
+              작업이 취소됩니다. <br /> <br />
+              닫으시겠습니까?
+            </>
+          }
+        />
+      </Modal>
     </section>
   );
 }

@@ -6,20 +6,25 @@ import Modal from './ui/Modal';
 import AddRhythm from './AddRhythm';
 import { RhythmItem } from './AddRhythm';
 import { useGetCurrentTheme } from '../store/useDarkModeStore';
+import { useModal } from '../hooks/useModal';
 
-export default function AddRhythmButton() {
+interface SelectedDateProps {
+  selectedDate?: Date;
+}
+
+export default function AddRhythmButton({ selectedDate }: SelectedDateProps) {
   const currentTheme = useGetCurrentTheme();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isOpen, openModal, closeModal } = useModal();
   const [selectedRhythm, setSelectedRhythm] = useState<RhythmItem | null>(null);
 
   function handleOpenModal() {
     setSelectedRhythm(null);
-    setIsModalOpen(true);
+    openModal();
   }
 
   function handleCloseModal() {
-    setIsModalOpen(false);
     setSelectedRhythm(null);
+    closeModal();
   }
 
   return (
@@ -36,8 +41,12 @@ export default function AddRhythmButton() {
           hoverBackgroundColor={currentTheme.bodyBgColor}
         />
       </StyledRhythmListAddRhythmButtonWrapper>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <AddRhythm onClick={handleCloseModal} rhythm={selectedRhythm} />
+      <Modal isOpen={isOpen}>
+        <AddRhythm
+          onClick={handleCloseModal}
+          rhythm={selectedRhythm}
+          selectedDate={selectedDate}
+        />
       </Modal>
     </>
   );

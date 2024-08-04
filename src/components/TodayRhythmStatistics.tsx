@@ -65,6 +65,7 @@ const StyledRhythmStatisticsLeftBox = styled.div<{
     align-items: center;
     margin: 0rem 0rem 3rem 0rem;
     height: 35rem;
+    width: 18.9rem;
   }
 `;
 const StyledRhythmStatisticsGoalImg = styled.img`

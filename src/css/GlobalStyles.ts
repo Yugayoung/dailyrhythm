@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
-import { BREAKPOINTS } from './styles.width';
 
 export const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -73,27 +72,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     max-width: 960px;
   }
-  .ant-dropdown-arrow {
-    margin: 0.7rem 0rem;
-    @media (min-width: ${BREAKPOINTS.smallDesktop}) {
-      margin: 0.3rem 0rem;
-  }
-  }
-  .custom-dropdown .ant-dropdown-menu  {
-    margin: 0.7rem 0.8rem;
-    width: 6rem;
-    
-    @media (min-width: ${BREAKPOINTS.smallDesktop}) {
-      margin: 0.3rem 2rem;
-  }
-  }
-
-  .ant-dropdown-menu-title-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px 7px;
-  }
+  
 `;
 
 export default GlobalStyle;

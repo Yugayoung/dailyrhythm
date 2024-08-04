@@ -20,7 +20,7 @@ export default function ButtonComponent({
   className,
   text = '확인',
   backgroundColor,
-  hoverBackgroundColor,
+  hoverBackgroundColor = 'transparent',
   hoverTextColor,
   textColor,
   textSize = '0.8rem',
@@ -28,7 +28,6 @@ export default function ButtonComponent({
 }: ButtonComponentProps) {
   const currentTheme = useGetCurrentTheme();
   const defaultBackgroundColor = backgroundColor || currentTheme.secondaryColor;
-  const defaultHoverBackgroundColor = hoverBackgroundColor || 'transparent';
   const defaultHoverTextColor = hoverTextColor || currentTheme.textColor;
   const defaultTextColor = textColor || currentTheme.textColor;
 
@@ -37,7 +36,7 @@ export default function ButtonComponent({
       onClick={onClick}
       $currentTheme={currentTheme}
       $backgroundColor={defaultBackgroundColor}
-      $hoverBackgroundColor={defaultHoverBackgroundColor}
+      $hoverBackgroundColor={hoverBackgroundColor}
       $hoverTextColor={defaultHoverTextColor}
       $textColor={defaultTextColor}
       $textSize={textSize}
