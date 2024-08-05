@@ -5,7 +5,6 @@ import { useGetUser } from '../store/useUserStore';
 import AddRhythm, { RhythmItem } from './AddRhythm';
 import Loading from './ui/Loading';
 import styled from 'styled-components';
-
 import { color, lightTheme } from '../css/styles.theme';
 import Weather from './Weather';
 import Modal from './ui/Modal';
@@ -114,11 +113,13 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
                           handleUpdateRhythmStatus(item, formattedDate)
                         }
                       >
-                        <p>
-                          {item.status[formattedDate] === 'active'
-                            ? ''
-                            : item.icon}
-                        </p>
+                        {item.status[formattedDate] === 'active' ? (
+                          <StyledRhythmAtiveIcon>
+                            {item.icon}
+                          </StyledRhythmAtiveIcon>
+                        ) : (
+                          <p>{item.icon}</p>
+                        )}
                       </StyledRhythmListCircleButton>
                     </StyledRhythmListIcon>
                   </StyledRhythmTableTr>
@@ -169,6 +170,9 @@ const StyledRhythmList = styled.section`
     margin-bottom: 5rem;
     border-top: 2px solid ${color.borderColor};
   }
+`;
+const StyledRhythmAtiveIcon = styled.p`
+  filter: grayscale(100%) opacity(60%);
 `;
 const StyledRhythmTable = styled.table`
   text-align: center;

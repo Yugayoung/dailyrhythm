@@ -11,6 +11,8 @@ export const lightTheme = {
   supportingColor: '#f0a6ca', // 진분홍색
   errorColor: '#EF2F24', // 빨강색
   placeholderColor: '#C2C2C2', // 회색
+  progressBarColor: '#467ace',
+  progressBaBgColor: '#467ace81',
 };
 
 export const darkTheme = {
@@ -26,6 +28,8 @@ export const darkTheme = {
   supportingColor: '#7b68ee', // 하늘색
   errorColor: '#EF2F24', // 빨강색
   placeholderColor: '#9E9E9E', // 회색
+  progressBarColor: '#ffd60a',
+  progressBaBgColor: '#ffd60a62',
 };
 
 export const color = {

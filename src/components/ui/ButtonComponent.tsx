@@ -28,7 +28,7 @@ export default function ButtonComponent({
 }: ButtonComponentProps) {
   const currentTheme = useGetCurrentTheme();
   const defaultBackgroundColor = backgroundColor || currentTheme.secondaryColor;
-  const defaultHoverTextColor = hoverTextColor || currentTheme.textColor;
+  const defaultHoverTextColor = hoverTextColor || currentTheme.errorColor;
   const defaultTextColor = textColor || currentTheme.textColor;
 
   return (
@@ -82,5 +82,11 @@ const StyledButton = styled.button<{
     background-color: ${({ $hoverBackgroundColor }) => $hoverBackgroundColor};
     color: ${({ $hoverTextColor }) => $hoverTextColor};
     border: 3px solid ${({ $backgroundColor }) => $backgroundColor};
+  }
+
+  &.focusEffect {
+    &:focus {
+      color: ${({ $hoverTextColor }) => $hoverTextColor};
+    }
   }
 `;

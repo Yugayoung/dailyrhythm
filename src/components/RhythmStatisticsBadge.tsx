@@ -120,8 +120,10 @@ const StyledRhythmStatisticsBadgeCount = styled.p<{
   color: ${({ $currentTheme }) => $currentTheme.errorColor};
 `;
 const StyledRhythmStatisticsBadgeImgBox = styled.div`
-  width: 21rem;
+  width: 23rem;
   display: grid;
+  align-items: center;
+  justify-content: center;
   grid-template-columns: repeat(3, 1fr);
 `;
 const StyledRhythmStatisticsBadgeImg = styled.img`

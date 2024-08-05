@@ -15,7 +15,8 @@ export default function TodayRhythmStatistics() {
   const currentTheme = useGetCurrentTheme();
 
   return (
-    <>
+    <StyledTodayRhythmStatisticsBox>
+      <StyledRhythmStatisticsTitle>Rhythm Badge</StyledRhythmStatisticsTitle>
       <StyledRhythmStatisticsLeftBox $currentTheme={currentTheme}>
         <StyledRhythmStatisticsLeftTitle>
           오늘({formattedToday})의 달성률
@@ -40,22 +41,20 @@ export default function TodayRhythmStatistics() {
           </StyledRhythmStatisticsLeftTodayTotalCountBox>
         </StyledRhythmStatisticsLeftTodayCountBox>
       </StyledRhythmStatisticsLeftBox>
-    </>
+    </StyledTodayRhythmStatisticsBox>
   );
 }
 
 const StyledRhythmStatisticsLeftBox = styled.div<{
   $currentTheme: ThemeType;
 }>`
-  width: 20rem;
-
-  height: 39.3rem;
+  width: 21rem;
+  height: 42.3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  margin: 2.3rem 3rem 0rem 0rem;
   border-radius: 1rem;
   background-color: ${({ $currentTheme }) => $currentTheme.statisbgColor};
   box-shadow: ${lightTheme.placeholderColor} 0px 3px 8px;
@@ -65,8 +64,11 @@ const StyledRhythmStatisticsLeftBox = styled.div<{
     align-items: center;
     margin: 0rem 0rem 3rem 0rem;
     height: 35rem;
-    width: 18.9rem;
   }
+`;
+const StyledRhythmStatisticsTitle = styled.h2`
+  font-weight: bold;
+  margin-bottom: 1rem;
 `;
 const StyledRhythmStatisticsGoalImg = styled.img`
   margin: 1rem 0rem;
@@ -104,4 +106,7 @@ const StyledRhythmStatisticsLeftTodayCountBox = styled(StyledBaseBox)<{
 }>`
   width: 100%;
   border-top: 2px solid ${lightTheme.placeholderColor};
+`;
+const StyledTodayRhythmStatisticsBox = styled.div`
+  display: grid;
 `;

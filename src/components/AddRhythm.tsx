@@ -258,7 +258,7 @@ export default function AddRhythm({
         <StyledRhythmRemoveUpdateButtonWrapper>
           <ButtonComponent
             onClick={openUpdateModal}
-            text={isLoading ? <Loading /> : '수정'}
+            text={'수정'}
             width={'100%'}
           />
           <Modal isOpen={isUpdateModalOpen}>

@@ -42,6 +42,7 @@ const StyledConfirmModalBox = styled.div`
   padding: 1rem;
   gap: 1rem;
   text-align: center;
+  color: ${lightTheme.textColor};
 `;
 const StyledConfirmModalButton = styled.div`
   display: flex;
