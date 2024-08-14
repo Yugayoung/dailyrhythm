@@ -6,6 +6,7 @@ import { ThemeType } from '../css/styles.theme';
 import { useGetCurrentTheme } from '../store/useDarkModeStore';
 import ButtonComponent from './ui/ButtonComponent';
 import { FaPen } from 'react-icons/fa';
+import { BREAKPOINTS } from '../css/styles.width';
 
 export default function UserCard() {
   const user = useGetUser();
@@ -90,6 +91,9 @@ const StyledUserCardBox = styled.div`
   gap: 0.5rem;
   font-family: 'ONEMobileTitleOTF';
   margin-bottom: 2rem;
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
+    width: 93%;
+  }
 `;
 const StyledGoalEditBox = styled.div`
   position: absolute;

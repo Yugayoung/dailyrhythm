@@ -9,7 +9,7 @@ import { useGetCurrentTheme } from '../store/useDarkModeStore';
 import { useModal } from '../hooks/useModal';
 
 interface SelectedDateProps {
-  selectedDate?: Date;
+  selectedDate?: any;
 }
 
 export default function AddRhythmButton({ selectedDate }: SelectedDateProps) {

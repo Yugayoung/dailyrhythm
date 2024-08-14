@@ -15,8 +15,8 @@ export default function TodayRhythmStatistics() {
   const currentTheme = useGetCurrentTheme();
 
   return (
-    <StyledTodayRhythmStatisticsBox>
-      <StyledRhythmStatisticsTitle>Rhythm Badge</StyledRhythmStatisticsTitle>
+    <StyledTodayRhythmStatisticsSection>
+      <StyledTitle>Rhythm Badge</StyledTitle>
       <StyledRhythmStatisticsLeftBox $currentTheme={currentTheme}>
         <StyledRhythmStatisticsLeftTitle>
           오늘({formattedToday})의 달성률
@@ -41,7 +41,7 @@ export default function TodayRhythmStatistics() {
           </StyledRhythmStatisticsLeftTodayTotalCountBox>
         </StyledRhythmStatisticsLeftTodayCountBox>
       </StyledRhythmStatisticsLeftBox>
-    </StyledTodayRhythmStatisticsBox>
+    </StyledTodayRhythmStatisticsSection>
   );
 }
 
@@ -59,16 +59,19 @@ const StyledRhythmStatisticsLeftBox = styled.div<{
   background-color: ${({ $currentTheme }) => $currentTheme.statisbgColor};
   box-shadow: ${lightTheme.placeholderColor} 0px 3px 8px;
   @media (max-width: ${BREAKPOINTS.smallDesktop}) {
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    margin: 0rem 0rem 3rem 0rem;
-    height: 35rem;
+    width: 85%;
+    height: auto;
+    margin-bottom: 3rem;
   }
 `;
-const StyledRhythmStatisticsTitle = styled.h2`
+export const StyledTitle = styled.h2`
   font-weight: bold;
   margin-bottom: 1rem;
+  width: 100%;
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
+    padding-left: 3.4rem;
+  }
 `;
 const StyledRhythmStatisticsGoalImg = styled.img`
   margin: 1rem 0rem;
@@ -100,13 +103,18 @@ const StyledRhythmStatisticsLeftTotalCountTitle = styled.p`
   font-weight: bold;
   margin-bottom: 0.5rem;
 `;
+const StyledTodayRhythmStatisticsSection = styled.section`
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+`;
 
 const StyledRhythmStatisticsLeftTodayCountBox = styled(StyledBaseBox)<{
   $currentTheme: ThemeType;
 }>`
   width: 100%;
   border-top: 2px solid ${lightTheme.placeholderColor};
-`;
-const StyledTodayRhythmStatisticsBox = styled.div`
-  display: grid;
 `;

@@ -48,6 +48,7 @@ const StyledRhythmStatisticsDetailBox = styled.div`
     align-items: center;
     margin: 0rem;
     gap: 3rem;
+    width: 90%;
   }
 `;
 

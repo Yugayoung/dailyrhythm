@@ -32,7 +32,7 @@ const initialRhythm: RhythmItem = {
   title: '',
   startDate: dayjs().format('YYYY-MM-DD'),
   endDate: dayjs().format('YYYY-MM-DD'),
-  backgroundColor: '',
+  backgroundColor: 'white',
   icon: '✅',
   status: {
     [dayjs().format('YYYY-MM-DD')]: 'active',
@@ -53,7 +53,8 @@ export default function AddRhythm({
   const [rhythm, setRhythm] = useState(initialRhythm);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState('✅');
-  const [selectedBackgroundColor, setSelectedBackgroundColor] = useState('');
+  const [selectedBackgroundColor, setSelectedBackgroundColor] =
+    useState('white');
   const user = useGetUser();
   const uid = user.uid;
   const { addNewRhythm, removeRhythm, updateRhythm } = useRhythm(uid);
@@ -156,7 +157,7 @@ export default function AddRhythm({
     setRhythm(initialRhythm);
     setInputValue('');
     setSelectedIcon('✅');
-    setSelectedBackgroundColor('');
+    setSelectedBackgroundColor('white');
     onClick();
   }
 

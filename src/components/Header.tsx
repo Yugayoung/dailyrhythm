@@ -20,8 +20,10 @@ export default function Header() {
 
     if (isScrollingDown) {
       setIsVisible(false);
+      setIsTop(false);
       if (isAtBottom) {
         setIsVisible(true);
+        setIsTop(false);
       }
     } else {
       setIsVisible(true);

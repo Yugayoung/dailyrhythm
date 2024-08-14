@@ -57,9 +57,10 @@ const CustomLinearProgress = styled(LinearProgress)<{
 }>`
   width: 100%;
   border-radius: 5px;
+
   &.css-eglki6-MuiLinearProgress-root {
     background-color: ${({ $currentTheme }) => $currentTheme.progressBaBgColor};
-    height: 0.5rem;
+    height: 0.6rem;
   }
   .MuiLinearProgress-bar {
     background-color: ${({ $currentTheme }) => $currentTheme.progressBarColor};
@@ -67,13 +68,13 @@ const CustomLinearProgress = styled(LinearProgress)<{
 `;
 const LinearProgressBox = styled(StyledBaseBox)`
   width: 100%;
+  padding: 0rem 0.3rem;
 `;
 
 const LinearProgressTextBox = styled.div`
   font-size: 0.6rem;
   text-align: end;
   width: 4rem;
-  margin: 0rem 1rem;
   display: flex;
   align-items: center;
   justify-content: end;
