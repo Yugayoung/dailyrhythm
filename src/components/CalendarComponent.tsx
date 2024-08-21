@@ -12,6 +12,7 @@ import Loading from './ui/Loading';
 import ButtonComponent from './ui/ButtonComponent';
 import { StyledBaseBox } from './Navbar';
 import { BREAKPOINTS } from '../css/styles.width';
+import { FaCheck } from 'react-icons/fa';
 
 interface CalendarComponentProps {
   onDateChange: (date: Date) => void;
@@ -21,6 +22,7 @@ export default function CalendarComponent({
   onDateChange,
 }: CalendarComponentProps) {
   const [date, setDate] = useState(new Date());
+  const [activeStartDate, setActiveStartDate] = useState(new Date());
   const user = useGetUser();
   const uid = user.uid;
 
@@ -37,7 +39,25 @@ export default function CalendarComponent({
   function handleTodayChange() {
     const today = new Date();
     setDate(today);
+    setActiveStartDate(today);
     onDateChange(today);
+  }
+
+  function getDotColor(count: number) {
+    if (count >= 1 && count <= 4) return color.dotColor1;
+    if (count >= 5 && count <= 7) return color.dotColor2;
+    if (count >= 8) return color.dotColor3;
+  }
+
+  function isAllCompleted(
+    todayRhythms: RhythmItem[],
+    formattedDate: string
+  ): boolean {
+    const allCompleted = todayRhythms.every(
+      (rhythm) => rhythm.status[formattedDate] === 'done'
+    );
+
+    return allCompleted;
   }
 
   function isCalendarItem({ date, view }: { date: Date; view: string }) {
@@ -49,11 +69,20 @@ export default function CalendarComponent({
           dayjs(rhythm.endDate).format('YYYY-MM-DD') >= formattedDate
       );
 
+      const dotColor = getDotColor(todayRhythms.length);
+      const allCompleted = isAllCompleted(todayRhythms, formattedDate);
+
       return (
         <div>
           {todayRhythms.length > 0 ? (
             <StyledDotWrapper>
-              <StyledDot />
+              <StyledDot $dotColor={dotColor}>
+                {allCompleted && (
+                  <StyledCheckIcon>
+                    <FaCheck />
+                  </StyledCheckIcon>
+                )}
+              </StyledDot>
             </StyledDotWrapper>
           ) : (
             <StyledDotWrapper></StyledDotWrapper>
@@ -69,9 +98,18 @@ export default function CalendarComponent({
         <Loading />
       ) : (
         <>
+          <StyledCalendarAdditionBox className='mark'>
+            <StyledCalendarMark className='row'>3+</StyledCalendarMark>
+            <StyledCalendarMark className='middle'>5+</StyledCalendarMark>
+            <StyledCalendarMark className='high'>8+</StyledCalendarMark>
+          </StyledCalendarAdditionBox>
           <Calendar
             onChange={handleChange}
             value={date}
+            activeStartDate={activeStartDate}
+            onActiveStartDateChange={({ activeStartDate }) =>
+              setActiveStartDate(activeStartDate)
+            }
             tileContent={isCalendarItem}
             calendarType='gregory'
             showNeighboringMonth={false}
@@ -80,15 +118,16 @@ export default function CalendarComponent({
             formatDay={(locale, date) => dayjs(date).format('D')}
             formatMonthYear={(locale, date) => dayjs(date).format('YYYY. MM')}
           />
-          <StyledTodayButtonWrapper>
+          <StyledCalendarAdditionBox>
             <ButtonComponent
               onClick={handleTodayChange}
               backgroundColor={'transparent'}
               text={'Today'}
               textColor={lightTheme.errorColor}
               textSize={'0.8rem'}
+              hoverTextColor={lightTheme.textColor}
             />
-          </StyledTodayButtonWrapper>
+          </StyledCalendarAdditionBox>
         </>
       )}
     </StyledCalendarContainer>
@@ -96,31 +135,55 @@ export default function CalendarComponent({
 }
 
 const StyledDotWrapper = styled(StyledBaseBox)`
-  width: 0.5rem;
-  height: 0.8rem;
+  width: 1.4rem;
+  height: 1.4rem;
   margin: 0 auto;
   margin-top: 0.8rem;
 `;
-const StyledDot = styled.div`
-  width: 0.5rem;
-  height: 0.5rem;
-  background-color: ${lightTheme.primaryColor};
+const StyledDot = styled(StyledBaseBox)<{ $dotColor: string }>`
+  width: 1.3rem;
+  height: 1.3rem;
+  background-color: ${({ $dotColor }) => $dotColor};
   border-radius: 50%;
 `;
-const StyledTodayButtonWrapper = styled.div`
+const StyledCalendarAdditionBox = styled.div`
   position: absolute;
   top: 20px;
   right: 25px;
+  &.mark {
+    font-size: 0.8rem;
+    display: flex;
+    top: 31px;
+    left: 40px;
+  }
+`;
+const StyledCalendarMark = styled.p`
+  padding: 0.2rem;
+  &.row {
+    background-color: ${color.dotColor1};
+  }
+  &.middle {
+    background-color: ${color.dotColor2};
+  }
+  &.high {
+    background-color: ${color.dotColor3};
+  }
+`;
+
+const StyledCheckIcon = styled(StyledBaseBox)`
+  color: ${lightTheme.bgColor};
+  font-size: 0.7rem;
 `;
 
 const StyledCalendarContainer = styled(StyledBaseBox)`
   position: relative;
-  width: 27rem;
-  height: 27.2rem;
+  width: 30rem;
+  height: 38rem;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.2);
 
   .react-calendar {
     width: 100%;
+    height: 100%;
     padding: 1rem;
     background: white;
     border: none;
@@ -128,6 +191,14 @@ const StyledCalendarContainer = styled(StyledBaseBox)`
     font-family: 'MoveSansLight';
     line-height: 1rem;
   }
+  .react-calendar__month-view__days {
+    height: calc(6 * 5rem);
+  }
+  .react-calendar__tile {
+    min-height: 4.2rem;
+    height: 4.7rem;
+  }
+
   .react-calendar__navigation button {
     font-size: 1.1rem;
     font-family: 'MoveSansLight';
@@ -171,9 +242,7 @@ const StyledCalendarContainer = styled(StyledBaseBox)`
     font-size: 1rem;
     color: ${lightTheme.textColor};
   }
-  .react-calendar__tile {
-    border-radius: 0.5rem;
-  }
+
   .react-calendar__tile:enabled:hover,
   .react-calendar__tile:enabled:focus,
   .react-calendar__tile--active {
@@ -182,7 +251,7 @@ const StyledCalendarContainer = styled(StyledBaseBox)`
     font-weight: bold;
   }
 
-  @media (min-width: ${BREAKPOINTS.smallDesktop}) {
-    width: 30rem;
+  @media (max-width: ${BREAKPOINTS.mobile}) {
+    width: 94.4%;
   }
 `;

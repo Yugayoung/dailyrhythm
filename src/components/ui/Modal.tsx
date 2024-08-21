@@ -1,17 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BREAKPOINTS } from '../../css/styles.width';
+import { lightTheme } from '../../css/styles.theme';
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () => void;
   children: React.ReactNode;
 }
 
-export default function Modal({ isOpen, onClose, children }: ModalProps) {
+export default function Modal({ isOpen, children }: ModalProps) {
+  const handleContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
+
   return (
-    <StyledModalOverlay $isModalOpen={isOpen} onClick={onClose}>
-      <StyledModalContent onClick={(e) => e.stopPropagation()}>
+    <StyledModalOverlay $isModalOpen={isOpen}>
+      <StyledModalContent onClick={handleContentClick}>
         {children}
       </StyledModalContent>
     </StyledModalOverlay>
@@ -40,6 +44,7 @@ const StyledModalContent = styled.div`
   box-shadow: 0 5px 15px rgba(102, 101, 101, 0.3);
   width: 80%;
   max-width: 27rem;
+  color: ${lightTheme.textColor};
 
   @media (min-width: ${BREAKPOINTS.smallDesktop}) {
     width: 50%;

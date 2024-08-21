@@ -5,19 +5,26 @@ import { FaPlus } from 'react-icons/fa';
 import Modal from './ui/Modal';
 import AddRhythm from './AddRhythm';
 import { RhythmItem } from './AddRhythm';
+import { useGetCurrentTheme } from '../store/useDarkModeStore';
+import { useModal } from '../hooks/useModal';
 
-export default function AddRhythmButton() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+interface SelectedDateProps {
+  selectedDate?: any;
+}
+
+export default function AddRhythmButton({ selectedDate }: SelectedDateProps) {
+  const currentTheme = useGetCurrentTheme();
+  const { isOpen, openModal, closeModal } = useModal();
   const [selectedRhythm, setSelectedRhythm] = useState<RhythmItem | null>(null);
 
   function handleOpenModal() {
     setSelectedRhythm(null);
-    setIsModalOpen(true);
+    openModal();
   }
 
   function handleCloseModal() {
-    setIsModalOpen(false);
     setSelectedRhythm(null);
+    closeModal();
   }
 
   return (
@@ -31,10 +38,15 @@ export default function AddRhythmButton() {
             </>
           }
           textSize={'0.8rem'}
+          hoverBackgroundColor={currentTheme.bodyBgColor}
         />
       </StyledRhythmListAddRhythmButtonWrapper>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <AddRhythm onClick={handleCloseModal} rhythm={selectedRhythm} />
+      <Modal isOpen={isOpen}>
+        <AddRhythm
+          onClick={handleCloseModal}
+          rhythm={selectedRhythm}
+          selectedDate={selectedDate}
+        />
       </Modal>
     </>
   );

@@ -37,12 +37,19 @@ const StyledHomeWrapper = styled.section<{ $currentTheme: ThemeType }>`
   @media (min-width: ${BREAKPOINTS.smallDesktop}) {
     height: 100vh;
   }
+  @media (max-width: ${BREAKPOINTS.smallDesktopList}) {
+    height: auto;
+  }
 `;
 const StyledHomeBox = styled(StyledBaseBox)`
   position: relative;
-  margin-top: 0rem;
+
+  @media (max-width: ${BREAKPOINTS.smallDesktopList}) {
+    flex-direction: column;
+    margin-top: 6rem;
+  }
   @media (max-width: ${BREAKPOINTS.smallDesktop}) {
-    display: grid;
-    margin-top: 8rem;
+    flex-direction: column;
+    margin-top: 5rem;
   }
 `;

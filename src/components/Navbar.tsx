@@ -20,6 +20,7 @@ import {
 import { FaMoon } from 'react-icons/fa';
 import { IoMdSunny } from 'react-icons/io';
 import { BREAKPOINTS } from '../css/styles.width';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 export default function Navbar() {
   const user = useGetUser();
@@ -28,6 +29,8 @@ export default function Navbar() {
   const { toggleDarkMode } = useDarkModeActions();
   const currentTheme = useGetCurrentTheme();
   const currentLogo = isDarkMode ? basicLogoDark : basicLogoLight;
+  const windowSize = useWindowSize();
+  const isMobileWindow = windowSize.width < parseInt(BREAKPOINTS.mediumMobile);
 
   useEffect(() => {
     handleGoogleAuthStateChange((user) => {
@@ -58,20 +61,24 @@ export default function Navbar() {
         <Link to='/'>
           <LogoImg src={currentLogo} />
         </Link>
-        <DarkModeButton onClick={toggleDarkMode} $isDarkMode={isDarkMode}>
-          {isDarkMode ? <FaMoon /> : <IoMdSunny />}
-        </DarkModeButton>
       </StyledBaseBox>
       {user ? (
         <StyledHeaderBox $currentTheme={currentTheme}>
-          <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
-            My하루
-          </StyledLink>
-          <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
-            리듬탐색
-          </StyledLink>
-          <User user={user} />
-          <ButtonComponent text={'Logout'} onClick={handleLogout} />
+          <DarkModeButton onClick={toggleDarkMode} $isDarkMode={isDarkMode}>
+            {isDarkMode ? <FaMoon /> : <IoMdSunny />}
+          </DarkModeButton>
+          <StyledMobileHeaderBox $isMobileWindow={isMobileWindow}>
+            <StyledLinkBox>
+              <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
+                My하루
+              </StyledLink>
+              <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
+                리듬탐색
+              </StyledLink>
+            </StyledLinkBox>
+
+            <User user={user} onClick={handleLogout} />
+          </StyledMobileHeaderBox>
         </StyledHeaderBox>
       ) : (
         <ButtonComponent
@@ -83,6 +90,14 @@ export default function Navbar() {
     </StyledHeaderWrapper>
   );
 }
+
+const StyledMobileHeaderBox = styled.div<{
+  $isMobileWindow: boolean;
+}>`
+  align-items: center;
+  gap: 0.7rem;
+  display: ${({ $isMobileWindow }) => ($isMobileWindow ? 'none' : 'flex')};
+`;
 
 const StyledHeaderWrapper = styled.div`
   display: flex;
@@ -97,6 +112,13 @@ export const StyledBaseBox = styled.div`
   align-items: center;
 `;
 
+const StyledLinkBox = styled(StyledBaseBox)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+`;
+
 const StyledHeaderBox = styled.div<{ $currentTheme: ThemeType }>`
   display: flex;
   align-items: center;
@@ -108,15 +130,16 @@ const StyledHeaderBox = styled.div<{ $currentTheme: ThemeType }>`
 
 const StyledLink = styled(Link)<{ $currentTheme: ThemeType }>`
   color: ${({ $currentTheme }) => $currentTheme.textColor};
+  transition: 200ms;
   &:hover {
-    color: ${({ $currentTheme }) => $currentTheme.primaryColor};
+    color: ${({ $currentTheme }) => $currentTheme.textHoverColor};
   }
 `;
 
 const DarkModeButton = styled.button<{ $isDarkMode: boolean }>`
   display: flex;
   justify-content: center;
-  width: 3rem;
+  padding: 0px;
   font-size: ${({ $isDarkMode }) => ($isDarkMode ? '1.2rem' : '1.5rem')};
   background-color: transparent;
   border: none;

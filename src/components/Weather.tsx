@@ -6,45 +6,60 @@ import { lightTheme } from '../css/styles.theme';
 import { StyledBaseBox } from './Navbar';
 
 export default function Weather() {
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
   const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
+    const watchPermission = async () => {
       try {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              setLatitude(position.coords.latitude);
-              setLongitude(position.coords.longitude);
-            },
-            (err) => {
-              console.error('위치 정보 오류');
-              setIsLoading(false);
-            }
-          );
-        } else {
-          console.error('브라우저가 geolocation을 지원하지 않음');
-          setIsLoading(false);
-        }
+        const permissionStatus = await navigator.permissions.query({
+          name: 'geolocation',
+        });
 
-        if (latitude !== null && longitude !== null) {
-          const data = await fetchWeatherData({ latitude, longitude });
-          setWeather(data);
+        permissionStatus.onchange = () => {
+          if (permissionStatus.state === 'granted') {
+            getLocationAndFetchWeather();
+          } else if (permissionStatus.state === 'denied') {
+            setWeather(null);
+          }
+        };
+
+        if (permissionStatus.state === 'granted') {
+          getLocationAndFetchWeather();
         }
       } catch (error) {
         console.error(error);
-      } finally {
+      }
+    };
+
+    const getLocationAndFetchWeather = () => {
+      if (navigator.geolocation) {
+        setIsLoading(true);
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            try {
+              const data = await fetchWeatherData({ latitude, longitude });
+              setWeather(data);
+            } catch (error) {
+              console.error('날씨 정보를 가져오는 데 실패했습니다.', error);
+            } finally {
+              setIsLoading(false);
+            }
+          },
+          (err) => {
+            console.error('위치 정보 오류', err);
+            setIsLoading(false);
+          }
+        );
+      } else {
+        console.error('브라우저가 geolocation을 지원하지 않음');
         setIsLoading(false);
       }
     };
 
-    fetchData();
-  }, [latitude, longitude]);
+    watchPermission();
+  }, []);
 
   return (
     <StyledWeatherBox>

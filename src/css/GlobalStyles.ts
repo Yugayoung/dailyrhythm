@@ -35,6 +35,13 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: normal;
     font-style: normal;
   }
+  @font-face {
+    font-family: 'ONEMobileTitleOTF';
+    src: 
+         url('./fonts/ONEMobileTitleOTF.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
 
   body {
     margin: 0;
@@ -72,6 +79,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     max-width: 960px;
   }
+  
 `;
 
 export default GlobalStyle;

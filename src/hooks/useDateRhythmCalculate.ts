@@ -19,10 +19,15 @@ interface RhythmStatistics {
   dailyRhythmCounts: DateRhythmCount[];
   rhythmDetails: {
     id: string;
+    time: string;
     title: string;
+    startDate?: string;
+    endDate?: string;
     icon: string;
+    backgroundColor?: string;
     totalCount: number;
     doneCount: number;
+    status: { [date: string]: string };
   }[];
 }
 
@@ -113,12 +118,17 @@ export function useRhythmStatistics(): RhythmStatistics {
 
         return {
           id: rhythm.id,
+          time: rhythm.time,
           title: rhythm.title,
+          startDate: rhythm.startDate,
+          endDate: rhythm.endDate,
           icon: rhythm.icon,
+          backgroundColor: rhythm.backgroundColor,
           totalCount: dailyRhythmCounts.filter(
             (count) => rhythm.status[count.date]
           ).length,
           doneCount: doneCount,
+          status: rhythm.status,
         };
       })
     : [];
