@@ -15,7 +15,8 @@ export default function TodayRhythmStatistics() {
   const currentTheme = useGetCurrentTheme();
 
   return (
-    <>
+    <StyledTodayRhythmStatisticsSection>
+      <StyledTitle>Rhythm Badge</StyledTitle>
       <StyledRhythmStatisticsLeftBox $currentTheme={currentTheme}>
         <StyledRhythmStatisticsLeftTitle>
           오늘({formattedToday})의 달성률
@@ -40,31 +41,36 @@ export default function TodayRhythmStatistics() {
           </StyledRhythmStatisticsLeftTodayTotalCountBox>
         </StyledRhythmStatisticsLeftTodayCountBox>
       </StyledRhythmStatisticsLeftBox>
-    </>
+    </StyledTodayRhythmStatisticsSection>
   );
 }
 
 const StyledRhythmStatisticsLeftBox = styled.div<{
   $currentTheme: ThemeType;
 }>`
-  width: 20rem;
-
-  height: 39.3rem;
+  width: 21rem;
+  height: 42.3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  margin: 2.3rem 3rem 0rem 0rem;
   border-radius: 1rem;
   background-color: ${({ $currentTheme }) => $currentTheme.statisbgColor};
   box-shadow: ${lightTheme.placeholderColor} 0px 3px 8px;
   @media (max-width: ${BREAKPOINTS.smallDesktop}) {
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    margin: 0rem 0rem 3rem 0rem;
-    height: 35rem;
+    width: 85%;
+    height: auto;
+    margin-bottom: 3rem;
+  }
+`;
+export const StyledTitle = styled.h2`
+  font-weight: bold;
+  margin-bottom: 1rem;
+  width: 100%;
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
+    padding-left: 3.4rem;
   }
 `;
 const StyledRhythmStatisticsGoalImg = styled.img`
@@ -96,6 +102,14 @@ const StyledRhythmStatisticsLeftTodayTotalCountBox = styled.div`
 const StyledRhythmStatisticsLeftTotalCountTitle = styled.p`
   font-weight: bold;
   margin-bottom: 0.5rem;
+`;
+const StyledTodayRhythmStatisticsSection = styled.section`
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const StyledRhythmStatisticsLeftTodayCountBox = styled(StyledBaseBox)<{

@@ -92,6 +92,23 @@ export async function firebaseRemoveRhythm(uid: string, rhythm: RhythmItem) {
 
 export async function firebaseUpdateRhythm(uid: string, rhythm: RhythmItem) {
   const rhythmRef = ref(database, `rhythms/${uid}/${rhythm.id}`);
+  const startDate = dayjs(rhythm.startDate);
+  const endDate = dayjs(rhythm.endDate);
+  const status: { [date: string]: string } = {};
 
-  await set(rhythmRef, rhythm);
+  for (
+    let date = startDate;
+    date.isBefore(endDate) || date.isSame(endDate);
+    date = date.add(1, 'day')
+  ) {
+    status[date.format('YYYY-MM-DD')] =
+      rhythm.status[date.format('YYYY-MM-DD')] || 'active';
+  }
+
+  const updatedRhythm = {
+    ...rhythm,
+    status,
+  };
+
+  await set(rhythmRef, updatedRhythm);
 }

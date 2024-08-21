@@ -10,6 +10,7 @@ import badge50 from '../images/badge50.png';
 import badge100 from '../images/badge100.png';
 import badge300 from '../images/badge300.png';
 import badge500 from '../images/badge500.png';
+import { BREAKPOINTS } from '../css/styles.width';
 
 const badges = [
   { count: 10, src: badge10, alt: 'badge10' },
@@ -23,7 +24,7 @@ export default function RhythmStatisticsBadge() {
   const currentTheme = useGetCurrentTheme();
 
   return (
-    <div>
+    <section>
       <StyledRhythmStatisticsTitle>Rhythm Badge</StyledRhythmStatisticsTitle>
       <StyledRhythmStatisticsRightBadgeBox $currentTheme={currentTheme}>
         <StyledRhythmStatisticsBadgeTitle>
@@ -72,7 +73,7 @@ export default function RhythmStatisticsBadge() {
           )}
         </StyledRhythmStatisticsBadgeImgBox>
       </StyledRhythmStatisticsRightBadgeBox>
-    </div>
+    </section>
   );
 }
 
@@ -89,6 +90,7 @@ const StyledRhythmStatisticsRightBadgeBox = styled.div<{
 const StyledRhythmStatisticsTitle = styled.h2`
   font-weight: bold;
   margin-bottom: 1rem;
+  width: 100%;
 `;
 
 const StyledRhythmStatisticsBadgeTitle = styled.h2`
@@ -120,9 +122,15 @@ const StyledRhythmStatisticsBadgeCount = styled.p<{
   color: ${({ $currentTheme }) => $currentTheme.errorColor};
 `;
 const StyledRhythmStatisticsBadgeImgBox = styled.div`
-  width: 21rem;
+  width: 23rem;
   display: grid;
+  align-items: center;
+  justify-content: center;
   grid-template-columns: repeat(3, 1fr);
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
+    width: 24rem;
+    margin: auto;
+  }
 `;
 const StyledRhythmStatisticsBadgeImg = styled.img`
   width: 100%;

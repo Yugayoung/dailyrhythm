@@ -5,7 +5,6 @@ import { useGetUser } from '../store/useUserStore';
 import AddRhythm, { RhythmItem } from './AddRhythm';
 import Loading from './ui/Loading';
 import styled from 'styled-components';
-
 import { color, lightTheme } from '../css/styles.theme';
 import Weather from './Weather';
 import Modal from './ui/Modal';
@@ -60,7 +59,6 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
       rhythm: updatedRhythm,
     });
   }
-
   const filteredRhythms = rhythms?.filter((rhythm) => {
     return (
       dayjs(rhythm.startDate).format('YYYY-MM-DD') <= formattedDate &&
@@ -115,11 +113,13 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
                           handleUpdateRhythmStatus(item, formattedDate)
                         }
                       >
-                        <p>
-                          {item.status[formattedDate] === 'active'
-                            ? ''
-                            : item.icon}
-                        </p>
+                        {item.status[formattedDate] === 'active' ? (
+                          <StyledRhythmAtiveIcon>
+                            {item.icon}
+                          </StyledRhythmAtiveIcon>
+                        ) : (
+                          <p>{item.icon}</p>
+                        )}
                       </StyledRhythmListCircleButton>
                     </StyledRhythmListIcon>
                   </StyledRhythmTableTr>
@@ -144,30 +144,35 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
           </StyledRhythmTable>
         )}
       </StyledRhythmTableBox>
-      <AddRhythmButton />
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <AddRhythm onClick={handleCloseModal} rhythm={selectedRhythm} />
-      </Modal>
+      <AddRhythmButton selectedDate={selectedDate} />
+      {selectedRhythm && (
+        <Modal isOpen={isModalOpen}>
+          <AddRhythm onClick={handleCloseModal} rhythm={selectedRhythm} />
+        </Modal>
+      )}
     </StyledRhythmList>
   );
 }
 
 const StyledRhythmList = styled.section`
-  width: 25rem;
-  height: 24.2rem;
+  width: 28rem;
+  height: 35rem;
   background-color: ${color.lightGray3};
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.2);
   padding: 1.5rem 1rem;
   font-weight: bold;
   position: relative;
-  @media (min-width: ${BREAKPOINTS.smallDesktop}) {
-    width: 28rem;
-    border-left: 2px solid ${color.borderColor};
+  @media (max-width: ${BREAKPOINTS.mobile}) {
+    margin-bottom: 5rem;
+    width: 87%;
   }
-  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
+  @media (max-width: ${BREAKPOINTS.smallDesktopList}) {
     margin-bottom: 5rem;
     border-top: 2px solid ${color.borderColor};
   }
+`;
+const StyledRhythmAtiveIcon = styled.p`
+  filter: grayscale(100%) opacity(60%);
 `;
 const StyledRhythmTable = styled.table`
   text-align: center;
@@ -175,7 +180,7 @@ const StyledRhythmTable = styled.table`
   font-size: 1rem;
 `;
 const StyledRhythmTableBox = styled.div`
-  height: 300px;
+  height: 450px;
   overflow-y: scroll;
   margin: 1rem 0rem;
 `;

@@ -23,7 +23,7 @@ const StyledHomeWrapper = styled.section<{ $currentTheme: ThemeType }>`
   justify-content: center;
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: auto;
   background-color: ${({ $currentTheme }) => $currentTheme.bodyBgColor};
   @media (max-width: ${BREAKPOINTS.smallDesktop}) {
     height: auto;

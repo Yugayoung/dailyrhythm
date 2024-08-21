@@ -25,7 +25,7 @@ function createUserStore() {
         try {
           return JSON.parse(storedUser);
         } catch (error) {
-          console.error('Error parsing stored user data:', error);
+          console.error(error);
           return null;
         }
       }
