@@ -69,6 +69,7 @@ export default function Home() {
         </StyledHomeTopBox>
       </StyledHomeTopWrapper>
       <StyledHomeMiddleWrapper ref={viewPoint}>
+
         <StyledHomeMiddleTextBox>
           <p>" </p>
           <StyledHomeMiddleCount ref={countRef} />
