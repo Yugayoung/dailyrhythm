@@ -44,9 +44,9 @@ export default function CalendarComponent({
   }
 
   function getDotColor(count: number) {
-    if (count >= 1 && count <= 3) return lightTheme.secondaryColor;
-    if (count >= 4 && count <= 7) return lightTheme.primaryColor;
-    if (count >= 8) return darkTheme.primaryColor;
+    if (count >= 1 && count <= 4) return color.dotColor1;
+    if (count >= 5 && count <= 7) return color.dotColor2;
+    if (count >= 8) return color.dotColor3;
   }
 
   function isAllCompleted(
@@ -98,6 +98,11 @@ export default function CalendarComponent({
         <Loading />
       ) : (
         <>
+          <StyledCalendarAdditionBox className='mark'>
+            <StyledCalendarMark className='row'>3+</StyledCalendarMark>
+            <StyledCalendarMark className='middle'>5+</StyledCalendarMark>
+            <StyledCalendarMark className='high'>8+</StyledCalendarMark>
+          </StyledCalendarAdditionBox>
           <Calendar
             onChange={handleChange}
             value={date}
@@ -113,7 +118,7 @@ export default function CalendarComponent({
             formatDay={(locale, date) => dayjs(date).format('D')}
             formatMonthYear={(locale, date) => dayjs(date).format('YYYY. MM')}
           />
-          <StyledTodayButtonWrapper>
+          <StyledCalendarAdditionBox>
             <ButtonComponent
               onClick={handleTodayChange}
               backgroundColor={'transparent'}
@@ -122,7 +127,7 @@ export default function CalendarComponent({
               textSize={'0.8rem'}
               hoverTextColor={lightTheme.textColor}
             />
-          </StyledTodayButtonWrapper>
+          </StyledCalendarAdditionBox>
         </>
       )}
     </StyledCalendarContainer>
@@ -141,10 +146,28 @@ const StyledDot = styled(StyledBaseBox)<{ $dotColor: string }>`
   background-color: ${({ $dotColor }) => $dotColor};
   border-radius: 50%;
 `;
-const StyledTodayButtonWrapper = styled.div`
+const StyledCalendarAdditionBox = styled.div`
   position: absolute;
   top: 20px;
   right: 25px;
+  &.mark {
+    font-size: 0.8rem;
+    display: flex;
+    top: 31px;
+    left: 40px;
+  }
+`;
+const StyledCalendarMark = styled.p`
+  padding: 0.2rem;
+  &.row {
+    background-color: ${color.dotColor1};
+  }
+  &.middle {
+    background-color: ${color.dotColor2};
+  }
+  &.high {
+    background-color: ${color.dotColor3};
+  }
 `;
 
 const StyledCheckIcon = styled(StyledBaseBox)`
@@ -174,7 +197,6 @@ const StyledCalendarContainer = styled(StyledBaseBox)`
   .react-calendar__tile {
     min-height: 4.2rem;
     height: 4.7rem;
-    border-radius: 0.5rem;
   }
 
   .react-calendar__navigation button {

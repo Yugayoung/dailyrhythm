@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import { color, lightTheme } from '../css/styles.theme';
 import useScrollFadeIn from '../hooks/useScrollFadeIn';
 import homeTopImage from '../images/homeTopImage.png';
