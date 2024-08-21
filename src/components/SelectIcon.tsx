@@ -13,7 +13,7 @@ export default function SelectIcon({
   selectedIcon,
   onSelect,
 }: SelectIconProps) {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   const handleVisibleClick = () => {
     setIsVisible(!isVisible);
@@ -21,7 +21,7 @@ export default function SelectIcon({
 
   const handleIconSelect = (icon: string) => {
     onSelect(icon);
-    setIsVisible(false);
+    setIsVisible(true);
   };
 
   return (

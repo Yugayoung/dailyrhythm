@@ -43,6 +43,11 @@ export const color = {
   pink: '#FF00BF',
   borderColor: '#D8D8D8',
   lightYellow: '#f8e944',
+  dotColor1: '#a5b9e1',
+  dotColor2: '#8fa9dd',
+  dotColor3: '#668bd6',
+  dotColor4: '#4171d0',
+  dotColor5: '#1552cb',
 };
 
 export const theme = {

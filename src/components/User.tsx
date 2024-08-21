@@ -2,12 +2,20 @@ import React from 'react';
 import { UserInfo } from '../store/useUserStore';
 import styled from 'styled-components';
 import { BREAKPOINTS } from '../css/styles.width';
+import ButtonComponent from './ui/ButtonComponent';
+import { useGetCurrentTheme } from '../store/useDarkModeStore';
 
 interface UserProps {
-  user: UserInfo;
+  user: UserInfo | null;
+  onClick?: () => void;
 }
 
-export default function User({ user }: UserProps) {
+export default function User({ user, onClick }: UserProps) {
+  const currentTheme = useGetCurrentTheme();
+
+  if (!user) {
+    return null;
+  }
   return (
     <StyledUserBox>
       <UserImg
@@ -18,6 +26,14 @@ export default function User({ user }: UserProps) {
       <StyledUserNameWapper>
         <StyledUserName>{user.displayName}</StyledUserName> 님
       </StyledUserNameWapper>
+      <ButtonComponent
+        onClick={onClick}
+        text={'Logout'}
+        backgroundColor={'transparent'}
+        textColor={currentTheme.errorColor}
+        hoverTextColor={currentTheme.textColor}
+        className='padding-none'
+      />
     </StyledUserBox>
   );
 }
@@ -30,14 +46,17 @@ const StyledUserBox = styled.div`
 const UserImg = styled.img`
   width: 2.5rem;
   border-radius: 100%;
-  margin-right: 0.3rem;
+  border: 1px solid white;
+  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
+    margin-right: 0.2rem;
+  }
 `;
 
 const StyledUserNameWapper = styled.span`
   display: none;
   font-size: 1rem;
   font-weight: 500;
-  margin-right: 0.2rem;
+  margin: 0rem 0.4rem 0rem 0.3rem;
   @media (min-width: ${BREAKPOINTS.smallDesktop}) {
     display: block;
   }

@@ -147,13 +147,27 @@ const Triangle = styled.div`
   position: absolute;
   width: 0px;
   height: 0px;
-  border-bottom: 8px solid white;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  left: -41px;
+  border-bottom: 12px solid #ddd;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  left: -44px;
   bottom: -9px;
-  z-index: 1001;
+  z-index: 1002;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: -10px;
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid white;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    z-index: 1001;
+    transform: translateY(-1px);
+  }
+
   @media (max-width: ${BREAKPOINTS.smallDesktop}) {
-    left: -54px;
+    left: -59px;
   }
 `;

@@ -20,7 +20,7 @@ import {
 import { FaMoon } from 'react-icons/fa';
 import { IoMdSunny } from 'react-icons/io';
 import { BREAKPOINTS } from '../css/styles.width';
-import DropDown from './DropDown';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 export default function Navbar() {
   const user = useGetUser();
@@ -29,6 +29,8 @@ export default function Navbar() {
   const { toggleDarkMode } = useDarkModeActions();
   const currentTheme = useGetCurrentTheme();
   const currentLogo = isDarkMode ? basicLogoDark : basicLogoLight;
+  const windowSize = useWindowSize();
+  const isMobileWindow = windowSize.width < parseInt(BREAKPOINTS.mediumMobile);
 
   useEffect(() => {
     handleGoogleAuthStateChange((user) => {
@@ -65,19 +67,18 @@ export default function Navbar() {
           <DarkModeButton onClick={toggleDarkMode} $isDarkMode={isDarkMode}>
             {isDarkMode ? <FaMoon /> : <IoMdSunny />}
           </DarkModeButton>
-          <StyledLinkBox>
-            <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
-              My하루
-            </StyledLink>
-            <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
-              리듬탐색
-            </StyledLink>
-          </StyledLinkBox>
+          <StyledMobileHeaderBox $isMobileWindow={isMobileWindow}>
+            <StyledLinkBox>
+              <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
+                My하루
+              </StyledLink>
+              <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
+                리듬탐색
+              </StyledLink>
+            </StyledLinkBox>
 
-          <StyledUserAndDropdownBox>
-            <User user={user} />
-            <DropDown onClick={handleLogout} />
-          </StyledUserAndDropdownBox>
+            <User user={user} onClick={handleLogout} />
+          </StyledMobileHeaderBox>
         </StyledHeaderBox>
       ) : (
         <ButtonComponent
@@ -89,6 +90,14 @@ export default function Navbar() {
     </StyledHeaderWrapper>
   );
 }
+
+const StyledMobileHeaderBox = styled.div<{
+  $isMobileWindow: boolean;
+}>`
+  align-items: center;
+  gap: 0.7rem;
+  display: ${({ $isMobileWindow }) => ($isMobileWindow ? 'none' : 'flex')};
+`;
 
 const StyledHeaderWrapper = styled.div`
   display: flex;
@@ -108,9 +117,6 @@ const StyledLinkBox = styled(StyledBaseBox)`
   justify-content: center;
   align-items: center;
   gap: 0.7rem;
-  @media (max-width: ${BREAKPOINTS.smallDesktop}) {
-    display: none;
-  }
 `;
 
 const StyledHeaderBox = styled.div<{ $currentTheme: ThemeType }>`
@@ -149,5 +155,3 @@ const LogoImg = styled.img`
     width: 7rem;
   }
 `;
-
-const StyledUserAndDropdownBox = styled(StyledBaseBox)``;
