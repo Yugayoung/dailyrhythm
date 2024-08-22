@@ -1,41 +1,60 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { ThemeType } from '../css/styles.theme';
 import { useGetCurrentTheme } from '../store/useDarkModeStore';
 import User from './User';
-import { useGetUser } from '../store/useUserStore';
+import { useGetUser, useUserActions } from '../store/useUserStore';
 import { Link } from 'react-router-dom';
 import { StyledBaseBox } from './Navbar';
 import { useWindowSize } from '../hooks/useWindowSize';
 import { BREAKPOINTS } from '../css/styles.width';
+import {
+  handleGoogleAuthStateChange,
+  handleGoogleLogout,
+} from '../api/firebase';
 
 export default function NavbarBottom() {
   const currentTheme = useGetCurrentTheme();
   const user = useGetUser();
+  const { setUser, clearUser } = useUserActions();
   const windowSize = useWindowSize();
   const isMobileWindow = windowSize.width < parseInt(BREAKPOINTS.mediumMobile);
-
+  useEffect(() => {
+    handleGoogleAuthStateChange((user) => {
+      setUser(user);
+    });
+  }, [setUser, clearUser]);
+  async function handleLogout() {
+    try {
+      await handleGoogleLogout();
+      clearUser();
+    } catch (error) {
+      alert('로그아웃 실패: ' + error.message);
+    }
+  }
   return (
-    <StyledNavbarWrapper
-      $currentTheme={currentTheme}
-      $isMobileWindow={isMobileWindow}
-    >
-      <StyledNavbarBox>
-        <div>
-          <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
-            My하루
-          </StyledLink>
-        </div>
-        <div>
-          <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
-            리듬탐색
-          </StyledLink>
-        </div>
-        <StyledUserBox>
-          <User user={user} />
-        </StyledUserBox>
-      </StyledNavbarBox>
-    </StyledNavbarWrapper>
+    user && (
+      <StyledNavbarWrapper
+        $currentTheme={currentTheme}
+        $isMobileWindow={isMobileWindow}
+      >
+        <StyledNavbarBox>
+          <div>
+            <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
+              My하루
+            </StyledLink>
+          </div>
+          <div>
+            <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
+              리듬탐색
+            </StyledLink>
+          </div>
+          <StyledUserBox>
+            <User user={user} onClick={handleLogout} />
+          </StyledUserBox>
+        </StyledNavbarBox>
+      </StyledNavbarWrapper>
+    )
   );
 }
 

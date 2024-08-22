@@ -98,11 +98,11 @@ export default function CalendarComponent({
         <Loading />
       ) : (
         <>
-          <StyledCalendarAdditionBox className='mark'>
+          <StyledCalendarMarkBox>
             <StyledCalendarMark className='row'>3+</StyledCalendarMark>
             <StyledCalendarMark className='middle'>5+</StyledCalendarMark>
             <StyledCalendarMark className='high'>8+</StyledCalendarMark>
-          </StyledCalendarAdditionBox>
+          </StyledCalendarMarkBox>
           <Calendar
             onChange={handleChange}
             value={date}
@@ -145,6 +145,14 @@ const StyledDot = styled(StyledBaseBox)<{ $dotColor: string }>`
   height: 1.3rem;
   background-color: ${({ $dotColor }) => $dotColor};
   border-radius: 50%;
+`;
+const StyledCalendarMarkBox = styled.div`
+  position: absolute;
+
+  font-size: 0.8rem;
+  display: flex;
+  top: 31px;
+  left: 40px;
 `;
 const StyledCalendarAdditionBox = styled.div`
   position: absolute;
