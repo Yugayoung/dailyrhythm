@@ -1,8 +1,10 @@
 ![제목을-입력해주세요_-001 (1)](https://github.com/user-attachments/assets/d2227488-0e84-4d7d-b2f3-17fce13008ec)
 
 ## DailyRhythm  
+
 <span style="color:gray">개인 프로젝트</span>
-** 기간: 2024.07.03 - 2024.07.16(7주) **
+
+__기간: 2024.07.03 - 2024.07.16(7주) __
 ### 🔗 프로젝트 관련 링크
 ** 배포 : ** [https://dailyrhythm.vercel.app/](https://velog.velcdn.com/images/ga_dongiii/post/9c17e548-f37f-4576-9249-b5139d6fbc73/image.png)
 
