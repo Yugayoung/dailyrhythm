@@ -2,9 +2,9 @@
 
 ## DailyRhythm  
 
-<p style="color:gray">개인 프로젝트</p>
+*****개인 프로젝트
 
-__기간: 2024.07.03 - 2024.07.16(7주)__
+__******기간: 2024.07.03 - 2024.07.16(7주)__
 ---
 ### 🔗 프로젝트 관련 링크
 **배포 :** [https://dailyrhythm.vercel.app/](https://velog.velcdn.com/images/ga_dongiii/post/9c17e548-f37f-4576-9249-b5139d6fbc73/image.png)
