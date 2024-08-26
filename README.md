@@ -35,8 +35,7 @@
 
 |리듬 탐색|반응형|
 |:--:|:--:|
-|<img width="1037" alt="스크린샷 2024-08-26 오후 7 17 18" src="https://github.com/user-attachments/assets/6cb5884b-dddf-4dc6-9ecb-39528f2a2b4c"> <img width="1035" alt="스크린샷 2024-08-26 오후 7 17 31" src="https://github.com/user-attachments/assets/231e698a-cb1c-48f3-8219-196c1e63157c">
-|<img width="524" alt="스크린샷 2024-08-26 오후 7 17 46" src="https://github.com/user-attachments/assets/b712a81e-cd42-4b7f-b511-d04466ca386d">|
+|<img width="1037" alt="스크린샷 2024-08-26 오후 7 17 18" src="https://github.com/user-attachments/assets/6cb5884b-dddf-4dc6-9ecb-39528f2a2b4c"> <img width="1035" alt="스크린샷 2024-08-26 오후 7 17 31" src="https://github.com/user-attachments/assets/231e698a-cb1c-48f3-8219-196c1e63157c">|<img width="524" alt="스크린샷 2024-08-26 오후 7 17 46" src="https://github.com/user-attachments/assets/b712a81e-cd42-4b7f-b511-d04466ca386d">|
 ## 🗂️ 아키텍쳐
 **디렉토리 구조**
 ```
