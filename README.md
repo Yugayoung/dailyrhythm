@@ -15,7 +15,8 @@ __기간: 2024.07.03 - 2024.07.16(7주)__
 ![](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
-![](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white) **react-query,** **zustand**
+![](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white) 
+**react-query,** **zustand**
 ### ✍🏻 개요
  여러 앱을 사용해봤지만, 제가 원하는 기능이 모두 들어있는 앱을 찾을 수 없었습니다. 한 앱은 제가 필요로 하는 기능이 부족했고, 다른 앱은 사용하기 복잡했으며 이런 경험들을 바탕으로 사용자들이 자신의 루틴을 효율적으로 관리하고 즐길 수 있는 서비스를 제작하게 되었습니다.
 ### 👉🏻 주요 기능
