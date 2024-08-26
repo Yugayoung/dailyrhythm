@@ -91,10 +91,6 @@
  ┃ ┣ 📜goalImg.png
  ┃ ┣ 📜handImg.png
  ┃ ┣ 📜homeBottomImage.png
- ┃ ┣ 📜homeMiddleImage1.png
- ┃ ┣ 📜homeMiddleImage2.png
- ┃ ┣ 📜homeMiddleImage3.png
- ┃ ┣ 📜homeMiddleImage4.png
  ┃ ┣ 📜homeTopImage.png
  ┃ ┣ 📜introAddRhythm.gif
  ┃ ┣ 📜introBadge.gif
@@ -102,9 +98,7 @@
  ┃ ┣ 📜introRhythmCalendar.gif
  ┃ ┣ 📜introRhythmDetail.gif
  ┃ ┣ 📜introTodayReport.gif
- ┃ ┣ 📜introWeather.gif
- ┃ ┣ 📜stamp1.png
- ┃ ┗ 📜stamp2.png
+ ┃ ┗ 📜introWeather.gif
  ┣ 📂pages
  ┃ ┣ 📜Home.tsx
  ┃ ┣ 📜MyRhythm.tsx
