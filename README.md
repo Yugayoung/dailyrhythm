@@ -30,7 +30,7 @@
 |홈 화면|My하루|
 |:--:|:--|--:|
 
-| <img width="810" alt="스크린샷 2024-08-22 오후 5 30 28" src="https://github.com/user-attachments/assets/931d1f60-aa6b-4905-8a77-23c03cdc2ead"> ||
+
 
 |리듬 탐색|반응형|
 |:--:|:--|--:|
