@@ -1,2 +1,3 @@
 ## DailyRhythm
-<img width="1325" alt="스크린샷 2024-08-22 오후 2 57 39" src="https://github.com/user-attachments/assets/fd7c0840-094b-42d3-b804-5a1e63da46f4">
+
+![제목을-입력해주세요_-001](https://github.com/user-attachments/assets/fcafe987-544a-4433-aad2-f8b6a4c491b4)
