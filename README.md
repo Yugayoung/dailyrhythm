@@ -29,9 +29,9 @@
 ## 📺 화면 구성
 | 홈 화면 | My하루 |
 | :--: |:--: |
-| <img width="510" alt="스크린샷 2024-08-22 오후 5 30 28" src="https://github.com/user-attachments/assets/931d1f60-aa6b-4905-8a77-23c03cdc2ead">|<img width="1039" alt="스크린샷 2024-08-26 오후 7 17 02" src="https://github.com/user-attachments/assets/cb1c9d56-afd3-4202-9d0f-ea4b8d8a8585">|
+| <img width="810" alt="스크린샷 2024-08-22 오후 5 30 28" src="https://github.com/user-attachments/assets/931d1f60-aa6b-4905-8a77-23c03cdc2ead">|<img width="1039" alt="스크린샷 2024-08-26 오후 7 17 02" src="https://github.com/user-attachments/assets/cb1c9d56-afd3-4202-9d0f-ea4b8d8a8585">|
 | 반응형 | 리듬 탐색 |
-<img width="500" alt="스크린샷 2024-08-26 오후 7 17 46" src="https://github.com/user-attachments/assets/b712a81e-cd42-4b7f-b511-d04466ca386d">|<img width="600" alt="스크린샷 2024-08-26 오후 7 17 18" src="https://github.com/user-attachments/assets/6cb5884b-dddf-4dc6-9ecb-39528f2a2b4c"> <img width="1035" alt="스크린샷 2024-08-26 오후 7 17 31" src="https://github.com/user-attachments/assets/231e698a-cb1c-48f3-8219-196c1e63157c">|
+<img width="800" alt="스크린샷 2024-08-26 오후 7 17 46" src="https://github.com/user-attachments/assets/b712a81e-cd42-4b7f-b511-d04466ca386d">|<img width="600" alt="스크린샷 2024-08-26 오후 7 17 18" src="https://github.com/user-attachments/assets/6cb5884b-dddf-4dc6-9ecb-39528f2a2b4c"> <img width="1035" alt="스크린샷 2024-08-26 오후 7 17 31" src="https://github.com/user-attachments/assets/231e698a-cb1c-48f3-8219-196c1e63157c">|
 ## 🗂️ 아키텍쳐
 **디렉토리 구조**
 ```
