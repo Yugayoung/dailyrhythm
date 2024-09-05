@@ -6,9 +6,9 @@
 
 ##### __기간: 2024.07.03 - 2024.07.16(7주)__
 ## 🔗 프로젝트 관련 링크
-**배포 :** [https://dailyrhythm.vercel.app/](https://velog.velcdn.com/images/ga_dongiii/post/9c17e548-f37f-4576-9249-b5139d6fbc73/image.png)
+**배포 :** [https://dailyrhythm.vercel.app/](https://dailyrhythm.vercel.app/)
 
-**Git :** [https://github.com/Yugayoung/dailyrhythm](https://velog.velcdn.com/images/ga_dongiii/post/e610df07-8380-48a3-b06e-96b28aad14f0/image.png)
+**Git :** [https://github.com/Yugayoung/dailyrhythm](https://github.com/Yugayoung/dailyrhythm)
 
 **velog :** [마지막 프로젝트 - 첫번째 이야기](https://velog.io/@ga_dongiii/%EB%A7%88%EC%A7%80%EB%A7%89-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%B2%AB%EB%B2%88%EC%A7%B8-%EC%9D%B4%EC%95%BC%EA%B8%B0)
 
