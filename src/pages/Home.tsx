@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { color, lightTheme } from '../css/styles.theme';
 import useScrollFadeIn from '../hooks/useScrollFadeIn';
-import homeTopImage from '../images/homeTopImage.png';
+import homeTopImage from '../images/homeTopImage.webp';
 import introAddRhythm from '../images/introAddRhythm.gif';
 import introBadge from '../images/introBadge.gif';
 import introDarkMode from '../images/introDarkMode.gif';
@@ -59,7 +59,11 @@ export default function Home() {
       <StyledHomeTopWrapper>
         <StyledHomeTopBox>
           <motion.div animate={controls}>
-            <StyledHomeTopImg src={homeTopImage} alt='homeTopImage' />
+            <StyledHomeTopImg
+              src={homeTopImage}
+              alt='homeTopImage'
+              loading='lazy'
+            />
           </motion.div>
           <StyledArrowBox>
             <StyledArrowButton onClick={onMoveToView}>
@@ -69,7 +73,6 @@ export default function Home() {
         </StyledHomeTopBox>
       </StyledHomeTopWrapper>
       <StyledHomeMiddleWrapper ref={viewPoint}>
-
         <StyledHomeMiddleTextBox>
           <p>" </p>
           <StyledHomeMiddleCount ref={countRef} />
@@ -82,6 +85,7 @@ export default function Home() {
                 <StyledHomeMiddleImg
                   src={introAddRhythm}
                   alt='introAddRhythm'
+                  loading='lazy'
                 />
               </StyledHomeImgBox>
               <StyledHomeMiddleImgTextBox className='top_text'>
@@ -150,6 +154,7 @@ export default function Home() {
                   className='width_img'
                   src={introRhythmCalendar}
                   alt='introRhythmCalendar'
+                  loading='lazy'
                 />
               </StyledHomeImgBox>
             </StyledHomeWidthBox>
@@ -166,6 +171,7 @@ export default function Home() {
                   className='width_img'
                   src={introWeather}
                   alt='introWeather'
+                  loading='lazy'
                 />
               </StyledHomeImgBox>
               <StyledHomeMiddleImgTextBox className='width_img display_flex'>
@@ -195,7 +201,11 @@ export default function Home() {
                     </StyledHomeMiddleText>
                   </StyledHomeMiddleImgTextBox>
                   <StyledHomeImgBox className='width_img'>
-                    <StyledHomeMiddleImg src={introBadge} alt='introBadge' />
+                    <StyledHomeMiddleImg
+                      src={introBadge}
+                      alt='introBadge'
+                      loading='lazy'
+                    />
                   </StyledHomeImgBox>
                 </div>
                 <div>
@@ -203,6 +213,7 @@ export default function Home() {
                     <StyledHomeMiddleImg
                       src={introTodayReport}
                       alt='introTodayReport'
+                      loading='lazy'
                     />
                   </StyledHomeImgBox>
                   <StyledHomeMiddleImgTextBox
@@ -254,6 +265,7 @@ export default function Home() {
                   className='width_img'
                   src={introRhythmDetail}
                   alt='introRhythmDetail'
+                  loading='lazy'
                 />
               </StyledHomeImgBox>
             </StyledHomeWidthBox>
@@ -278,6 +290,7 @@ export default function Home() {
                   className='width_img'
                   src={introDarkMode}
                   alt='introDarkMode'
+                  loading='lazy'
                 />
               </StyledHomeImgBox>
             </StyledHomeWidthBox>
@@ -286,7 +299,11 @@ export default function Home() {
       </StyledHomeMiddleWrapper>
       <StyledHomeBottomWrapper>
         <StyledHomeBottomBox>
-          <StyledhomeBottomImage src={homeBottomImage} alt='homeBottomImage' />
+          <StyledhomeBottomImage
+            src={homeBottomImage}
+            alt='homeBottomImage'
+            loading='lazy'
+          />
           <StyledHomeBottomTextBox {...animatedHomeBottomText}>
             <StyledHomeBottomTitle>
               일상도 DailyRhythm과 함께 <br />

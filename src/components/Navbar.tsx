@@ -9,8 +9,8 @@ import { useGetUser, useUserActions } from '../store/useUserStore';
 import User from './User';
 import styled from 'styled-components';
 import ButtonComponent from './ui/ButtonComponent';
-import basicLogoLight from '../images/basicLogoLight.png';
-import basicLogoDark from '../images/basicLogoDark.png';
+import basicLogoLight from '../images/basicLogoLight.webp';
+import basicLogoDark from '../images/basicLogoDark.webp';
 import { ThemeType, darkTheme } from '../css/styles.theme';
 import {
   useDarkModeActions,

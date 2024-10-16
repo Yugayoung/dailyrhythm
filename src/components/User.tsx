@@ -22,6 +22,7 @@ export default function User({ user, onClick }: UserProps) {
         src={user.photoURL}
         alt={user.email}
         referrerPolicy='no-referrer'
+        loading='lazy'
       />
       <StyledUserNameWapper>
         <StyledUserName>{user.displayName}</StyledUserName> 님

@@ -55,6 +55,7 @@ export default function UserCard() {
         alt={user.email}
         referrerPolicy='no-referrer'
         $currentTheme={currentTheme}
+        loading='lazy'
       />
       <StyledUserDescriptionBox>
         <StyledUserImail>{user.email}</StyledUserImail>

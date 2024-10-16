@@ -31,7 +31,7 @@
     "react-input-emoji": "^5.9.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.23.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-spinners": "^0.13.8",
     "styled-components": "^6.1.11",
     "styled-reset": "^4.5.2",

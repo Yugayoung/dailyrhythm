@@ -136,7 +136,11 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
                       </StyledRhythmListMessage>
                       을 만들어 볼까요?
                     </StyledRhythmListMessageWrapper>
-                    <StyledRhythmImg src={GuideImage} alt='guideImage' />
+                    <StyledRhythmImg
+                      src={GuideImage}
+                      alt='guideImage'
+                      loading='lazy'
+                    />
                   </td>
                 </tr>
               </tbody>

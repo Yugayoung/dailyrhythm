@@ -62,12 +62,14 @@ export default function RhythmStatisticsBadge() {
                 key={index}
                 src={badge.src}
                 alt={badge.alt}
+                loading='lazy'
               />
             ) : (
               <StyledRhythmStatisticsBadgeImgOpacity
                 key={index}
                 src={badge.src}
                 alt={badge.alt}
+                loading='lazy'
               />
             )
           )}

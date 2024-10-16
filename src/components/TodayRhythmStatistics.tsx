@@ -25,7 +25,11 @@ export default function TodayRhythmStatistics() {
           doneCountValue={todayDoneCount}
           totalValue={todayRhythmCount}
         />
-        <StyledRhythmStatisticsGoalImg src={goalImg} alt='goalImg' />
+        <StyledRhythmStatisticsGoalImg
+          src={goalImg}
+          alt='goalImg'
+          loading='lazy'
+        />
         <StyledRhythmStatisticsLeftTodayCountBox $currentTheme={currentTheme}>
           <StyledRhythmStatisticsLeftTodayTotalCountBox className='with-border'>
             <StyledRhythmStatisticsLeftTotalCountTitle>

@@ -71,7 +71,11 @@ export default function Weather() {
         <div>
           <p>{weather.name}</p>
           <StyledTempTopBox>
-            <StyledWeatherImg src={weather.icon} alt='weather icon' />
+            <StyledWeatherImg
+              src={weather.icon}
+              alt='weather icon'
+              loading='lazy'
+            />
             <StyledWeatherText>{weather.temp}°</StyledWeatherText>
           </StyledTempTopBox>
         </div>

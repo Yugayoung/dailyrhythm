@@ -133,7 +133,11 @@ export default function RhythmStatisticsDetail() {
             <StyledRhythmStatisticsImgText>
               리듬을 추가한 후 이용가능합니다.
             </StyledRhythmStatisticsImgText>
-            <StyledRhythmStatisticsImg src={handImg} alt='handImg' />
+            <StyledRhythmStatisticsImg
+              src={handImg}
+              alt='handImg'
+              loading='lazy'
+            />
             <StyledRhythmStatisticsImgButtonBox>
               <StyledLink to='/my-rhythm'>
                 <FaPlus />
