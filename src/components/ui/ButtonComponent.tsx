@@ -13,10 +13,12 @@ interface ButtonComponentProps {
   textColor?: string;
   textSize?: string;
   width?: string;
+  'aria-label'?: string;
 }
 
 export default function ButtonComponent({
   onClick,
+  'aria-label': ariaLabel,
   className,
   text = '확인',
   backgroundColor,
@@ -42,6 +44,7 @@ export default function ButtonComponent({
       $textSize={textSize}
       $width={width}
       className={className}
+      aria-label={ariaLabel}
     >
       {text}
     </StyledButton>

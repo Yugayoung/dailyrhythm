@@ -38,7 +38,11 @@ export default function UserCard() {
       <StyledGoalEditBox>
         {editing ? (
           <>
-            <ButtonComponent onClick={handleSaveClick} text={'저장'} />
+            <ButtonComponent
+              onClick={handleSaveClick}
+              text={'저장'}
+              aria-label={'Save'}
+            />
           </>
         ) : (
           <>
@@ -46,6 +50,7 @@ export default function UserCard() {
               onClick={handleEditClick}
               text={<FaPen />}
               backgroundColor={'transparent'}
+              aria-label={'Edit'}
             />
           </>
         )}
@@ -81,6 +86,7 @@ export default function UserCard() {
 const StyledUserCardBox = styled.div`
   position: relative;
   width: 21rem;
+  height: 13.2rem;
   box-shadow: 0 3px 10px rgb(0, 0, 0, 0.2);
   border-radius: 1rem;
   padding: 1rem;
@@ -131,9 +137,9 @@ const StyledUserImail = styled.h2`
 const UserImg = styled.img<{
   $currentTheme: ThemeType;
 }>`
-  width: 6rem;
+  width: 5rem;
   border-radius: 100%;
-  border: 4px solid ${({ $currentTheme }) => $currentTheme.textColor};
+  border: 4px solid white;
 `;
 
 const StyledTextarea = styled.textarea`

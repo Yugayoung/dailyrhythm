@@ -5,7 +5,7 @@ import { useRhythmStatistics } from '../hooks/useDateRhythmCalculate';
 import dayjs from 'dayjs';
 import { useGetCurrentTheme } from '../store/useDarkModeStore';
 import { ThemeType, lightTheme } from '../css/styles.theme';
-import goalImg from '../images/goalImg.png';
+import goalImg from '../images/goalImg.webp';
 import { StyledBaseBox } from './Navbar';
 import { BREAKPOINTS } from '../css/styles.width';
 

@@ -9,7 +9,6 @@ import { color, lightTheme } from '../css/styles.theme';
 import Weather from './Weather';
 import Modal from './ui/Modal';
 import dayjs from 'dayjs';
-import GuideImage from '../images/GuideImage.png';
 import AddRhythmButton from './AddRhythmButton';
 import { useRhythm } from '../hooks/useRhythm';
 import { StyledBaseBox } from './Navbar';
@@ -136,11 +135,7 @@ export default function RhythmList({ selectedDate }: RhythmListProps) {
                       </StyledRhythmListMessage>
                       을 만들어 볼까요?
                     </StyledRhythmListMessageWrapper>
-                    <StyledRhythmImg
-                      src={GuideImage}
-                      alt='guideImage'
-                      loading='lazy'
-                    />
+                    <StyledRhythmImg src='/GuideImage.webp' alt='guideImage' />
                   </td>
                 </tr>
               </tbody>
@@ -206,6 +201,7 @@ const StyledRhythmListHead = styled.div`
 `;
 const StyledRhythmImg = styled.img`
   width: 100%;
+  height: auto;
 `;
 const StyledRhythmListMessage = styled.p`
   color: ${lightTheme.errorColor};

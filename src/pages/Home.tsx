@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { color, lightTheme } from '../css/styles.theme';
 import useScrollFadeIn from '../hooks/useScrollFadeIn';
@@ -10,7 +10,7 @@ import introRhythmCalendar from '../images/introRhythmCalendar.gif';
 import introRhythmDetail from '../images/introRhythmDetail.gif';
 import introTodayReport from '../images/introTodayReport.gif';
 import introWeather from '../images/introWeather.gif';
-import homeBottomImage from '../images/homeBottomImage.png';
+import homeBottomImage from '../images/homeBottomImage.webp';
 import useScrollCount from '../hooks/useScrollCount';
 import { motion, useAnimation } from 'framer-motion';
 import { StyledBaseBox } from '../components/Navbar';
@@ -38,7 +38,7 @@ export default function Home() {
   const windowSize = useWindowSize();
   const isMobileWindow = windowSize.width < parseInt(BREAKPOINTS.smallMobile);
 
-  React.useEffect(() => {
+  useEffect(() => {
     controls.start({
       y: [0, -50, 0],
       transition: {
@@ -66,7 +66,7 @@ export default function Home() {
             />
           </motion.div>
           <StyledArrowBox>
-            <StyledArrowButton onClick={onMoveToView}>
+            <StyledArrowButton onClick={onMoveToView} aria-label='ArrowButton'>
               <IoIosArrowDown />
             </StyledArrowButton>
           </StyledArrowBox>

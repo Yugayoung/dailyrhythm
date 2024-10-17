@@ -59,12 +59,18 @@ export default function Navbar() {
     <StyledHeaderWrapper>
       <StyledBaseBox>
         <Link to='/'>
-          <LogoImg src={currentLogo} />
+          <LogoImg src={currentLogo} alt='basicLogo' />
         </Link>
       </StyledBaseBox>
       {user ? (
         <StyledHeaderBox $currentTheme={currentTheme}>
-          <DarkModeButton onClick={toggleDarkMode} $isDarkMode={isDarkMode}>
+          <DarkModeButton
+            onClick={toggleDarkMode}
+            $isDarkMode={isDarkMode}
+            aria-label={
+              isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'
+            }
+          >
             {isDarkMode ? <FaMoon /> : <IoMdSunny />}
           </DarkModeButton>
           <StyledMobileHeaderBox $isMobileWindow={isMobileWindow}>

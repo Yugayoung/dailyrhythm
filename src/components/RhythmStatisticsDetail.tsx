@@ -15,7 +15,7 @@ import Modal from './ui/Modal';
 import { StyledBaseBox } from './Navbar';
 import { BREAKPOINTS } from '../css/styles.width';
 import { useWindowSize } from '../hooks/useWindowSize';
-import handImg from '../images/handImg.png';
+import handImg from '../images/handImg.webp';
 import { Link } from 'react-router-dom';
 
 export default function RhythmStatisticsDetail() {
@@ -105,6 +105,7 @@ export default function RhythmStatisticsDetail() {
                         textColor={lightTheme.textColor}
                         backgroundColor={'transparent'}
                         className='focusEffect'
+                        aria-label={'RhythmPlus'}
                       />
                     </StyledRhythmStatisticsText>
                     <StyledRhythmStatisticsText className='size_x-small'>
@@ -113,6 +114,7 @@ export default function RhythmStatisticsDetail() {
                         text={<FaPen />}
                         textColor={lightTheme.textColor}
                         backgroundColor={'transparent'}
+                        aria-label={'RhythmPlus'}
                       />
                     </StyledRhythmStatisticsText>
                   </StyledRhythmStatisticsDetailBox>

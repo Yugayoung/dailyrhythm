@@ -8,8 +8,8 @@ import { StyledBaseBox } from './Navbar';
 import badge10 from '../images/badge10.png';
 import badge50 from '../images/badge50.png';
 import badge100 from '../images/badge100.png';
-import badge300 from '../images/badge300.png';
-import badge500 from '../images/badge500.png';
+import badge300 from '../images/badge300.webp';
+import badge500 from '../images/badge500.webp';
 import { BREAKPOINTS } from '../css/styles.width';
 
 const badges = [

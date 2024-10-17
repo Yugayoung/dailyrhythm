@@ -9,7 +9,7 @@ export const lightTheme = {
   accentColor: '#efc3e6', // 분홍색
   secondaryColor: '#b8bedd', // 하늘색
   supportingColor: '#f0a6ca', // 진분홍색
-  errorColor: '#EF2F24', // 빨강색
+  errorColor: '#d50000', // 빨강색
   placeholderColor: '#C2C2C2', // 회색
   progressBarColor: '#467ace',
   progressBaBgColor: '#467ace81',
@@ -37,7 +37,7 @@ export const color = {
   lightGray: '#e1e0e0',
   lightGray2: '#EEEEEE',
   lightGray3: '#F6F5F5',
-  green: '#568A35',
+  green: '#3a9400',
   lightGreen: '#E4F0D5',
   lightPink: '#FFE7F9',
   pink: '#FF00BF',
