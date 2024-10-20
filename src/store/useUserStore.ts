@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface UserInfo {
   displayName: string;
@@ -7,45 +8,50 @@ export interface UserInfo {
   uid: string;
 }
 
-interface UserActions {
+export interface UserStore {
+  user: UserInfo | null;
   setUser: (user: UserInfo) => void;
   clearUser: () => void;
 }
 
-export interface UserStore {
-  user: UserInfo | null;
-  actions: UserActions;
-}
-
 function createUserStore() {
-  return create<UserStore>((set) => ({
-    user: (() => {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        try {
-          return JSON.parse(storedUser);
-        } catch (error) {
-          console.error(error);
-          return null;
-        }
+  return create<UserStore>()(
+    persist(
+      (set) => ({
+        user: null,
+        setUser: (user: UserInfo) => {
+          set({ user });
+        },
+        clearUser: () => {
+          set({ user: null });
+        },
+      }),
+      {
+        name: 'user-storage',
+        storage: {
+          getItem: (name) => {
+            const item = localStorage.getItem(name);
+            return item ? JSON.parse(item) : null;
+          },
+          setItem: (name, value) => {
+            localStorage.setItem(name, JSON.stringify(value));
+          },
+          removeItem: (name) => {
+            localStorage.removeItem(name);
+          },
+        },
       }
-      return null;
-    })(),
-    actions: {
-      setUser: (user: UserInfo) => {
-        set({ user });
-        localStorage.setItem('user', JSON.stringify(user));
-      },
-      clearUser: () => {
-        set({ user: null });
-        localStorage.removeItem('user');
-      },
-    },
-  }));
+    )
+  );
 }
 
 export const useUserStore = createUserStore();
 
-export const useUserActions = () =>
-  useUserStore((state: UserStore) => state.actions);
+export const useUserActions = () => {
+  return {
+    setUser: useUserStore((state) => state.setUser),
+    clearUser: useUserStore((state) => state.clearUser),
+  };
+};
+
 export const useGetUser = () => useUserStore((state: UserStore) => state.user);
