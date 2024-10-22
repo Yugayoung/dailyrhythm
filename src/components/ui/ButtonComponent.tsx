@@ -80,6 +80,10 @@ const StyledButton = styled.button<{
   &.dropdown {
     font-weight: 100;
   }
+  &.timeButton {
+    font-weight: 300;
+    padding: 0px;
+  }
 
   &:hover {
     background-color: ${({ $hoverBackgroundColor }) => $hoverBackgroundColor};

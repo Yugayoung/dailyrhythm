@@ -6,6 +6,7 @@ import {
   signOut,
   onAuthStateChanged,
   User,
+  onIdTokenChanged,
 } from 'firebase/auth';
 import { RhythmItem } from '../components/AddRhythm';
 import { getDatabase, ref, set, get, remove } from 'firebase/database';
@@ -26,6 +27,8 @@ const database = getDatabase(app);
 
 export async function handleGoogleLogin() {
   try {
+    provider.addScope('email');
+    provider.addScope('profile');
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
     return {
@@ -53,6 +56,25 @@ export function handleGoogleAuthStateChange(
 ) {
   onAuthStateChanged(auth, (user) => {
     callback(user);
+    if (user) {
+      onIdTokenChanged(auth, (user) => {
+        if (user) {
+          user.getIdTokenResult().then((IdTokenResult) => {
+            const tokenExpirationTime = IdTokenResult.expirationTime;
+
+            console.log('토큰 만료 시간: ', tokenExpirationTime);
+
+            const currentTime = new Date().getTime();
+            const expirationTime = new Date(tokenExpirationTime).getTime();
+
+            const fiveMinutesBeforeExpiration = expirationTime - 5 * 60 * 1000;
+            if (currentTime > fiveMinutesBeforeExpiration) {
+              user.getIdToken(true);
+            }
+          });
+        }
+      });
+    }
   });
 }
 

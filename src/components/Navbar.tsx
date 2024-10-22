@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   handleGoogleLogin,
@@ -17,26 +17,70 @@ import {
   useGetCurrentTheme,
   useGetDarkMode,
 } from '../store/useDarkModeStore';
-import { FaMoon } from 'react-icons/fa';
+import { FaMoon, FaRegClock } from 'react-icons/fa';
 import { IoMdSunny } from 'react-icons/io';
 import { BREAKPOINTS } from '../css/styles.width';
 import { useWindowSize } from '../hooks/useWindowSize';
+import { getAuth, onIdTokenChanged } from 'firebase/auth';
+import dayjs from 'dayjs';
 
 export default function Navbar() {
   const user = useGetUser();
   const { setUser, clearUser } = useUserActions();
+  const auth = getAuth();
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const isDarkMode = useGetDarkMode();
   const { toggleDarkMode } = useDarkModeActions();
   const currentTheme = useGetCurrentTheme();
   const currentLogo = isDarkMode ? basicLogoDark : basicLogoLight;
   const windowSize = useWindowSize();
   const isMobileWindow = windowSize.width < parseInt(BREAKPOINTS.mediumMobile);
+  const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     handleGoogleAuthStateChange((user) => {
       setUser(user);
     });
-  }, [setUser, clearUser]);
+    const unsubscribe = onIdTokenChanged(auth, (user) => {
+      if (user) {
+        user
+          .getIdTokenResult()
+          .then((idTokenResult: { expirationTime: string }) => {
+            const expirationTime = new Date(
+              idTokenResult.expirationTime
+            ).getTime();
+            const currentTime = new Date().getTime();
+            const timeRemaining = Math.floor(
+              (expirationTime - currentTime) / 1000
+            );
+
+            setTimeLeft(timeRemaining);
+            clearInterval(intervalIdRef.current!);
+
+            intervalIdRef.current = setInterval(() => {
+              setTimeLeft((prevTimeLeft) => {
+                if (prevTimeLeft === null || prevTimeLeft <= 0) {
+                  clearInterval(intervalIdRef.current!);
+                  return 0;
+                }
+                return prevTimeLeft - 1;
+              });
+            }, 1000);
+          });
+      }
+    });
+
+    return () => {
+      unsubscribe();
+      clearInterval(intervalIdRef.current!);
+    };
+  }, [auth, setUser, clearUser]);
+
+  async function handleExtendToken() {
+    if (user) {
+      await auth.currentUser?.getIdToken(true);
+    }
+  }
 
   async function handleLogin() {
     try {
@@ -54,7 +98,8 @@ export default function Navbar() {
       alert('로그아웃 실패: ' + error.message);
     }
   }
-
+  const formattedTimeLeft =
+    timeLeft !== null ? dayjs.unix(timeLeft).format('mm:ss') : '00:00';
   return (
     <StyledHeaderWrapper>
       <StyledBaseBox>
@@ -64,6 +109,32 @@ export default function Navbar() {
       </StyledBaseBox>
       {user ? (
         <StyledHeaderBox $currentTheme={currentTheme}>
+          <StyledTokenTimeBox>
+            <StyledTokenTimeTextBox>
+              <StyledBaseBox>
+                <FaRegClock />
+              </StyledBaseBox>
+              <StyledTokenTimeText>{formattedTimeLeft}</StyledTokenTimeText>
+            </StyledTokenTimeTextBox>
+            <ButtonComponent
+              onClick={handleExtendToken}
+              text={'시간연장'}
+              backgroundColor={'transparent'}
+              className='timeButton'
+              textSize='0.95rem'
+            />
+          </StyledTokenTimeBox>
+          <StyledMobileHeaderBox $isMobileWindow={isMobileWindow}>
+            <User user={user} onClick={handleLogout} />
+            <StyledLinkBox>
+              <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
+                My하루
+              </StyledLink>
+              <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
+                리듬탐색
+              </StyledLink>
+            </StyledLinkBox>
+          </StyledMobileHeaderBox>
           <DarkModeButton
             onClick={toggleDarkMode}
             $isDarkMode={isDarkMode}
@@ -73,25 +144,24 @@ export default function Navbar() {
           >
             {isDarkMode ? <FaMoon /> : <IoMdSunny />}
           </DarkModeButton>
-          <StyledMobileHeaderBox $isMobileWindow={isMobileWindow}>
-            <StyledLinkBox>
-              <StyledLink to='/my-rhythm' $currentTheme={currentTheme}>
-                My하루
-              </StyledLink>
-              <StyledLink to='/rhythm-statistics' $currentTheme={currentTheme}>
-                리듬탐색
-              </StyledLink>
-            </StyledLinkBox>
-
-            <User user={user} onClick={handleLogout} />
-          </StyledMobileHeaderBox>
         </StyledHeaderBox>
       ) : (
-        <ButtonComponent
-          onClick={handleLogin}
-          text={'Login'}
-          backgroundColor={currentTheme.secondaryColor}
-        />
+        <StyledLinkBox>
+          <ButtonComponent
+            onClick={handleLogin}
+            text={'Login'}
+            backgroundColor={currentTheme.secondaryColor}
+          />
+          <DarkModeButton
+            onClick={toggleDarkMode}
+            $isDarkMode={isDarkMode}
+            aria-label={
+              isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'
+            }
+          >
+            {isDarkMode ? <FaMoon /> : <IoMdSunny />}
+          </DarkModeButton>
+        </StyledLinkBox>
       )}
     </StyledHeaderWrapper>
   );
@@ -118,10 +188,18 @@ export const StyledBaseBox = styled.div`
   align-items: center;
 `;
 
+const StyledTokenTimeBox = styled(StyledBaseBox)`
+  font-size: 0.9rem;
+  padding-top: 0.1rem;
+`;
+const StyledTokenTimeTextBox = styled(StyledBaseBox)`
+  gap: 0.3rem;
+`;
+const StyledTokenTimeText = styled.p`
+  width: 3.4rem;
+  font-size: 1rem;
+`;
 const StyledLinkBox = styled(StyledBaseBox)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 0.7rem;
 `;
 
