@@ -61,15 +61,18 @@ export function handleGoogleAuthStateChange(
         if (user) {
           user.getIdTokenResult().then((IdTokenResult) => {
             const tokenExpirationTime = IdTokenResult.expirationTime;
-
-            console.log('토큰 만료 시간: ', tokenExpirationTime);
-
             const currentTime = new Date().getTime();
             const expirationTime = new Date(tokenExpirationTime).getTime();
 
-            const fiveMinutesBeforeExpiration = expirationTime - 5 * 60 * 1000;
-            if (currentTime > fiveMinutesBeforeExpiration) {
-              user.getIdToken(true);
+            if (currentTime >= expirationTime) {
+              signOut(auth)
+                .then(() => {
+                  alert('토큰이 만료되어 로그아웃되었습니다.');
+                  callback(null);
+                })
+                .catch((error) => {
+                  console.error('로그아웃 실패: ', error);
+                });
             }
           });
         }
