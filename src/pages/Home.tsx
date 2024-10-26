@@ -34,20 +34,39 @@ export default function Home() {
   const animatedHomeBottomText = useScrollFadeIn('up', 1.2, 0.1);
   const { ref: countRef } = useScrollCount(365, 100);
   const controls = useAnimation();
+  const ref = useRef(null);
   const viewPoint = useRef<HTMLDivElement>(null);
   const windowSize = useWindowSize();
   const isMobileWindow = windowSize.width < parseInt(BREAKPOINTS.smallMobile);
 
   useEffect(() => {
-    controls.start({
-      y: [0, -50, 0],
-      transition: {
-        duration: 3,
-        ease: 'easeInOut',
-        repeat: Infinity,
-        repeatType: 'loop',
-      },
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        controls.start({
+          y: [0, -50, 0],
+          transition: {
+            duration: 3,
+            ease: 'easeInOut',
+            repeat: Infinity,
+            repeatType: 'loop',
+          },
+        });
+      } else {
+        controls.stop();
+      }
     });
+
+    const currentRef = ref.current;
+
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
   }, [controls]);
 
   function onMoveToView() {
@@ -58,7 +77,7 @@ export default function Home() {
     <StyledHomeWrapper>
       <StyledHomeTopWrapper>
         <StyledHomeTopBox>
-          <motion.div animate={controls}>
+          <motion.div ref={ref} animate={controls}>
             <StyledHomeTopImg
               src={homeTopImage}
               alt='homeTopImage'

@@ -4,6 +4,7 @@ import {
   handleGoogleLogin,
   handleGoogleLogout,
   handleGoogleAuthStateChange,
+  startTokenExpiryTimer,
 } from '../api/firebase';
 import { useGetUser, useUserActions } from '../store/useUserStore';
 import User from './User';
@@ -41,32 +42,36 @@ export default function Navbar() {
     handleGoogleAuthStateChange((user) => {
       setUser(user);
     });
+
     const unsubscribe = onIdTokenChanged(auth, (user) => {
       if (user) {
-        user
-          .getIdTokenResult()
-          .then((idTokenResult: { expirationTime: string }) => {
-            const expirationTime = new Date(
-              idTokenResult.expirationTime
-            ).getTime();
-            const currentTime = new Date().getTime();
-            const timeRemaining = Math.floor(
-              (expirationTime - currentTime) / 1000
-            );
+        user.getIdTokenResult().then((idTokenResult) => {
+          const expirationTime = new Date(
+            idTokenResult.expirationTime
+          ).getTime();
+          const currentTime = new Date().getTime();
+          const timeRemaining = Math.floor(
+            (expirationTime - currentTime) / 1000
+          );
 
-            setTimeLeft(timeRemaining);
-            clearInterval(intervalIdRef.current!);
+          setTimeLeft(timeRemaining);
+          clearInterval(intervalIdRef.current!);
 
-            intervalIdRef.current = setInterval(() => {
-              setTimeLeft((prevTimeLeft) => {
-                if (prevTimeLeft === null || prevTimeLeft <= 0) {
-                  clearInterval(intervalIdRef.current!);
-                  return 0;
-                }
-                return prevTimeLeft - 1;
-              });
-            }, 1000);
-          });
+          intervalIdRef.current = setInterval(() => {
+            setTimeLeft((prevTimeLeft) => {
+              if (prevTimeLeft === null || prevTimeLeft <= 0) {
+                clearInterval(intervalIdRef.current!);
+                return 0;
+              }
+              return prevTimeLeft - 1;
+            });
+          }, 1000);
+
+          startTokenExpiryTimer(); // 만료 타이머 시작
+        });
+      } else {
+        setTimeLeft(null);
+        clearInterval(intervalIdRef.current!);
       }
     });
 
@@ -78,7 +83,13 @@ export default function Navbar() {
 
   async function handleExtendToken() {
     if (user) {
-      await auth.currentUser?.getIdToken(true);
+      try {
+        await auth.currentUser?.getIdToken(true); // 토큰 강제로 갱신
+        startTokenExpiryTimer(); // 새로 발급된 토큰 만료 시간으로 타이머 재설정
+        alert('세션이 연장되었습니다.');
+      } catch (error) {
+        console.error('토큰 연장 실패:', error);
+      }
     }
   }
 
@@ -94,6 +105,7 @@ export default function Navbar() {
     try {
       await handleGoogleLogout();
       clearUser();
+      alert('로그아웃되었습니다.');
     } catch (error) {
       alert('로그아웃 실패: ' + error.message);
     }
