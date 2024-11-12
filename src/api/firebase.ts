@@ -6,7 +6,6 @@ import {
   signOut,
   onAuthStateChanged,
   User,
-  onIdTokenChanged,
 } from 'firebase/auth';
 import { RhythmItem } from '../components/AddRhythm';
 import { getDatabase, ref, set, get, remove } from 'firebase/database';
@@ -28,45 +27,11 @@ const database = getDatabase(app);
 provider.addScope('email');
 provider.addScope('profile');
 
-const EXPIRY_DURATION = 3600000;
-
-let tokenExpiryTimeout: NodeJS.Timeout | null = null;
-
-export function startTokenExpiryTimer() {
-  if (tokenExpiryTimeout) clearTimeout(tokenExpiryTimeout);
-
-  tokenExpiryTimeout = setTimeout(() => {
-    signOut(auth)
-      .then(() => {
-        alert('세션이 만료되어 로그아웃되었습니다.');
-      })
-      .catch((error) => {
-        console.error('로그아웃 실패:', error);
-      });
-  }, EXPIRY_DURATION);
-}
-
-function stopTokenExpiryTimer() {
-  if (tokenExpiryTimeout) clearTimeout(tokenExpiryTimeout);
-}
-
 export function handleGoogleAuthStateChange(
   callback: (user: User | null) => void
 ) {
   onAuthStateChanged(auth, (user) => {
     callback(user);
-    if (user) {
-      startTokenExpiryTimer(); // 로그인 시 타이머 시작
-      onIdTokenChanged(auth, (updatedUser) => {
-        if (!updatedUser) {
-          stopTokenExpiryTimer(); // 사용자가 로그아웃하면 타이머 중지
-        } else {
-          startTokenExpiryTimer(); // 토큰 갱신 시 타이머 재설정
-        }
-      });
-    } else {
-      stopTokenExpiryTimer(); // 사용자가 로그아웃하면 타이머 중지
-    }
   });
 }
 
@@ -74,7 +39,6 @@ export async function handleGoogleLogin() {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    startTokenExpiryTimer();
     return {
       displayName: user.displayName ?? '',
       email: user.email ?? '',
@@ -89,11 +53,19 @@ export async function handleGoogleLogin() {
 export async function handleGoogleLogout(): Promise<void> {
   try {
     await signOut(auth);
-    stopTokenExpiryTimer();
     return null;
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function getTokenExpirationTime() {
+  if (auth.currentUser) {
+    const idTokenResult = await auth.currentUser.getIdTokenResult();
+    const expirationTime = new Date(idTokenResult.expirationTime).getTime();
+    return expirationTime;
+  }
+  return null;
 }
 
 export async function firebaseAddNewRhythm(uid: string, rhythm: RhythmItem) {

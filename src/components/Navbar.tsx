@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   handleGoogleLogin,
-  handleGoogleLogout,
   handleGoogleAuthStateChange,
-  startTokenExpiryTimer,
 } from '../api/firebase';
 import { useGetUser, useUserActions } from '../store/useUserStore';
 import User from './User';
@@ -22,96 +20,51 @@ import { FaMoon, FaRegClock } from 'react-icons/fa';
 import { IoMdSunny } from 'react-icons/io';
 import { BREAKPOINTS } from '../css/styles.width';
 import { useWindowSize } from '../hooks/useWindowSize';
-import { getAuth, onIdTokenChanged } from 'firebase/auth';
+import { useTokenExpirationTimer } from '../hooks/useTokenExpirationTimer';
 import dayjs from 'dayjs';
 
 export default function Navbar() {
   const user = useGetUser();
   const { setUser, clearUser } = useUserActions();
-  const auth = getAuth();
-  const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const isDarkMode = useGetDarkMode();
   const { toggleDarkMode } = useDarkModeActions();
   const currentTheme = useGetCurrentTheme();
   const currentLogo = isDarkMode ? basicLogoDark : basicLogoLight;
   const windowSize = useWindowSize();
   const isMobileWindow = windowSize.width < parseInt(BREAKPOINTS.mediumMobile);
-  const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
+
+  const {
+    timeRemaining,
+    setTokenExpirationTimer,
+    handleExtendToken,
+    handleLogout,
+  } = useTokenExpirationTimer();
+  const formattedTimeRemaining =
+    timeRemaining !== null
+      ? dayjs.unix(timeRemaining).format('mm:ss')
+      : '00:00';
 
   useEffect(() => {
     handleGoogleAuthStateChange((user) => {
-      setUser(user);
-    });
-
-    const unsubscribe = onIdTokenChanged(auth, (user) => {
       if (user) {
-        user.getIdTokenResult().then((idTokenResult) => {
-          const expirationTime = new Date(
-            idTokenResult.expirationTime
-          ).getTime();
-          const currentTime = new Date().getTime();
-          const timeRemaining = Math.floor(
-            (expirationTime - currentTime) / 1000
-          );
-
-          setTimeLeft(timeRemaining);
-          clearInterval(intervalIdRef.current!);
-
-          intervalIdRef.current = setInterval(() => {
-            setTimeLeft((prevTimeLeft) => {
-              if (prevTimeLeft === null || prevTimeLeft <= 0) {
-                clearInterval(intervalIdRef.current!);
-                return 0;
-              }
-              return prevTimeLeft - 1;
-            });
-          }, 1000);
-
-          startTokenExpiryTimer(); // 만료 타이머 시작
-        });
+        setUser(user);
+        setTokenExpirationTimer();
       } else {
-        setTimeLeft(null);
-        clearInterval(intervalIdRef.current!);
+        clearUser();
       }
     });
-
-    return () => {
-      unsubscribe();
-      clearInterval(intervalIdRef.current!);
-    };
-  }, [auth, setUser, clearUser]);
-
-  async function handleExtendToken() {
-    if (user) {
-      try {
-        await auth.currentUser?.getIdToken(true); // 토큰 강제로 갱신
-        startTokenExpiryTimer(); // 새로 발급된 토큰 만료 시간으로 타이머 재설정
-        alert('세션이 연장되었습니다.');
-      } catch (error) {
-        console.error('토큰 연장 실패:', error);
-      }
-    }
-  }
+  }, [setUser, clearUser, setTokenExpirationTimer]);
 
   async function handleLogin() {
     try {
       const userInfo = await handleGoogleLogin();
       setUser(userInfo);
+      setTokenExpirationTimer();
     } catch (error) {
       alert('로그인 실패: ' + error.message);
     }
   }
-  async function handleLogout() {
-    try {
-      await handleGoogleLogout();
-      clearUser();
-      alert('로그아웃되었습니다.');
-    } catch (error) {
-      alert('로그아웃 실패: ' + error.message);
-    }
-  }
-  const formattedTimeLeft =
-    timeLeft !== null ? dayjs.unix(timeLeft).format('mm:ss') : '00:00';
+
   return (
     <StyledHeaderWrapper>
       <StyledBaseBox>
@@ -126,7 +79,9 @@ export default function Navbar() {
               <StyledBaseBox>
                 <FaRegClock />
               </StyledBaseBox>
-              <StyledTokenTimeText>{formattedTimeLeft}</StyledTokenTimeText>
+              <StyledTokenTimeText>
+                {formattedTimeRemaining}
+              </StyledTokenTimeText>
             </StyledTokenTimeTextBox>
             <ButtonComponent
               onClick={handleExtendToken}
